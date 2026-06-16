@@ -13,7 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import Any
 
 #: A pipeline id / slug: lowercase alphanumerics joined by single underscores.
@@ -38,19 +38,23 @@ def is_sha256(value: str) -> bool:
 def is_safe_relpath(value: str) -> bool:
     """Return ``True`` if *value* is a safe relative path inside a bundle.
 
-    A safe path is non-empty, relative (not absolute, no drive/root), uses ``/`` or
-    OS separators, and never contains a ``..`` component (so it cannot escape the
-    bundle root). This is the path half of the ``validate_portable`` admission rule.
+    A safe path is non-empty, relative (not absolute and not a drive/root under *either*
+    POSIX or Windows semantics — so a leading ``/`` or ``C:\\`` is rejected on every
+    platform), and never contains a ``..`` component (so it cannot escape the bundle
+    root). This is the path half of the ``validate_portable`` admission rule, and it is
+    deliberately platform-independent: ``Path("/x").is_absolute()`` is ``False`` on
+    Windows, so the check must not rely on the native flavour alone.
     """
     if not value or value != value.strip():
         return False
-    pure = Path(value)
-    if pure.is_absolute():
+    if value[0] in ("/", "\\"):
         return False
-    parts = pure.parts
-    if not parts:
+    win = PureWindowsPath(value)
+    pos = PurePosixPath(value)
+    if win.is_absolute() or pos.is_absolute() or win.drive:
         return False
-    return not any(part in ("..", "") for part in parts)
+    parts = set(win.parts) | set(pos.parts)
+    return ".." not in parts and "" not in parts and bool(parts)
 
 
 def canonical_json(obj: Any) -> str:

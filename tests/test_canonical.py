@@ -45,9 +45,13 @@ def test_sha256_validation():
 def test_safe_relpath():
     assert is_safe_relpath("artifacts/model.joblib")
     assert is_safe_relpath("pipeline.json")
-    assert not is_safe_relpath("/etc/passwd")
+    assert not is_safe_relpath("/etc/passwd")        # POSIX-absolute (must fail on Windows too)
+    assert not is_safe_relpath("\\windows\\system32")  # backslash-absolute
+    assert not is_safe_relpath("C:/Windows/x")       # Windows drive
+    assert not is_safe_relpath("C:\\Windows\\x")
     assert not is_safe_relpath("../escape")
     assert not is_safe_relpath("a/../../b")
+    assert not is_safe_relpath("a\\..\\b")           # backslash parent escape
     assert not is_safe_relpath("")
 
 
