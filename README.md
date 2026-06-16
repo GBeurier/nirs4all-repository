@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/horizontal-dark.svg">
+    <img alt="nirs4all-repository" src="assets/brand/horizontal.svg" width="440">
+  </picture>
+</p>
+
 # nirs4all-repository
 
 > **Status: planned.** This repository is a shell for now — the design and the first
