@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-06-17",
+      "description": "Robust NIRS regression baseline — SNV scatter correction, first-derivative SG smoothing, 12-component PLS.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "SNV · Savitzky–Golay · PLS",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 844,
+      "dagml:sha256": "c56742793f16bbb6d8aab780ce37f769d18b61f0a689cd3bb21df313916f5c50",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "c56742793f16bbb6d8aab780ce37f769d18b61f0a689cd3bb21df313916f5c50"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 1286,
+      "dagml:sha256": "85e30bc36b3584ffc3e01973bd378b9c48890be5ebea5a34d7d340237caefb9d",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "85e30bc36b3584ffc3e01973bd378b9c48890be5ebea5a34d7d340237caefb9d"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 622,
+      "dagml:sha256": "c96fcb5e548d7840d266624b6ba6557693a41fb3d890939b4d1c8fb7ed4d76b2",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "c96fcb5e548d7840d266624b6ba6557693a41fb3d890939b4d1c8fb7ed4d76b2"
+    }
+  ]
+}

@@ -1,0 +1,343 @@
+{
+  "base_url": "https://repository.nirs4all.org",
+  "count": 5,
+  "generated_at": "2026-06-16",
+  "pipelines": {
+    "dagml_snv_pls": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/dagml_snv_pls.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "ed73b709774990dd65abc5360da076dd39f51c4f75d34afb7879cb68b15e7d5f",
+        "size_bytes": 1170,
+        "url": "https://repository.nirs4all.org/data/pipelines/dagml_snv_pls/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "28e7841932a65786dd9bfa6582e10b905b053283feb26db21bc507e485f4067c",
+          "size_bytes": 823,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/dagml_snv_pls/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "dag-ml",
+      "id": "dagml_snv_pls",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "dag-ml — SNV · Savitzky–Golay · PLS",
+      "recipe": {
+        "format": "dag-ml/pipeline-dsl",
+        "relpath": "pipeline.json",
+        "sha256": "7bc7cfb1f846b1068975d5f6658a9e46b981f41cce6e6504a65e601cf3d53ac5",
+        "size_bytes": 555,
+        "url": "https://repository.nirs4all.org/data/pipelines/dagml_snv_pls/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "The SNV/SG/PLS baseline expressed as a dag-ml pipeline DSL (nirs4all-compatible).",
+      "tags": [
+        "pls",
+        "snv",
+        "savitzky_golay",
+        "dag_ml",
+        "baseline"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "detrend_ridge": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/detrend_ridge.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "1662717084272360df09421ef741e9c5d73f53583d7e0de8745c3f3ef8016d4e",
+        "size_bytes": 1189,
+        "url": "https://repository.nirs4all.org/data/pipelines/detrend_ridge/descriptor.yaml"
+      },
+      "evaluation": {
+        "expected": {
+          "test": {
+            "tol": 0.05,
+            "value": 0.165
+          },
+          "val": {
+            "tol": 0.04,
+            "value": 0.14
+          }
+        },
+        "metric": "rmse",
+        "status": "unvalidated",
+        "validated_at": null
+      },
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "9930b4ac55475a200f1f78eb09cf17713f8d402c6f80a81e7cfe35c9f12aafc9",
+          "size_bytes": 553,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/detrend_ridge/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "detrend_ridge",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Detrend · SNV · Ridge",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "3d5a0da67c101c156567ba40f8a142d6fc0578d830b8e671a8f13c3c05e4d922",
+        "size_bytes": 526,
+        "url": "https://repository.nirs4all.org/data/pipelines/detrend_ridge/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "Fast linear regression — polynomial detrend + SNV feeding an L2-regularised Ridge model.",
+      "tags": [
+        "ridge",
+        "detrend",
+        "snv",
+        "linear"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "msc_pls": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/msc_pls.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "801cce5fccad005003546a81b4193ca892100ed397963d969082bc09440203d2",
+        "size_bytes": 1230,
+        "url": "https://repository.nirs4all.org/data/pipelines/msc_pls/descriptor.yaml"
+      },
+      "evaluation": {
+        "expected": {
+          "test": {
+            "tol": 0.04,
+            "value": 0.16
+          },
+          "val": {
+            "tol": 0.03,
+            "value": 0.135
+          }
+        },
+        "metric": "rmse",
+        "status": "unvalidated",
+        "validated_at": null
+      },
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "1c92d4bc7036bdeeaed82f92c75771f229f3fae6754eda7a840fa26bb9970bca",
+          "size_bytes": 609,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/msc_pls/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "msc_pls",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "MSC · PLS",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "c12703db5269522f3a71d8c0103f28ea6a2c4b679293184aa7f9df7385f22e08",
+        "size_bytes": 486,
+        "url": "https://repository.nirs4all.org/data/pipelines/msc_pls/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "Classic scatter-corrected PLS — Multiplicative Scatter Correction with a 10-component PLS regressor.",
+      "tags": [
+        "pls",
+        "msc",
+        "scatter_correction",
+        "baseline"
+      ],
+      "task": "regression",
+      "trust": "official",
+      "version": "1.0.0"
+    },
+    "savgol_rf": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/savgol_rf.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "e2d783ade31f7016d8b0553937ec8d4e610799b7d798cd7072624a69ca071866",
+        "size_bytes": 1242,
+        "url": "https://repository.nirs4all.org/data/pipelines/savgol_rf/descriptor.yaml"
+      },
+      "evaluation": {
+        "expected": {
+          "test": {
+            "tol": 0.05,
+            "value": 0.18
+          },
+          "val": {
+            "tol": 0.04,
+            "value": 0.155
+          }
+        },
+        "metric": "rmse",
+        "status": "unvalidated",
+        "validated_at": null
+      },
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "357a3ebfc788fec905cb6855f7121474d084842dece6ed8180e7fb821b4326a1",
+          "size_bytes": 642,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/savgol_rf/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "savgol_rf",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Savitzky–Golay (2nd deriv) · Random Forest",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "04ab81b431054b7a152f1e5d4b2f7ab093777d749d5b742a7391ff069eb2e670",
+        "size_bytes": 565,
+        "url": "https://repository.nirs4all.org/data/pipelines/savgol_rf/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "Non-linear regression — second-derivative SG + SNV feeding a 400-tree random forest.",
+      "tags": [
+        "random_forest",
+        "savitzky_golay",
+        "snv",
+        "nonlinear"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "snv_savgol_pls": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/snv_savgol_pls.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "85e30bc36b3584ffc3e01973bd378b9c48890be5ebea5a34d7d340237caefb9d",
+        "size_bytes": 1286,
+        "url": "https://repository.nirs4all.org/data/pipelines/snv_savgol_pls/descriptor.yaml"
+      },
+      "evaluation": {
+        "expected": {
+          "test": {
+            "tol": 0.04,
+            "value": 0.15
+          },
+          "val": {
+            "tol": 0.03,
+            "value": 0.12
+          }
+        },
+        "metric": "rmse",
+        "status": "unvalidated",
+        "validated_at": null
+      },
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "c56742793f16bbb6d8aab780ce37f769d18b61f0a689cd3bb21df313916f5c50",
+          "size_bytes": 844,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/snv_savgol_pls/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "snv_savgol_pls",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "SNV · Savitzky–Golay · PLS",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "c96fcb5e548d7840d266624b6ba6557693a41fb3d890939b4d1c8fb7ed4d76b2",
+        "size_bytes": 622,
+        "url": "https://repository.nirs4all.org/data/pipelines/snv_savgol_pls/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "Robust NIRS regression baseline — SNV scatter correction, first-derivative SG smoothing, 12-component PLS.",
+      "tags": [
+        "pls",
+        "snv",
+        "savitzky_golay",
+        "baseline",
+        "preprocessing"
+      ],
+      "task": "regression",
+      "trust": "official",
+      "version": "1.0.0"
+    }
+  },
+  "repository": "nirs4all-repository",
+  "repository_version": "0.1.0",
+  "schema_version": 1
+}

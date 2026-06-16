@@ -1,0 +1,40 @@
+schema_version: 1
+id: msc_pls
+name: MSC · PLS
+summary: Classic scatter-corrected PLS — Multiplicative Scatter Correction with a 10-component PLS regressor.
+description: |
+  The textbook NIRS regression pipeline. Multiplicative Scatter Correction normalises
+  each spectrum against the mean spectrum to remove particle-size / path-length scatter,
+  features and target are standardised, and a 10-component PLS regressor is cross-validated
+  with 5-fold KFold. A strong, interpretable reference point for any regression task.
+framework: nirs4all
+kind: recipe
+task: regression
+tags: [pls, msc, scatter_correction, baseline]
+version: "1.0.0"
+license: CeCILL-2.1 OR AGPL-3.0-or-later
+created_at: "2026-06-17"
+authors:
+  - name: Gregory Beurier
+    email: gregory.beurier@cirad.fr
+    affiliation: CIRAD
+recipe:
+  format: nirs4all/pipeline-config
+  path: pipeline.json
+reference:
+  source: nirs4all-datasets
+  name: regression_demo
+evaluation:
+  metric: rmse
+  task: regression
+  expected:
+    val: { value: 0.135, tol: 0.03 }
+    test: { value: 0.160, tol: 0.04 }
+  nirs4all_version: ">=0.10,<0.11"
+  status: unvalidated
+provenance:
+  generated_by: nirs4all 0.10.2
+governance:
+  status: draft
+  visibility: public
+  trust: official

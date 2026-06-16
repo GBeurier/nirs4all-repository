@@ -1,0 +1,139 @@
+# SPDX-License-Identifier: CeCILL-2.1 OR AGPL-3.0-or-later
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nirs4all-repository"
+description = "Public, versioned repository of pre-configured, tested NIRS pipelines: store, validate, secure and serve nirs4all + dag-ml pipelines by name, across languages."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "CeCILL-2.1 OR AGPL-3.0-or-later"
+license-files = ["LICENSE", "LICENSES/*.txt"]
+authors = [
+    { name = "Gregory Beurier", email = "gregory.beurier@cirad.fr" },
+]
+keywords = [
+    "nirs", "spectroscopy", "pipeline", "repository", "registry", "chemometrics",
+    "machine-learning", "dag-ml", "provenance", "reproducibility",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+# Strict, framework-level recipe validation + functional evaluation against a
+# reference dataset. Lazy-imported; the package works without these installed.
+nirs4all = ["nirs4all>=0.10,<0.11"]
+datasets = ["nirs4all-datasets>=0.1"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.6",
+    "mypy>=1.8",
+    "types-PyYAML",
+]
+docs = [
+    "sphinx>=7.4,<9",
+    "myst-parser>=3,<5",
+    "sphinx-design>=0.6,<1",
+    "sphinx-copybutton>=0.5,<1",
+    "sphinxext-opengraph>=0.9,<1",
+    "furo>=2024.1.29",
+]
+
+[project.scripts]
+n4a-repository = "nirs4all_repository.cli:app"
+
+[project.urls]
+Homepage = "https://repository.nirs4all.org"
+Repository = "https://github.com/GBeurier/nirs4all-repository"
+Documentation = "https://nirs4all-repository.readthedocs.io"
+Issues = "https://github.com/GBeurier/nirs4all-repository/issues"
+Changelog = "https://github.com/GBeurier/nirs4all-repository/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/nirs4all_repository/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nirs4all_repository"]
+
+# Ship the catalogue (descriptors + recipes + cards + the generated index) inside the
+# wheel so `get(name)` resolves recipe pipelines fully offline.
+[tool.hatch.build.targets.wheel.force-include]
+"catalog/index.json" = "nirs4all_repository/_catalog/catalog/index.json"
+"pipelines" = "nirs4all_repository/_catalog/pipelines"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/nirs4all_repository",
+    "pipelines",
+    "catalog",
+    "docs",
+    "tests",
+    "README.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "LICENSE",
+    "LICENSING.md",
+    "LICENSES",
+    "THIRD_PARTY_NOTICES.md",
+    "VERSION",
+]
+
+[tool.ruff]
+line-length = 220
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403", "F405"]
+"src/nirs4all_repository/cli.py" = ["B008"]
+"tests/*" = ["B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+warn_return_any = true
+ignore_missing_imports = true
+exclude = ['^docs/', '^build/']
+
+[[tool.mypy.overrides]]
+module = ["nirs4all.*", "nirs4all_datasets.*", "dag_ml.*", "yaml.*"]
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "network: tests that perform live network access (deselected by default in CI)",
+    "evaluate: functional-evaluation tests that require nirs4all + a reference dataset",
+]
+
+[tool.coverage.run]
+source = ["nirs4all_repository"]
+omit = ["*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]

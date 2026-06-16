@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-06-17",
+      "description": "Non-linear regression — second-derivative SG + SNV feeding a 400-tree random forest.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Savitzky–Golay (2nd deriv) · Random Forest",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 642,
+      "dagml:sha256": "357a3ebfc788fec905cb6855f7121474d084842dece6ed8180e7fb821b4326a1",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "357a3ebfc788fec905cb6855f7121474d084842dece6ed8180e7fb821b4326a1"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 1242,
+      "dagml:sha256": "e2d783ade31f7016d8b0553937ec8d4e610799b7d798cd7072624a69ca071866",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "e2d783ade31f7016d8b0553937ec8d4e610799b7d798cd7072624a69ca071866"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 565,
+      "dagml:sha256": "04ab81b431054b7a152f1e5d4b2f7ab093777d749d5b742a7391ff069eb2e670",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "04ab81b431054b7a152f1e5d4b2f7ab093777d749d5b742a7391ff069eb2e670"
+    }
+  ]
+}

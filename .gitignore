@@ -1,2 +1,30 @@
 # local code-intelligence index
 .codegraph/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Generated static site (built in CI, not committed)
+/site/
+
+# Sphinx build output
+docs/_build/
+
+# OS / editor
+.DS_Store
+*.swp

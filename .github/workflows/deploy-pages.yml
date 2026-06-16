@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: CeCILL-2.1 OR AGPL-3.0-or-later
+name: Deploy catalogue site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pipelines/**"
+      - "catalog/**"
+      - "assets/**"
+      - "src/nirs4all_repository/site/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Render the static catalogue site
+        run: n4a-repository site --out site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

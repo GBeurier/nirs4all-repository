@@ -1,0 +1,30 @@
+{
+  "artifacts": [],
+  "created_at": "2026-06-17",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "9930b4ac55475a200f1f78eb09cf17713f8d402c6f80a81e7cfe35c9f12aafc9",
+      "size_bytes": 553
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "1662717084272360df09421ef741e9c5d73f53583d7e0de8745c3f3ef8016d4e",
+      "size_bytes": 1189
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "3d5a0da67c101c156567ba40f8a142d6fc0578d830b8e671a8f13c3c05e4d922",
+      "size_bytes": 526
+    }
+  ],
+  "fingerprints": {
+    "config_sha256": "5ebb5d0d49bb0d9b"
+  },
+  "framework": "nirs4all",
+  "generated_by": "nirs4all 0.10.2",
+  "id": "detrend_ridge",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-06-17",
+      "description": "Fast linear regression — polynomial detrend + SNV feeding an L2-regularised Ridge model.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Detrend · SNV · Ridge",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 553,
+      "dagml:sha256": "9930b4ac55475a200f1f78eb09cf17713f8d402c6f80a81e7cfe35c9f12aafc9",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "9930b4ac55475a200f1f78eb09cf17713f8d402c6f80a81e7cfe35c9f12aafc9"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 1189,
+      "dagml:sha256": "1662717084272360df09421ef741e9c5d73f53583d7e0de8745c3f3ef8016d4e",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "1662717084272360df09421ef741e9c5d73f53583d7e0de8745c3f3ef8016d4e"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 526,
+      "dagml:sha256": "3d5a0da67c101c156567ba40f8a142d6fc0578d830b8e671a8f13c3c05e4d922",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "3d5a0da67c101c156567ba40f8a142d6fc0578d830b8e671a8f13c3c05e4d922"
+    }
+  ]
+}

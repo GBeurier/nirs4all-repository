@@ -1,0 +1,11 @@
+{
+  "name": "Detrend + Ridge",
+  "pipeline": [
+    {"class": "nirs4all.operators.transforms.Detrend"},
+    {"class": "nirs4all.operators.transforms.StandardNormalVariate"},
+    {"class": "sklearn.preprocessing.StandardScaler"},
+    {"y_processing": {"class": "sklearn.preprocessing.StandardScaler"}},
+    {"class": "sklearn.model_selection.ShuffleSplit", "params": {"n_splits": 5, "test_size": 0.25, "random_state": 11}},
+    {"model": {"class": "sklearn.linear_model.Ridge", "params": {"alpha": 1.0}}, "name": "Ridge"}
+  ]
+}

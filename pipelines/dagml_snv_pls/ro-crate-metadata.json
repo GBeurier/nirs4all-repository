@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-06-17",
+      "description": "The SNV/SG/PLS baseline expressed as a dag-ml pipeline DSL (nirs4all-compatible).",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "dag-ml — SNV · Savitzky–Golay · PLS",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 823,
+      "dagml:sha256": "28e7841932a65786dd9bfa6582e10b905b053283feb26db21bc507e485f4067c",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "28e7841932a65786dd9bfa6582e10b905b053283feb26db21bc507e485f4067c"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 1170,
+      "dagml:sha256": "ed73b709774990dd65abc5360da076dd39f51c4f75d34afb7879cb68b15e7d5f",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "ed73b709774990dd65abc5360da076dd39f51c4f75d34afb7879cb68b15e7d5f"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 555,
+      "dagml:sha256": "7bc7cfb1f846b1068975d5f6658a9e46b981f41cce6e6504a65e601cf3d53ac5",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "7bc7cfb1f846b1068975d5f6658a9e46b981f41cce6e6504a65e601cf3d53ac5"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "artifacts": [],
+  "created_at": "2026-06-17",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "28e7841932a65786dd9bfa6582e10b905b053283feb26db21bc507e485f4067c",
+      "size_bytes": 823
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "ed73b709774990dd65abc5360da076dd39f51c4f75d34afb7879cb68b15e7d5f",
+      "size_bytes": 1170
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "7bc7cfb1f846b1068975d5f6658a9e46b981f41cce6e6504a65e601cf3d53ac5",
+      "size_bytes": 555
+    }
+  ],
+  "fingerprints": {},
+  "framework": "dag-ml",
+  "generated_by": "dag-ml (nirs4all-compatible DSL)",
+  "id": "dagml_snv_pls",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

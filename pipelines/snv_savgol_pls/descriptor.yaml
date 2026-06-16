@@ -1,0 +1,41 @@
+schema_version: 1
+id: snv_savgol_pls
+name: SNV · Savitzky–Golay · PLS
+summary: Robust NIRS regression baseline — SNV scatter correction, first-derivative SG smoothing, 12-component PLS.
+description: |
+  A dependable regression baseline for continuous NIRS targets. Standard Normal Variate
+  removes multiplicative scatter, a first-derivative Savitzky–Golay filter sharpens
+  absorption features and removes baseline drift, and a 12-component PLS regressor models
+  the response. Cross-validated with a 5-split shuffle.
+framework: nirs4all
+kind: recipe
+task: regression
+tags: [pls, snv, savitzky_golay, baseline, preprocessing]
+version: "1.0.0"
+license: CeCILL-2.1 OR AGPL-3.0-or-later
+created_at: "2026-06-17"
+authors:
+  - name: Gregory Beurier
+    email: gregory.beurier@cirad.fr
+    affiliation: CIRAD
+recipe:
+  format: nirs4all/pipeline-config
+  path: pipeline.json
+reference:
+  source: nirs4all-datasets
+  name: regression_demo
+evaluation:
+  metric: rmse
+  task: regression
+  expected:
+    val: { value: 0.120, tol: 0.03 }
+    test: { value: 0.150, tol: 0.04 }
+  nirs4all_version: ">=0.10,<0.11"
+  status: unvalidated
+provenance:
+  generated_by: nirs4all 0.10.2
+  source: nirs4all/examples/pipeline_samples
+governance:
+  status: draft
+  visibility: public
+  trust: official

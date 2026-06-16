@@ -6,16 +6,22 @@ components below — they are pulled from their official distributions — but t
 acknowledged here as a courtesy and for compliance. Licenses are reported on a best-effort
 basis; the authoritative text always ships with each upstream project.
 
-This repository hosts reproducible, scored pipelines over `nirs4all-datasets`. Pipeline **code** depends on the `nirs4all` ecosystem and standard scientific Python (BSD-3-Clause / MIT / Apache-2.0); each pipeline pins its own dependencies. Scored **results** and leaderboards are content (CC-BY-4.0).
+The package itself depends only on a small set of pure-Python libraries; heavy scientific
+dependencies (`numpy`, `nirs4all`, `dag-ml`) are optional and imported only on the
+evaluation / bridging paths. Catalogue **content** (cards, metadata, the website) is
+CC-BY-4.0.
 
 | Component | License (SPDX) | Upstream |
 |---|---|---|
-| `nirs4all` & ecosystem | CeCILL-2.1 OR AGPL-3.0-or-later | https://github.com/GBeurier/nirs4all |
+| `pydantic` | MIT | https://github.com/pydantic/pydantic |
+| `PyYAML` | MIT | https://github.com/yaml/pyyaml |
+| `typer` | MIT | https://github.com/fastapi/typer |
+| `nirs4all` & ecosystem (optional) | CeCILL-2.1 OR AGPL-3.0-or-later | https://github.com/GBeurier/nirs4all |
+| `numpy` (optional, via nirs4all) | BSD-3-Clause | https://github.com/numpy/numpy |
 
-For the exhaustive, version-pinned dependency tree and its licenses, run:
+For the exhaustive, version-pinned dependency tree and its licenses, inspect the
+installed environment (e.g. `pip show <package>`); each pipeline's runtime dependencies
+are determined by the framework that executes it.
 
-```
-see each pipeline's requirements
-```
-
-License-family texts are bundled under [`LICENSES/`](LICENSES/): .
+License-family texts are bundled under [`LICENSES/`](LICENSES/): AGPL-3.0-or-later,
+CeCILL-2.1, CC-BY-4.0, and the commercial license terms.
