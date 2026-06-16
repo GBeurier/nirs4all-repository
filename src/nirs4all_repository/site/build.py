@@ -49,7 +49,7 @@ def _head(title: str, description: str, base_url: str, prefix: str) -> str:
         '<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
         f"<title>{_esc(title)}</title>"
         f'<meta name="description" content="{_esc(description)}">'
-        '<meta name="theme-color" content="#AC564A">'
+        '<meta name="theme-color" content="#0d9488">'
         f'<meta property="og:type" content="website"><meta property="og:title" content="{_esc(title)}">'
         f'<meta property="og:description" content="{_esc(description)}">'
         f'<meta property="og:image" content="{_esc(og_image)}">'
@@ -103,8 +103,8 @@ def _spark(pipeline_id: str) -> str:
     poly = " ".join(points)
     return (
         '<svg class="card-spark" width="52" height="32" viewBox="0 0 52 32" aria-hidden="true">'
-        '<rect x="0.5" y="0.5" width="51" height="31" rx="8" fill="rgba(172,86,74,0.06)" stroke="rgba(172,86,74,0.2)"/>'
-        f'<polyline points="{poly}" fill="none" stroke="#AC564A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
+        '<rect x="0.5" y="0.5" width="51" height="31" rx="8" fill="rgba(13,148,136,0.06)" stroke="rgba(13,148,136,0.2)"/>'
+        f'<polyline points="{poly}" fill="none" stroke="#0d9488" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
         "</svg>"
     )
 
@@ -179,6 +179,7 @@ def render_index(index: dict[str, Any], base_url: str) -> str:
     body = (
         f"<body>{_header('')}"
         '<section class="hero"><div class="container">'
+        '<img class="hero-logo" src="assets/brand/horizontal.svg" alt="nirs4all-repository" />'
         '<span class="eyebrow">repository.nirs4all.org</span>'
         "<h1>Pre-configured, <em>tested</em> NIRS pipelines</h1>"
         '<p class="lead">A public, versioned catalogue of ready-to-run nirs4all and dag-ml pipelines — '

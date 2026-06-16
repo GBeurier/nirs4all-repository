@@ -53,8 +53,8 @@ html_logo = "../assets/brand/horizontal.svg"
 html_favicon = "../assets/brand/favicon.ico"
 html_theme_options = {
     "sidebar_hide_name": True,
-    "light_css_variables": {"color-brand-primary": "#AC564A", "color-brand-content": "#8f463c"},
-    "dark_css_variables": {"color-brand-primary": "#c4715f", "color-brand-content": "#c4715f"},
+    "light_css_variables": {"color-brand-primary": "#0d9488", "color-brand-content": "#0f766e"},
+    "dark_css_variables": {"color-brand-primary": "#2dd4bf", "color-brand-content": "#2dd4bf"},
 }
 
 ogp_site_url = "https://nirs4all-repository.readthedocs.io/en/latest/"
