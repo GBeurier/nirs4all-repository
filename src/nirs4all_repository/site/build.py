@@ -42,24 +42,46 @@ def _esc(value: Any) -> str:
     return html.escape(str(value), quote=True)
 
 
-def _head(title: str, description: str, base_url: str, prefix: str) -> str:
-    og_image = f"{base_url}/assets/brand/og.png"
+def _head(
+    title: str,
+    description: str,
+    base_url: str,
+    prefix: str,
+    *,
+    canonical_path: str = "",
+    schema: dict[str, Any] | None = None,
+) -> str:
+    base = base_url.rstrip("/")
+    canonical = f"{base}/{canonical_path.lstrip('/')}" if canonical_path else f"{base}/"
+    og_image = f"{base}/assets/brand/og.png"
+    schema_tag = (
+        '<script type="application/ld+json">'
+        + json.dumps(schema, ensure_ascii=True, separators=(",", ":"))
+        + "</script>"
+        if schema
+        else ""
+    )
     return (
         "<!doctype html><html lang=\"en\"><head>"
         '<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
         f"<title>{_esc(title)}</title>"
         f'<meta name="description" content="{_esc(description)}">'
         '<meta name="theme-color" content="#0d9488">'
+        f'<link rel="canonical" href="{_esc(canonical)}">'
+        f'<link rel="sitemap" type="application/xml" title="Sitemap" href="{_esc(base)}/sitemap.xml">'
+        '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">'
         f'<meta property="og:type" content="website"><meta property="og:title" content="{_esc(title)}">'
+        f'<meta property="og:url" content="{_esc(canonical)}">'
         f'<meta property="og:description" content="{_esc(description)}">'
         f'<meta property="og:image" content="{_esc(og_image)}">'
         '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
         '<meta name="twitter:card" content="summary_large_image">'
-        f'<meta name="twitter:title" content="{_esc(title)}"><meta name="twitter:image" content="{_esc(og_image)}">'
+        f'<meta name="twitter:title" content="{_esc(title)}"><meta name="twitter:description" content="{_esc(description)}">'
+        f'<meta name="twitter:image" content="{_esc(og_image)}">'
         f'<link rel="icon" type="image/svg+xml" href="{prefix}assets/brand/icon.svg">'
         f'<link rel="icon" href="{prefix}assets/brand/favicon.ico">'
         f'<link rel="apple-touch-icon" href="{prefix}assets/brand/icon-180.png">'
-        f"{_FONTS}<style>{STYLE}</style></head>"
+        f"{schema_tag}{_FONTS}<style>{STYLE}</style></head>"
     )
 
 
@@ -175,6 +197,14 @@ def render_index(index: dict[str, Any], base_url: str) -> str:
         "A public, versioned repository of pre-configured, tested NIRS pipelines for nirs4all and dag-ml — loadable by name, with provenance and validation.",
         base_url,
         "",
+        schema={
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "nirs4all-repository",
+            "url": f"{base_url.rstrip('/')}/",
+            "description": "A public repository of pre-configured, tested NIRS pipelines for nirs4all and dag-ml.",
+            "isPartOf": {"@type": "WebSite", "name": "nirs4all", "url": "https://nirs4all.org/"},
+        },
     )
     body = (
         f"<body>{_header('')}"
@@ -229,6 +259,17 @@ def render_detail(entry: dict[str, Any], recipe_text: str, card_html: str, descr
         entry.get("summary", ""),
         base_url,
         "../",
+        canonical_path=f"pipeline/{pid}.html",
+        schema={
+            "@context": "https://schema.org",
+            "@type": "SoftwareSourceCode",
+            "name": entry.get("name", pid),
+            "identifier": pid,
+            "url": f"{base_url.rstrip('/')}/pipeline/{pid}.html",
+            "description": entry.get("summary", ""),
+            "programmingLanguage": entry.get("framework", ""),
+            "isPartOf": {"@type": "CollectionPage", "name": "nirs4all-repository", "url": f"{base_url.rstrip('/')}/"},
+        },
     )
     rows = [
         ("framework", entry.get("framework", "")),

@@ -67,7 +67,14 @@ def test_site_build_and_escaping(make_catalog, tmp_path):
     assert (out / "pipeline" / "demo_pipe.html").is_file()
     assert (out / "data" / "index.json").is_file()
     assert (out / "CNAME").read_text().strip() == "repository.nirs4all.org"
+    index = (out / "index.html").read_text()
+    assert '<link rel="canonical" href="https://repository.nirs4all.org/">' in index
+    assert '<meta property="og:url" content="https://repository.nirs4all.org/">' in index
+    assert "Sitemap: https://repository.nirs4all.org/sitemap.xml" in (out / "robots.txt").read_text()
+    assert "<loc>https://repository.nirs4all.org/pipeline/demo_pipe.html</loc>" in (out / "sitemap.xml").read_text()
     detail = (out / "pipeline" / "demo_pipe.html").read_text()
+    assert '<link rel="canonical" href="https://repository.nirs4all.org/pipeline/demo_pipe.html">' in detail
+    assert '"@type":"SoftwareSourceCode"' in detail
     assert "<script>alert(1)</script>" not in detail
     assert "&lt;script&gt;" in detail
 
