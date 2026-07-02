@@ -36,9 +36,13 @@ __all__ = [
     "Settings",
     "get_settings",
     "list",
+    "get_pipeline_list",
+    "list_pipelines",
     "card",
     "get",
+    "get_pipeline",
     "fetch",
+    "get_bundle",
     "__version__",
 ]
 
@@ -91,6 +95,51 @@ def list(  # noqa: A001 - deliberate public name, mirrors nirs4all-datasets
         return not (tag is not None and tag not in entry.get("tags", []))
 
     return sorted((entry for entry in entries if keep(entry)), key=lambda entry: entry["id"])
+
+
+def get_pipeline_list(
+    *,
+    framework: str | None = None,
+    task: str | None = None,
+    tag: str | None = None,
+    kind: str | None = None,
+    trust: str | None = None,
+    root: str | Path | None = None,
+) -> builtins.list[dict[str, Any]]:
+    """Provider-facing alias for :func:`list`.
+
+    The repository remains a preset/pipeline catalogue first; these explicit names
+    keep core/UI clients aligned with the provider contract without changing the
+    underlying static-index semantics.
+    """
+    return list(
+        framework=framework,
+        task=task,
+        tag=tag,
+        kind=kind,
+        trust=trust,
+        root=root,
+    )
+
+
+def list_pipelines(
+    *,
+    framework: str | None = None,
+    task: str | None = None,
+    tag: str | None = None,
+    kind: str | None = None,
+    trust: str | None = None,
+    root: str | Path | None = None,
+) -> builtins.list[dict[str, Any]]:
+    """Compatibility alias for :func:`get_pipeline_list`."""
+    return get_pipeline_list(
+        framework=framework,
+        task=task,
+        tag=tag,
+        kind=kind,
+        trust=trust,
+        root=root,
+    )
 
 
 def card(name: str, *, root: str | Path | None = None) -> dict[str, Any]:
@@ -170,6 +219,24 @@ def get(
     return pipeline
 
 
+def get_pipeline(
+    name: str,
+    *,
+    root: str | Path | None = None,
+    cache_dir: str | Path | None = None,
+    verify: bool = True,
+    with_artifacts: bool = False,
+) -> Pipeline:
+    """Provider-facing alias for :func:`get`."""
+    return get(
+        name,
+        root=root,
+        cache_dir=cache_dir,
+        verify=verify,
+        with_artifacts=with_artifacts,
+    )
+
+
 def _descriptor_from_dir(directory: Path, name: str) -> PipelineDescriptor:
     from .store import CatalogError, load_descriptor_file
 
@@ -189,3 +256,21 @@ def fetch(
 ) -> Path:
     """Materialise the bundle for *name* locally and return its directory path."""
     return get(name, root=root, cache_dir=cache_dir, verify=verify, with_artifacts=with_artifacts).path
+
+
+def get_bundle(
+    name: str,
+    *,
+    root: str | Path | None = None,
+    cache_dir: str | Path | None = None,
+    verify: bool = True,
+    with_artifacts: bool = False,
+) -> Path:
+    """Provider-facing alias for :func:`fetch`."""
+    return fetch(
+        name,
+        root=root,
+        cache_dir=cache_dir,
+        verify=verify,
+        with_artifacts=with_artifacts,
+    )

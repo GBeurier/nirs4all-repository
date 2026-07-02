@@ -41,6 +41,19 @@ def test_get_local_first_and_bridge(make_catalog):
         pipe.to_dagml()
 
 
+def test_provider_facing_aliases_match_public_api(make_catalog):
+    root = make_catalog("demo_pipe")
+    build_catalog(root)
+
+    entries = n4r.get_pipeline_list(root=root, kind="recipe")
+    assert entries == n4r.list(root=root, kind="recipe")
+    assert n4r.list_pipelines(root=root) == n4r.list(root=root)
+
+    pipe = n4r.get_pipeline("demo_pipe", root=root)
+    assert pipe.id == "demo_pipe"
+    assert n4r.get_bundle("demo_pipe", root=root) == pipe.path
+
+
 def test_get_verifies_and_detects_tamper(make_catalog):
     root = make_catalog("demo_pipe")
     build_catalog(root)

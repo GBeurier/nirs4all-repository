@@ -46,6 +46,10 @@ pipe = n4r.get("snv_savgol_pls")      # resolve by name (local → bundled → r
 config = pipe.to_nirs4all()           # hand to nirs4all.run() / predict()
 ```
 
+For provider/core clients that want explicit preset/pipeline names, the package also
+exports `get_pipeline_list()` / `list_pipelines()`, `get_pipeline()`, and `get_bundle()`
+as aliases over the same read-only catalogue semantics.
+
 The `n4a-repository` CLI is the maintenance interface
 (`list` / `show` / `get` / `add` / `validate` / `scan` / `build` / `site` / `evaluate` /
 `publish`).
