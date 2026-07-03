@@ -39,7 +39,7 @@ dependencies = [
 # Strict, framework-level recipe validation + functional evaluation against a
 # reference dataset. Lazy-imported; the package works without these installed.
 nirs4all = ["nirs4all>=0.10,<0.11"]
-datasets = ["nirs4all-datasets>=0.1"]
+datasets = ["nirs4all-datasets>=0.3.1"]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
