@@ -17,6 +17,9 @@ validated against reference datasets, and loadable **by name** instead of rebuil
 hand. It is the remote, name-addressable layer the ecosystem otherwise lacks.
 
 Part of the [nirs4all ecosystem](https://github.com/GBeurier/nirs4all-ecosystem).
+See also the public [open-source NIRS tools](https://nirs4all.org/open-source-nirs-tools.html)
+hub for the file readers, datasets, methods engine, browser modelling app, reproducible
+pipeline repository, papers archive, benchmarks, and release cockpit.
 
 ## What it does
 
