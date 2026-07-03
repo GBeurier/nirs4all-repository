@@ -1,7 +1,7 @@
 {
   "base_url": "https://repository.nirs4all.org",
   "count": 5,
-  "generated_at": "2026-06-16",
+  "generated_at": "2026-07-03",
   "pipelines": {
     "dagml_snv_pls": {
       "authors": [
@@ -338,6 +338,6 @@
     }
   },
   "repository": "nirs4all-repository",
-  "repository_version": "0.1.0",
+  "repository_version": "0.1.2",
   "schema_version": 1
 }
