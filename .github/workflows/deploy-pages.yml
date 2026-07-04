@@ -33,6 +33,10 @@ jobs:
       - run: pip install -e .
       - name: Render the static catalogue site
         run: n4a-repository site --out site
+      - name: Pages chrome
+        run: |
+          echo "repository.nirs4all.org" > site/CNAME
+          touch site/.nojekyll
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
