@@ -47,6 +47,14 @@ def test_validate_nirs4all_structure_ok():
     )
 
 
+def test_validate_nirs4all_structure_rejects_archival_step_records():
+    with pytest.raises(RecipeError, match="no recognised nirs4all keyword"):
+        validate_recipe_structure(
+            {"steps": [{"step": "sklearn.preprocessing.MinMaxScaler"}]},
+            RecipeFormat.nirs4all_pipeline_config,
+        )
+
+
 def test_validate_dagml_dsl_ok():
     validate_recipe_structure([{"class": "A.B"}], RecipeFormat.dagml_pipeline_dsl)
 
