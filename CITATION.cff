@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "nirs4all-repository"
+abstract: >-
+  A curated, versioned repository of pre-configured, tested nirs4all pipeline recipes,
+  loadable by name across the nirs4all ecosystem (Python and the lite R/MATLAB/WASM bindings).
+type: software
+authors:
+  - family-names: Beurier
+    given-names: Gregory
+    email: gregory.beurier@cirad.fr
+    affiliation: CIRAD
+repository-code: "https://github.com/GBeurier/nirs4all-repository"
+url: "https://repository.nirs4all.org"
+license:
+  - CeCILL-2.1
+  - AGPL-3.0-or-later
+version: "0.1.2"
+keywords:
+  - NIRS
+  - spectroscopy
+  - pipeline
+  - registry
+  - chemometrics
+  - reproducibility

@@ -5,6 +5,31 @@ All notable changes to **nirs4all-repository** are documented here. The format f
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the public surface is stable in
 shape but may still change before `1.0`.
 
+## [Unreleased]
+
+Changes on `main` after the `v0.1.2` tag (not yet released).
+
+### Added
+- Core portable repository recipe.
+
+### Tests
+- Reject archival paper step records in recipes.
+
+## [0.1.2] - 2026-07-03
+
+Released together with 0.1.1 (same tree). Additive changes on top of the 0.1.0 beta; the
+storage envelope and the cross-language `index.json` contract (`schema_version: 1`) are unchanged.
+
+### Added
+- Provider pipeline aliases exposed on the public API.
+
+### Fixed
+- Platform-independent `is_safe_relpath` (Windows path-safety).
+- Canonical SEO metadata and the canonical nirs4all.org teal palette on the site.
+
+### CI
+- Emit a coverage artifact (`coverage.xml`) for the nirs4all cockpit; cover `rc/**` branches.
+
 ## [0.1.0] - 2026-06-17
 
 The first beta. Freezes the storage envelope and the cross-language `index.json`
