@@ -8,6 +8,11 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = build only (no publish)"
+        type: string
+        default: "true"
 
 permissions:
   contents: read
@@ -32,6 +37,7 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'release' || inputs.dry_run == 'false'
     environment: pypi
     permissions:
       id-token: write
