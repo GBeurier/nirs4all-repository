@@ -1,0 +1,30 @@
+{
+  "artifacts": [],
+  "created_at": "2026-07-04",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "c37c8097123c60eb9b6c8bc0e9a08b528959b82da6de3205a527a2a9547b37d0",
+      "size_bytes": 549
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "05b6d57ddaed65d43517af2b2f579c45fe6aa5cdc075a3054b8233fdba76cf85",
+      "size_bytes": 1199
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "6ddc504db1ddeea2e02edbca57f56f27ae6e43415f7ebf11d77d96f27c8dfcf4",
+      "size_bytes": 823
+    }
+  ],
+  "fingerprints": {
+    "config_sha256": "f6681f39ae558374"
+  },
+  "framework": "nirs4all",
+  "generated_by": "nirs4all-core portable parity fixtures",
+  "id": "core_portable_snv_savgol_pls",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

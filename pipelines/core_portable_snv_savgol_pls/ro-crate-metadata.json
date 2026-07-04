@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-07-04",
+      "description": "Portable nirs4all-core baseline using only cross-language supported operators.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Core portable SNV · Savitzky-Golay · PLS",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 549,
+      "dagml:sha256": "c37c8097123c60eb9b6c8bc0e9a08b528959b82da6de3205a527a2a9547b37d0",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "c37c8097123c60eb9b6c8bc0e9a08b528959b82da6de3205a527a2a9547b37d0"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 1199,
+      "dagml:sha256": "05b6d57ddaed65d43517af2b2f579c45fe6aa5cdc075a3054b8233fdba76cf85",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "05b6d57ddaed65d43517af2b2f579c45fe6aa5cdc075a3054b8233fdba76cf85"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 823,
+      "dagml:sha256": "6ddc504db1ddeea2e02edbca57f56f27ae6e43415f7ebf11d77d96f27c8dfcf4",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "6ddc504db1ddeea2e02edbca57f56f27ae6e43415f7ebf11d77d96f27c8dfcf4"
+    }
+  ]
+}

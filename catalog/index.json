@@ -1,8 +1,64 @@
 {
   "base_url": "https://repository.nirs4all.org",
-  "count": 5,
-  "generated_at": "2026-07-03",
+  "count": 6,
+  "generated_at": "2026-07-04",
   "pipelines": {
+    "core_portable_snv_savgol_pls": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "email": "gregory.beurier@cirad.fr",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/core_portable_snv_savgol_pls.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "05b6d57ddaed65d43517af2b2f579c45fe6aa5cdc075a3054b8233fdba76cf85",
+        "size_bytes": 1199,
+        "url": "https://repository.nirs4all.org/data/pipelines/core_portable_snv_savgol_pls/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "c37c8097123c60eb9b6c8bc0e9a08b528959b82da6de3205a527a2a9547b37d0",
+          "size_bytes": 549,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/core_portable_snv_savgol_pls/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "core_portable_snv_savgol_pls",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Core portable SNV · Savitzky-Golay · PLS",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "6ddc504db1ddeea2e02edbca57f56f27ae6e43415f7ebf11d77d96f27c8dfcf4",
+        "size_bytes": 823,
+        "url": "https://repository.nirs4all.org/data/pipelines/core_portable_snv_savgol_pls/pipeline.json"
+      },
+      "reference": {
+        "name": "regression_demo",
+        "source": "nirs4all-datasets"
+      },
+      "summary": "Portable nirs4all-core baseline using only cross-language supported operators.",
+      "tags": [
+        "pls",
+        "snv",
+        "savitzky_golay",
+        "core_portable",
+        "baseline"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
     "dagml_snv_pls": {
       "authors": [
         {
