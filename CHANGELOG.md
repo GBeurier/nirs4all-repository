@@ -5,6 +5,15 @@ All notable changes to **nirs4all-repository** are documented here. The format f
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the public surface is stable in
 shape but may still change before `1.0`.
 
+## [Unreleased]
+
+### Added
+- Add a release-asset hygiene check for latest or tagged GitHub Releases.
+
+### CI
+- Attach the built wheel and sdist to GitHub Releases and verify both assets before the
+  release workflow finishes.
+
 ## [0.1.5] - 2026-07-06
 
 ### Fixed

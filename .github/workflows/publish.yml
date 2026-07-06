@@ -34,10 +34,43 @@ jobs:
           name: dist
           path: dist/
 
-  publish:
+  release-assets:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' || inputs.dry_run == 'false'
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dist
+          path: dist/
+      - name: Require wheel and sdist
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          wheels = sorted(Path("dist").glob("*.whl"))
+          sdists = sorted(Path("dist").glob("*.tar.gz"))
+          if len(wheels) != 1 or len(sdists) != 1:
+              raise SystemExit(f"expected exactly one wheel and one sdist, found wheels={wheels}, sdists={sdists}")
+          PY
+      - name: Attach distributions to the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$RELEASE_TAG" dist/* --repo "$GITHUB_REPOSITORY" --clobber
+      - name: Verify GitHub Release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/check_release_assets.py --repo "$GITHUB_REPOSITORY" --tag "$RELEASE_TAG"
+
+  publish:
+    needs: [build, release-assets]
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.build.result == 'success' && ((github.event_name == 'release' && needs.release-assets.result == 'success') || (github.event_name == 'workflow_dispatch' && inputs.dry_run == 'false')) }}
     environment: pypi
     permissions:
       id-token: write

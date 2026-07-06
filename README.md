@@ -96,6 +96,24 @@ n4a-repository build && git diff --exit-code   # generated artifacts are current
 pytest -m "not network and not evaluate"
 ```
 
+## Release hygiene
+
+GitHub Releases are expected to carry the same wheel and sdist built by the release
+workflow, so clients that fall back to GitHub Release assets do not land on source-only
+tags. On `release.published`, `.github/workflows/publish.yml` builds `dist/`, uploads
+those files to the GitHub Release, and verifies that a `*.whl` and `*.tar.gz` are
+attached. Manual dry-runs remain build-only.
+
+To audit an existing release without publishing or touching PyPI:
+
+```bash
+python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository
+python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository --tag v0.1.5
+```
+
+The check uses `GH_TOKEN`/`GITHUB_TOKEN` or local `gh` credentials when available, to
+avoid anonymous GitHub API rate limits.
+
 ## License
 
 Pipeline **code / configurations** are dual-licensed open-source —
