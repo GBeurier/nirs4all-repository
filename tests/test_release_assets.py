@@ -38,16 +38,16 @@ def test_asset_names_ignores_malformed_asset_entries():
 def test_main_fails_when_release_has_no_assets(monkeypatch, capsys):
     def fake_fetch(repo: str, tag: str | None, token: str | None):
         assert repo == "GBeurier/nirs4all-repository"
-        assert tag == "v0.1.5"
+        assert tag == "v0.1.6"
         assert token is None
-        return {"tag_name": "v0.1.5", "assets": []}
+        return {"tag_name": "v0.1.6", "assets": []}
 
     monkeypatch.delenv("GH_TOKEN", raising=False)
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     monkeypatch.setattr(check_release_assets, "github_token", lambda: None)
     monkeypatch.setattr(check_release_assets, "fetch_release", fake_fetch)
 
-    exit_code = check_release_assets.main(["--repo", "GBeurier/nirs4all-repository", "--tag", "v0.1.5"])
+    exit_code = check_release_assets.main(["--repo", "GBeurier/nirs4all-repository", "--tag", "v0.1.6"])
 
     captured = capsys.readouterr()
     assert exit_code == 1

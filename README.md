@@ -108,7 +108,7 @@ To audit an existing release without publishing or touching PyPI:
 
 ```bash
 python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository
-python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository --tag v0.1.5
+python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository --tag v0.1.6
 ```
 
 The check uses `GH_TOKEN`/`GITHUB_TOKEN` or local `gh` credentials when available, to

@@ -7,8 +7,13 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-07-06
+
 ### Added
 - Add a release-asset hygiene check for latest or tagged GitHub Releases.
+
+### Fixed
+- Scan fitted pickle artifacts during validation and publication security checks.
 
 ### CI
 - Attach the built wheel and sdist to GitHub Releases and verify both assets before the
