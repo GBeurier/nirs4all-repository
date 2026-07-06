@@ -5,12 +5,15 @@ All notable changes to **nirs4all-repository** are documented here. The format f
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); the public surface is stable in
 shape but may still change before `1.0`.
 
-## [Unreleased]
+## [0.1.4] - 2026-07-06
 
-Changes on `main` after the `v0.1.2` tag (not yet released).
+Changes on `main` after the `v0.1.3` tag.
 
 ### Added
 - Core portable repository recipe.
+
+### CI
+- Preserve the custom GitHub Pages domain and add a dry-run dispatch path for repository publishing.
 
 ### Tests
 - Reject archival paper step records in recipes.
