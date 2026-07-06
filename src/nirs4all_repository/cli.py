@@ -83,15 +83,16 @@ def scan(
     name: str,
     root: Path = typer.Option(None, help="Catalogue root (default: auto-detect)."),
 ) -> None:
-    """Run the security scan on a pipeline's recipe."""
+    """Run the security scan on a pipeline's recipe and inline pickle artifacts."""
     from .recipes import load_recipe_file
-    from .security import scan_config
+    from .security import scan_pipeline_bundle
     from .store import load_descriptor, pipeline_dir
 
     base = _resolved_root(root)
     descriptor = load_descriptor(base, name)
-    recipe = load_recipe_file(pipeline_dir(base, name) / descriptor.recipe.path)
-    result = scan_config(recipe, descriptor.recipe.format)
+    path = pipeline_dir(base, name)
+    recipe = load_recipe_file(path / descriptor.recipe.path)
+    result = scan_pipeline_bundle(path, descriptor, recipe)
     if result.ok:
         typer.secho(f"{name}: security scan clean", fg="green")
     else:
@@ -199,11 +200,16 @@ def publish(
     root: Path = typer.Option(None, help="Catalogue root (default: auto-detect)."),
 ) -> None:
     """Report whether a pipeline is ready to be published (publication gate)."""
-    from .store import load_descriptor
+    from .recipes import load_recipe_file
+    from .security import scan_pipeline_bundle
+    from .store import load_descriptor, pipeline_dir
 
     base = _resolved_root(root)
     descriptor = load_descriptor(base, name)
-    blockers = descriptor.publication_blockers()
+    path = pipeline_dir(base, name)
+    recipe = load_recipe_file(path / descriptor.recipe.path)
+    security_scan = scan_pipeline_bundle(path, descriptor, recipe)
+    blockers = [*descriptor.publication_blockers(), *security_scan.findings]
     if not blockers:
         typer.secho(f"{name}: ready to publish", fg="green")
         return

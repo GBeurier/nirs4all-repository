@@ -17,11 +17,13 @@ from __future__ import annotations
 
 import io
 import pickletools
+import zipfile
 from dataclasses import dataclass, field
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+from typing import Any
 
 from .recipes import normalize_nirs4all_steps
-from .schema import RecipeFormat
+from .schema import ArtifactBackend, ArtifactStorage, PipelineDescriptor, RecipeFormat
 
 #: Curated top-level modules whose classes a recipe may reference.
 CURATED_MODULE_ROOTS = frozenset(
@@ -75,6 +77,33 @@ DANGEROUS_PICKLE_GLOBALS = frozenset(
         ("builtins", "setattr"),
     }
 )
+
+#: File suffixes that are treated as raw, uncompressed pickle streams.
+PICKLE_FILE_SUFFIXES = frozenset({".pickle", ".pkl"})
+
+#: Artifact backends whose inline bytes are pickle streams and must be inspected.
+PICKLE_STREAM_BACKENDS = frozenset({ArtifactBackend.joblib})
+
+#: Container formats where only explicitly named pickle members are inspected.
+PICKLE_ARCHIVE_SUFFIXES = frozenset({".n4a"})
+
+_PICKLE_STRING_OPCODES = frozenset(
+    {
+        "STRING",
+        "BINSTRING",
+        "SHORT_BINSTRING",
+        "UNICODE",
+        "BINUNICODE",
+        "BINUNICODE8",
+        "SHORT_BINUNICODE",
+    }
+)
+
+_PICKLE_MEMO_WRITE_OPCODES = frozenset({"BINPUT", "LONG_BINPUT", "PUT"})
+_PICKLE_MEMO_READ_OPCODES = frozenset({"BINGET", "LONG_BINGET", "GET"})
+
+_PICKLE_UNKNOWN = object()
+_PICKLE_MARK = object()
 
 
 @dataclass
@@ -156,19 +185,108 @@ def scan_config(
 def scan_pickle_bytes(data: bytes) -> ScanResult:
     """Scan raw pickle *data* for dangerous ``GLOBAL`` imports (heuristic)."""
     findings: list[str] = []
+    stack: list[object] = []
+    memo: dict[int, object] = {}
     try:
         for opcode, arg, _pos in pickletools.genops(io.BytesIO(data)):
-            if opcode.name in ("GLOBAL", "STACK_GLOBAL", "INST", "OBJ"):
+            if opcode.name in _PICKLE_STRING_OPCODES and isinstance(arg, str):
+                stack.append(arg)
+            elif opcode.name == "GLOBAL":
                 module, _, name = _global_target(opcode.name, arg)
-                if module in DANGEROUS_PICKLE_MODULES:
-                    findings.append(f"pickle imports dangerous module {module!r} ({name})")
-                elif (module, name) in DANGEROUS_PICKLE_GLOBALS:
-                    findings.append(f"pickle imports dangerous callable {module}.{name}")
-                elif module and _module_root(module) not in CURATED_MODULE_ROOTS:
-                    findings.append(f"pickle imports non-allowlisted module {module!r}")
+                finding = _pickle_global_finding(module, name)
+                if finding:
+                    findings.append(finding)
+                stack.append(_PICKLE_UNKNOWN)
+            elif opcode.name == "STACK_GLOBAL":
+                name_obj = stack.pop() if stack else _PICKLE_UNKNOWN
+                module_obj = stack.pop() if stack else _PICKLE_UNKNOWN
+                if isinstance(module_obj, str) and isinstance(name_obj, str):
+                    finding = _pickle_global_finding(module_obj, name_obj)
+                    if finding:
+                        findings.append(finding)
+                else:
+                    findings.append("pickle uses STACK_GLOBAL with non-literal module/name")
+                stack.append(_PICKLE_UNKNOWN)
+            elif opcode.name in ("INST", "OBJ"):
+                module, _, name = _global_target(opcode.name, arg)
+                finding = _pickle_global_finding(module, name)
+                if finding:
+                    findings.append(finding)
+                _apply_pickle_stack_effect(opcode, stack)
+            elif opcode.name == "MEMOIZE":
+                if stack:
+                    memo[len(memo)] = stack[-1]
+            elif opcode.name in _PICKLE_MEMO_WRITE_OPCODES:
+                if stack:
+                    key = _memo_key(arg)
+                    if key is not None:
+                        memo[key] = stack[-1]
+            elif opcode.name in _PICKLE_MEMO_READ_OPCODES:
+                key = _memo_key(arg)
+                stack.append(memo.get(key, _PICKLE_UNKNOWN) if key is not None else _PICKLE_UNKNOWN)
+            else:
+                _apply_pickle_stack_effect(opcode, stack)
     except Exception as exc:  # malformed pickle is itself a finding
         findings.append(f"pickle could not be parsed: {exc}")
-    return ScanResult(ok=not findings, findings=findings)
+    deduped = list(dict.fromkeys(findings))
+    return ScanResult(ok=not deduped, findings=deduped)
+
+
+def _pickle_global_finding(module: str, name: str) -> str | None:
+    """Return a finding for a pickle global import, or ``None`` when allowed."""
+    if not module:
+        return None
+    root = _module_root(module)
+    if module in DANGEROUS_PICKLE_MODULES or root in DANGEROUS_PICKLE_MODULES:
+        return f"pickle imports dangerous module {module!r} ({name})"
+    if (module, name) in DANGEROUS_PICKLE_GLOBALS:
+        return f"pickle imports dangerous callable {module}.{name}"
+    if root not in CURATED_MODULE_ROOTS:
+        return f"pickle imports non-allowlisted module {module!r}"
+    return None
+
+
+def _memo_key(arg: object) -> int | None:
+    if isinstance(arg, int):
+        return arg
+    if isinstance(arg, str):
+        try:
+            return int(arg)
+        except ValueError:
+            return None
+    return None
+
+
+def _apply_pickle_stack_effect(opcode: Any, stack: list[object]) -> None:
+    """Apply enough pickle stack semantics to resolve literal ``STACK_GLOBAL`` imports."""
+    if opcode.name == "MARK":
+        stack.append(_PICKLE_MARK)
+        return
+    if opcode.name == "POP":
+        if stack:
+            stack.pop()
+        return
+    if opcode.name == "POP_MARK":
+        _pop_pickle_mark(stack)
+        return
+
+    before = getattr(opcode, "stack_before", ())
+    after = getattr(opcode, "stack_after", ())
+    if any(getattr(item, "name", "") == "stackslice" for item in before):
+        _pop_pickle_mark(stack)
+    else:
+        for _item in before:
+            if stack:
+                stack.pop()
+    for item in after:
+        stack.append(_PICKLE_MARK if getattr(item, "name", "") == "mark" else _PICKLE_UNKNOWN)
+
+
+def _pop_pickle_mark(stack: list[object]) -> None:
+    while stack:
+        item = stack.pop()
+        if item is _PICKLE_MARK:
+            break
 
 
 def _global_target(opcode_name: str, arg: object) -> tuple[str, str, str]:
@@ -185,9 +303,79 @@ def _global_target(opcode_name: str, arg: object) -> tuple[str, str, str]:
 
 
 def scan_pickle_file(path: Path) -> ScanResult:
-    """Scan the raw pickle/joblib file at *path*.
+    """Scan the raw, uncompressed pickle file at *path*.
 
-    Note: only uncompressed pickle streams are parseable; compressed or archived blobs
-    (e.g. a ``.n4a`` ZIP) must be expanded by the caller before scanning their members.
+    Compressed joblib streams and container formats are not decoded here. Callers that
+    handle bundle artifacts should expand supported containers (for example ``.n4a`` ZIP
+    files) before scanning pickle members.
     """
     return scan_pickle_bytes(path.read_bytes())
+
+
+def scan_pickle_archive_members(path: Path) -> ScanResult:
+    """Scan ``.pkl``/``.pickle`` members inside a ZIP-format artifact container."""
+    findings: list[str] = []
+    try:
+        with zipfile.ZipFile(path) as archive:
+            for member in archive.infolist():
+                if member.is_dir() or not _has_pickle_suffix(member.filename):
+                    continue
+                result = scan_pickle_bytes(archive.read(member))
+                findings.extend(_prefix_findings(member.filename, result.findings))
+    except zipfile.BadZipFile:
+        return ScanResult(ok=True)
+    return ScanResult(ok=not findings, findings=findings)
+
+
+def scan_artifact_pickles(pipeline_path: Path, descriptor: PipelineDescriptor) -> ScanResult:
+    """Scan local inline artifact pickles declared by *descriptor*.
+
+    The pass is deliberately scoped to bytes that are part of the bundle: raw
+    ``.pkl``/``.pickle`` streams, inline ``joblib`` artifacts, and pickle members inside
+    ZIP-format ``.n4a`` artifacts. Remote release artifacts are not fetched here.
+    """
+    findings: list[str] = []
+    for artifact in descriptor.artifacts:
+        if artifact.storage is not ArtifactStorage.inline:
+            continue
+        path = pipeline_path / artifact.relpath
+        if not path.is_file():
+            continue
+        if _should_scan_pickle_stream(path, artifact.backend):
+            result = scan_pickle_file(path)
+            findings.extend(_prefix_findings(artifact.relpath, result.findings))
+        if _should_scan_pickle_archive(path, artifact.backend):
+            result = scan_pickle_archive_members(path)
+            findings.extend(_prefix_findings(artifact.relpath, result.findings))
+    deduped = list(dict.fromkeys(findings))
+    return ScanResult(ok=not deduped, findings=deduped)
+
+
+def scan_pipeline_bundle(
+    pipeline_path: Path,
+    descriptor: PipelineDescriptor,
+    recipe: object,
+    *,
+    extra_allowlist: tuple[str, ...] = (),
+) -> ScanResult:
+    """Scan a pipeline recipe plus any local inline pickle artifacts."""
+    findings = scan_config(recipe, descriptor.recipe.format, extra_allowlist=extra_allowlist).findings
+    findings.extend(scan_artifact_pickles(pipeline_path, descriptor).findings)
+    deduped = list(dict.fromkeys(findings))
+    return ScanResult(ok=not deduped, findings=deduped)
+
+
+def _has_pickle_suffix(name: str) -> bool:
+    return PurePosixPath(name).suffix.lower() in PICKLE_FILE_SUFFIXES
+
+
+def _should_scan_pickle_stream(path: Path, backend: ArtifactBackend) -> bool:
+    return path.suffix.lower() in PICKLE_FILE_SUFFIXES or backend in PICKLE_STREAM_BACKENDS
+
+
+def _should_scan_pickle_archive(path: Path, backend: ArtifactBackend) -> bool:
+    return path.suffix.lower() in PICKLE_ARCHIVE_SUFFIXES or backend is ArtifactBackend.n4a
+
+
+def _prefix_findings(context: str, findings: list[str]) -> list[str]:
+    return [f"{context}: {finding}" for finding in findings]

@@ -15,7 +15,7 @@ from pathlib import Path
 from .manifest import verify_bundle
 from .recipes import RecipeError, load_recipe_file, validate_recipe_structure
 from .schema import PipelineDescriptor
-from .security import scan_config
+from .security import scan_pipeline_bundle
 from .store import (
     DESCRIPTOR_FILENAME,
     list_pipeline_ids,
@@ -81,7 +81,7 @@ def validate_pipeline(
     except RecipeError as exc:
         report.errors.append(f"recipe structure invalid: {exc}")
 
-    scan = scan_config(recipe, descriptor.recipe.format, extra_allowlist=extra_allowlist)
+    scan = scan_pipeline_bundle(path, descriptor, recipe, extra_allowlist=extra_allowlist)
     report.security_findings.extend(scan.findings)
 
     report.errors.extend(verify_bundle(path, descriptor))

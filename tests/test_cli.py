@@ -34,7 +34,6 @@ def test_scan(make_catalog):
 
 def test_scan_blocks_injection(make_catalog):
     root = make_catalog("evil", recipe={"pipeline": [{"class": "os.system"}]})
-    build_catalog(root)
     result = runner.invoke(app, ["scan", "evil", "--root", str(root)])
     assert result.exit_code == 1
 
@@ -56,3 +55,13 @@ def test_publish_reports_blockers(make_catalog):
     build_catalog(root)
     result = runner.invoke(app, ["publish", "demo_pipe", "--root", str(root)])
     assert result.exit_code == 1  # not yet validated
+
+
+def test_publish_blocks_security_findings(make_catalog):
+    root = make_catalog(
+        "evil",
+        recipe={"pipeline": [{"class": "os.system"}]},
+        descriptor_overrides={"governance": {"status": "draft", "visibility": "public", "trust": "experimental"}},
+    )
+    result = runner.invoke(app, ["publish", "evil", "--root", str(root)])
+    assert result.exit_code == 1

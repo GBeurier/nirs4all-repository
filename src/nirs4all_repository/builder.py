@@ -13,6 +13,8 @@ from pathlib import Path
 from .canonical import write_canonical_json
 from .index import build_index
 from .manifest import write_manifests
+from .recipes import load_recipe_file
+from .security import scan_pipeline_bundle
 from .settings import DEFAULT_BASE_URL
 from .store import (
     index_path,
@@ -30,7 +32,10 @@ def build_catalog(root: Path, *, base_url: str = DEFAULT_BASE_URL, repository_ve
     ids = list_pipeline_ids(root)
     for pipeline_id in ids:
         descriptor = load_descriptor(root, pipeline_id)
-        write_manifests(pipeline_dir(root, pipeline_id), descriptor)
+        path = pipeline_dir(root, pipeline_id)
+        recipe = load_recipe_file(path / descriptor.recipe.path)
+        scan_pipeline_bundle(path, descriptor, recipe).raise_for_findings()
+        write_manifests(path, descriptor)
     index = build_index(root, base_url=base_url, repository_version=repository_version)
     write_canonical_json(index_path(root), index)
     return ids
