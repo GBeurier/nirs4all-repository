@@ -7,6 +7,12 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-07-08
+
+### Changed
+- Remove the retired `list_pipelines()` compatibility alias from the public Python
+  API and docs. `get_pipeline_list()` is the single provider-facing list method.
+
 ## [0.1.6] - 2026-07-06
 
 ### Added

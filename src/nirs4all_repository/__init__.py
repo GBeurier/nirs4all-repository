@@ -37,7 +37,6 @@ __all__ = [
     "get_settings",
     "list",
     "get_pipeline_list",
-    "list_pipelines",
     "card",
     "get",
     "get_pipeline",
@@ -120,27 +119,6 @@ def get_pipeline_list(
         trust=trust,
         root=root,
     )
-
-
-def list_pipelines(
-    *,
-    framework: str | None = None,
-    task: str | None = None,
-    tag: str | None = None,
-    kind: str | None = None,
-    trust: str | None = None,
-    root: str | Path | None = None,
-) -> builtins.list[dict[str, Any]]:
-    """Compatibility alias for :func:`get_pipeline_list`."""
-    return get_pipeline_list(
-        framework=framework,
-        task=task,
-        tag=tag,
-        kind=kind,
-        trust=trust,
-        root=root,
-    )
-
 
 def card(name: str, *, root: str | Path | None = None) -> dict[str, Any]:
     """Return the full validated descriptor (as a dict) for the pipeline *name*."""

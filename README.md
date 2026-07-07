@@ -50,7 +50,7 @@ config = pipe.to_nirs4all()           # hand to nirs4all.run() / predict()
 ```
 
 For provider/core clients that want explicit preset/pipeline names, the package also
-exports `get_pipeline_list()` / `list_pipelines()`, `get_pipeline()`, and `get_bundle()`
+exports `get_pipeline_list()`, `get_pipeline()`, and `get_bundle()`
 as aliases over the same read-only catalogue semantics.
 
 The `n4a-repository` CLI is the maintenance interface
@@ -108,7 +108,7 @@ To audit an existing release without publishing or touching PyPI:
 
 ```bash
 python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository
-python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository --tag v0.1.6
+python scripts/check_release_assets.py --repo GBeurier/nirs4all-repository --tag v0.1.7
 ```
 
 The check uses `GH_TOKEN`/`GITHUB_TOKEN` or local `gh` credentials when available, to

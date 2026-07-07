@@ -14,13 +14,12 @@
 Explicit ``*_pipeline`` names for `nirs4all-core` / `nirs4all-ui` /
 `nirs4all-providers` clients that want a provider-style contract. They are thin
 wrappers with the **same read-only catalogue semantics and signatures** as the
-canonical functions above (`get_pipeline_list` / `list_pipelines` -> :func:`list`,
-`get_pipeline` -> :func:`get`, `get_bundle` -> :func:`fetch`), and are frozen as
+canonical functions above (`get_pipeline_list` -> :func:`list`, `get_pipeline` ->
+:func:`get`, `get_bundle` -> :func:`fetch`), and are frozen as
 part of the 0.1.0 public API.
 
 ```{eval-rst}
 .. autofunction:: nirs4all_repository.get_pipeline_list
-.. autofunction:: nirs4all_repository.list_pipelines
 .. autofunction:: nirs4all_repository.get_pipeline
 .. autofunction:: nirs4all_repository.get_bundle
 ```

@@ -43,9 +43,11 @@ def test_get_local_first_and_bridge(make_catalog):
 
 def test_provider_facing_aliases_are_exported():
     """The provider/core/UI contract names are frozen in the public surface."""
-    for name in ("get_pipeline_list", "list_pipelines", "get_pipeline", "get_bundle"):
+    for name in ("get_pipeline_list", "get_pipeline", "get_bundle"):
         assert name in n4r.__all__
         assert callable(getattr(n4r, name))
+    assert "list_pipelines" not in n4r.__all__
+    assert not hasattr(n4r, "list_pipelines")
 
 
 def test_provider_facing_aliases_match_public_api(make_catalog):
@@ -54,12 +56,10 @@ def test_provider_facing_aliases_match_public_api(make_catalog):
 
     entries = n4r.get_pipeline_list(root=root, kind="recipe")
     assert entries == n4r.list(root=root, kind="recipe")
-    assert n4r.list_pipelines(root=root) == n4r.list(root=root)
 
-    # Every list filter forwards unchanged through both aliases.
+    # Every list filter forwards unchanged through the provider-facing name.
     for filters in ({"framework": "nirs4all"}, {"task": "regression"}, {"tag": "demo"}, {"trust": "community"}):
         assert n4r.get_pipeline_list(root=root, **filters) == n4r.list(root=root, **filters)
-        assert n4r.list_pipelines(root=root, **filters) == n4r.list(root=root, **filters)
     assert n4r.get_pipeline_list(root=root, framework="dag-ml") == []
 
     pipe = n4r.get_pipeline("demo_pipe", root=root)
