@@ -440,7 +440,7 @@ docstrings and a `py.typed` marker.
   (by name/DOI). Never re-hosted here.
 - **`nirs4all-benchmarks`** — consumes these recipes to score and rank them. This repo
   is the *source*; benchmarks is the *Arena*.
-- **`nirs4all-studio` / `nirs4all-web` / lite bindings** — consumers of the static
+- **`nirs4all-studio` / `nirs4all-web` / portable bindings** — consumers of the static
   contract: pick a pre-configured pipeline by name from the UI or a binding.
 - **`nirs4all-org`** — the umbrella landing page; its `repository` ecosystem card links
   here. **`nirs4all-cockpit`** — already tracks this repo's release/health and gains a
