@@ -49,5 +49,5 @@ api
 `nirs4all-repository` is the **remote, name-addressable layer** the ecosystem otherwise
 lacks: it stores the recipes that [`nirs4all`](https://github.com/GBeurier/nirs4all) runs
 and [`nirs4all-benchmarks`](https://github.com/GBeurier/nirs4all-benchmarks) scores, and
-serves them to nirs4all Studio and the lite/WASM bindings. It never re-implements NIRS,
+serves them to nirs4all Studio and the portable/WASM bindings. It never re-implements NIRS,
 IO, or ML logic.

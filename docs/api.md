@@ -9,11 +9,11 @@
    :undoc-members:
 ```
 
-### Provider-facing aliases
+### Provider-facing helpers
 
 Explicit ``*_pipeline`` names for `nirs4all-core` / `nirs4all-ui` /
 `nirs4all-providers` clients that want a provider-style contract. They are thin
-wrappers with the **same read-only catalogue semantics and signatures** as the
+helpers with the **same read-only catalogue semantics and signatures** as the
 canonical functions above (`get_pipeline_list` -> :func:`list`, `get_pipeline` ->
 :func:`get`, `get_bundle` -> :func:`fetch`), and are frozen as
 part of the 0.1.0 public API.

@@ -105,7 +105,7 @@ def get_pipeline_list(
     trust: str | None = None,
     root: str | Path | None = None,
 ) -> builtins.list[dict[str, Any]]:
-    """Provider-facing alias for :func:`list`.
+    """Provider-facing helper for :func:`list`.
 
     The repository remains a preset/pipeline catalogue first; these explicit names
     keep core/UI clients aligned with the provider contract without changing the
@@ -205,7 +205,7 @@ def get_pipeline(
     verify: bool = True,
     with_artifacts: bool = False,
 ) -> Pipeline:
-    """Provider-facing alias for :func:`get`."""
+    """Provider-facing helper for :func:`get`."""
     return get(
         name,
         root=root,
@@ -244,7 +244,7 @@ def get_bundle(
     verify: bool = True,
     with_artifacts: bool = False,
 ) -> Path:
-    """Provider-facing alias for :func:`fetch`."""
+    """Provider-facing helper for :func:`fetch`."""
     return fetch(
         name,
         root=root,

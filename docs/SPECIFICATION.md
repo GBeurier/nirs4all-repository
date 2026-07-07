@@ -252,15 +252,15 @@ def fetch(name: str, *, root=None, cache_dir=None, verify=True,
           with_artifacts=False) -> "pathlib.Path":
     """Materialise the bundle locally and return its directory path."""
 
-# Provider-facing aliases - explicit `*_pipeline` names for nirs4all-core /
+# Provider-facing helpers - explicit `*_pipeline` names for nirs4all-core /
 # nirs4all-ui / nirs4all-providers clients. Same read-only semantics and
 # signatures as the canonical functions above; frozen as part of the 0.1.0 API.
 def get_pipeline_list(*, framework=None, task=None, tag=None, kind=None,
-                      trust=None, root=None) -> list[dict]: ...   # alias of list()
+                      trust=None, root=None) -> list[dict]: ...   # delegates to list()
 def get_pipeline(name: str, *, root=None, cache_dir=None, verify=True,
-                 with_artifacts=False) -> "Pipeline": ...          # alias of get()
+                 with_artifacts=False) -> "Pipeline": ...          # delegates to get()
 def get_bundle(name: str, *, root=None, cache_dir=None, verify=True,
-               with_artifacts=False) -> "pathlib.Path": ...        # alias of fetch()
+               with_artifacts=False) -> "pathlib.Path": ...        # delegates to fetch()
 
 class Pipeline:
     descriptor: PipelineDescriptor
@@ -292,14 +292,14 @@ __version__: str
 The bridges (`to_nirs4all`/`to_dagml`) import the framework lazily and degrade with a
 clear error if it is absent.
 
-**Provider-facing aliases (get-pipeline-list / get-pipeline).** The repository is a
+**Provider-facing helpers (get-pipeline-list / get-pipeline).** The repository is a
 preset/pipeline catalogue first, so custom apps built on `nirs4all-core` + `nirs4all-ui`
 (directly or through `nirs4all-providers`) can address it with explicit `*_pipeline`
 names: `get_pipeline_list()` (over `list`), `get_pipeline()` (over `get`), and
 `get_bundle()` (over `fetch`). They forward every keyword argument unchanged and return
 the same objects; they add **no** new behaviour and never widen the
 read-only, static-index semantics. They are part of `__all__` and frozen at 0.1.0, so a
-client can pin to either the canonical or the provider-facing name. Non-Python clients
+client can pin to the catalogue or provider-facing name. Non-Python clients
 use the language-agnostic `index.json` contract in Section 9 directly.
 
 ## 8. CLI — `n4a-repository` (Typer)
