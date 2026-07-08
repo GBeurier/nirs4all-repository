@@ -7,11 +7,17 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-07-08
+
+### Changed
+- Clarify that `get_pipeline_list()`, `get_pipeline()`, and `get_bundle()` are the
+  canonical provider-facing API entry points.
+
 ## [0.1.8] - 2026-07-08
 
 ### Changed
 - Reword provider-facing `get_pipeline_list()`, `get_pipeline()`, and
-  `get_bundle()` as stable helpers instead of compatibility names. No
+  `get_bundle()` as stable entry points in the provider contract. No
   behavior changed.
 
 ## [0.1.7] - 2026-07-08
@@ -56,7 +62,7 @@ Released together with 0.1.1 (same tree). Additive changes on top of the 0.1.0 b
 storage envelope and the cross-language `index.json` contract (`schema_version: 1`) are unchanged.
 
 ### Added
-- Provider-facing pipeline helpers exposed on the public API.
+- Provider-facing pipeline entry points exposed on the public API.
 
 ### Fixed
 - Platform-independent `is_safe_relpath` (Windows path-safety).

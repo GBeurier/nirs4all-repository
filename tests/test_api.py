@@ -41,7 +41,7 @@ def test_get_local_first_and_bridge(make_catalog):
         pipe.to_dagml()
 
 
-def test_provider_facing_helpers_are_exported():
+def test_provider_facing_entry_points_are_exported():
     """The provider/core/UI contract names are frozen in the public surface."""
     for name in ("get_pipeline_list", "get_pipeline", "get_bundle"):
         assert name in n4r.__all__
@@ -50,14 +50,14 @@ def test_provider_facing_helpers_are_exported():
     assert not hasattr(n4r, "list_pipelines")
 
 
-def test_provider_facing_helpers_match_public_api(make_catalog):
+def test_provider_facing_entry_points_match_public_api(make_catalog):
     root = make_catalog("demo_pipe")
     build_catalog(root)
 
     entries = n4r.get_pipeline_list(root=root, kind="recipe")
     assert entries == n4r.list(root=root, kind="recipe")
 
-    # Every list filter forwards unchanged through the provider-facing name.
+    # Every list filter forwards unchanged through the provider-facing entry point.
     for filters in ({"framework": "nirs4all"}, {"task": "regression"}, {"tag": "demo"}, {"trust": "community"}):
         assert n4r.get_pipeline_list(root=root, **filters) == n4r.list(root=root, **filters)
     assert n4r.get_pipeline_list(root=root, framework="dag-ml") == []

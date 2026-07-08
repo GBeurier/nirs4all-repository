@@ -9,14 +9,14 @@
    :undoc-members:
 ```
 
-### Provider-facing helpers
+### Provider-facing entry points
 
 Explicit ``*_pipeline`` names for `nirs4all-core` / `nirs4all-ui` /
-`nirs4all-providers` clients that want a provider-style contract. They are thin
-helpers with the **same read-only catalogue semantics and signatures** as the
-canonical functions above (`get_pipeline_list` -> :func:`list`, `get_pipeline` ->
-:func:`get`, `get_bundle` -> :func:`fetch`), and are frozen as
-part of the 0.1.0 public API.
+`nirs4all-providers` clients that want a provider-style contract.
+`get_pipeline_list()`, `get_pipeline()`, and `get_bundle()` are the canonical
+provider-facing entry points. They keep the **same read-only catalogue
+semantics and signatures** as the catalogue-native `list()`, `get()`, and
+`fetch()` APIs, and are frozen as part of the 0.1.0 public API.
 
 ```{eval-rst}
 .. autofunction:: nirs4all_repository.get_pipeline_list

@@ -105,11 +105,11 @@ def get_pipeline_list(
     trust: str | None = None,
     root: str | Path | None = None,
 ) -> builtins.list[dict[str, Any]]:
-    """Provider-facing helper for :func:`list`.
+    """Return pipeline catalogue entries through the provider-facing API.
 
-    The repository remains a preset/pipeline catalogue first; these explicit names
-    keep core/UI clients aligned with the provider contract without changing the
-    underlying static-index semantics.
+    ``get_pipeline_list`` is the canonical list entry point for core/UI provider
+    clients. It preserves the same read-only static-index semantics as the
+    catalogue-native ``list`` API.
     """
     return list(
         framework=framework,
@@ -205,7 +205,7 @@ def get_pipeline(
     verify: bool = True,
     with_artifacts: bool = False,
 ) -> Pipeline:
-    """Provider-facing helper for :func:`get`."""
+    """Return a resolved pipeline through the provider-facing API."""
     return get(
         name,
         root=root,
@@ -244,7 +244,7 @@ def get_bundle(
     verify: bool = True,
     with_artifacts: bool = False,
 ) -> Path:
-    """Provider-facing helper for :func:`fetch`."""
+    """Return a local bundle path through the provider-facing API."""
     return fetch(
         name,
         root=root,
