@@ -7,6 +7,12 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-07-08
+
+### Fixed
+- Regenerate the committed catalogue index for the provider-entry-point
+  documentation release.
+
 ## [0.1.9] - 2026-07-08
 
 ### Changed

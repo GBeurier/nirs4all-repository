@@ -1,7 +1,7 @@
 {
   "base_url": "https://repository.nirs4all.org",
   "count": 6,
-  "generated_at": "2026-07-07",
+  "generated_at": "2026-07-08",
   "pipelines": {
     "core_portable_snv_savgol_pls": {
       "authors": [
@@ -394,6 +394,6 @@
     }
   },
   "repository": "nirs4all-repository",
-  "repository_version": "0.1.8",
+  "repository_version": "0.1.10",
   "schema_version": 1
 }

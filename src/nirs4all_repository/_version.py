@@ -6,4 +6,4 @@ Kept byte-identical to the repository-root ``VERSION`` file (which the shared
 match.
 """
 
-__version__ = "0.1.9"
+__version__ = "0.1.10"
