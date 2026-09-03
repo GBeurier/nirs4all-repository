@@ -10,6 +10,16 @@ pip install nirs4all-repository
 The package is pure-Python and lightweight; `numpy` / `nirs4all` / `dag-ml` are imported
 only on the paths that need them (functional evaluation, bridging).
 
+For strict recipe validation and functional evaluation, install the integration extra:
+
+```bash
+pip install "nirs4all-repository[nirs4all]"
+```
+
+Its compatibility window includes nirs4all 0.10–0.12, R1 (`0.13.0`), and the R2/R3
+`1.0.0rc*` candidates. The pre-release-aware upper bound is intentional; a plain
+`<2` specifier would make Python package resolvers reject the release candidates.
+
 ## Browse and resolve pipelines
 
 ```python
