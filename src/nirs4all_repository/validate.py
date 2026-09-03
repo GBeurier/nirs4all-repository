@@ -100,7 +100,9 @@ def _strict_check(recipe: object, descriptor: PipelineDescriptor) -> list[str]:
     warnings: list[str] = []
     if descriptor.framework is Framework.nirs4all:
         try:
-            from nirs4all.pipeline.config.pipeline_config import PipelineConfigs
+            # PipelineConfigs is part of the public nirs4all surface in R1 and the
+            # R2/R3 release candidates. Do not couple Repository to its module layout.
+            from nirs4all import PipelineConfigs
         except Exception:
             warnings.append("strict nirs4all check skipped: nirs4all not installed")
             return warnings

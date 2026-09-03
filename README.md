@@ -41,6 +41,16 @@ pipeline repository, papers archive, benchmarks, and release cockpit.
 pip install nirs4all-repository
 ```
 
+Install the optional execution/strict-validation integration with:
+
+```bash
+pip install "nirs4all-repository[nirs4all]"
+```
+
+That extra supports the existing nirs4all 0.10–0.12 line, R1 (`0.13.0`), and the
+R2/R3 `1.0.0rc*` train. Repository itself remains lightweight and can browse or fetch
+recipes without installing nirs4all.
+
 ```python
 import nirs4all_repository as n4r
 
