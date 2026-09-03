@@ -16,7 +16,10 @@ Pushing to `main` never publishes, but **does deploy GitHub Pages** to `reposito
 
 ## Release
 
-- [ ] Tag `vX.Y.Z` on the release commit; publish the GitHub Release (triggers `publish.yml`).
+- [ ] Tag `vX.Y.Z` on the release commit and push the tag before merging the version
+  bump to `main`; this is required by `version-guard`.
+- [ ] Create the GitHub Release from that existing exact tag. Publishing it triggers
+  `publish.yml`; manual workflow dispatch remains build-only.
 - [ ] Confirm `publish.yml` green and the version is on PyPI.
 
 ## Post-release

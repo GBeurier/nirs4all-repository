@@ -7,11 +7,15 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-09-03
+
 ### Fixed
 - Extend the optional nirs4all integration window through R1 (`0.13.0`) and the
   R2/R3 `1.0.0rc*` train while retaining compatibility with 0.10–0.12.
 - Use the public `nirs4all.PipelineConfigs` export for strict recipe validation instead
   of depending on nirs4all's internal module layout.
+- Require exact agreement between the release tag, `VERSION`, wheel, and sdist before
+  upload, and keep manual publication dispatches build-only.
 
 ## [0.1.10] - 2026-07-08
 
