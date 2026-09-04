@@ -29,7 +29,7 @@ def test_public_v1_surface_contract_matches_repository() -> None:
 
     assert report["distribution"] == {
         "name": "nirs4all-repository",
-        "version": "0.1.11",
+        "version": "0.1.12",
         "namespace": "nirs4all_repository",
     }
     assert report["provider_entry_points"] == [

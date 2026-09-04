@@ -13,6 +13,8 @@ Pushing to `main` never publishes, but **does deploy GitHub Pages** to `reposito
   (`1.0.0rc*`) versions through the `nirs4all` extra.
 - [ ] `scripts/check_public_v1_surface.py` passes against the exact R1/R2/R3
   source heads pinned by `contracts/public-v1-surface.n4a.json`.
+- [ ] For a repin-only successor, keep the superseded release accessible and record
+  the exact predecessor plus repin reason in `CHANGELOG.md`.
 - [ ] `version-guard` green; the release **tag `vX.Y.Z` points at the exact release commit** (already-final manifest/changelog/catalogue).
 - [ ] PyPI Trusted Publisher configured (project `nirs4all-repository`, owner `GBeurier`, `publish.yml`).
 
