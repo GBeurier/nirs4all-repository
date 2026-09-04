@@ -58,15 +58,15 @@
         "version": "1.0.0rc1",
         "repository": "GBeurier/nirs4all",
         "ref": "refs/heads/release/r2-1.0.0-rc.1-candidate",
-        "head": "aef1d09f049b80040f30daf11e82fd0e1570ec55",
-        "tree": "c7dafaa96e229618a880ad61af6575a851e91191"
+        "head": "ab36667b83a329c44009c7567d8aaf1c5dedb45a",
+        "tree": "f679ed7c00b58b0b4edc4e2dbf921ffe0786f16c"
       },
       "r3": {
         "version": "1.0.0rc2",
         "repository": "GBeurier/nirs4all",
         "ref": "refs/heads/release/r3-1.0.0-rc.2-candidate",
-        "head": "368fa8029ca415aba28073e3951efddda18f149c",
-        "tree": "a9171f8c1e8314fdd979548958ff010b4faf0813"
+        "head": "6429974a88cccc3fbf8dbe8aeb060435381f2bd4",
+        "tree": "01499e8b2cff065e52368b10050d7baf0e47b5f2"
       }
     }
   },
