@@ -84,6 +84,8 @@ packages = ["src/nirs4all_repository"]
 [tool.hatch.build.targets.sdist]
 include = [
     "src/nirs4all_repository",
+    "contracts",
+    "scripts/check_public_v1_surface.py",
     "pipelines",
     "catalog",
     "docs",

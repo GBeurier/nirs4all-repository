@@ -14,8 +14,14 @@ shape but may still change before `1.0`.
   R2/R3 `1.0.0rc*` train while retaining compatibility with 0.10–0.12.
 - Use the public `nirs4all.PipelineConfigs` export for strict recipe validation instead
   of depending on nirs4all's internal module layout.
+- Keep the public `fetch()` function callable after the same-named internal module has
+  been imported, including through provider `get_bundle()` calls.
 - Require exact agreement between the release tag, `VERSION`, wheel, and sdist before
   upload, and keep manual publication dispatches build-only.
+
+### Tests
+- Freeze the Repository public/provider surface and prove all five bundled nirs4all
+  recipes load through public `PipelineConfigs` on the exact R1/R2/R3 source heads.
 
 ## [0.1.10] - 2026-07-08
 

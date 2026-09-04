@@ -18,6 +18,7 @@ import builtins
 from pathlib import Path
 from typing import Any
 
+from . import fetch as _fetch_module
 from ._version import __version__
 from .bridge import Pipeline
 from .schema import PipelineDescriptor
@@ -63,9 +64,7 @@ def _load_index_any(root: Path | None, settings: Settings) -> dict[str, Any]:
     bundled = bundled_root()
     if bundled is not None and (bundled / "catalog" / "index.json").is_file():
         return load_index(bundled)
-    from .fetch import fetch_index
-
-    return fetch_index(settings.base_url)
+    return _fetch_module.fetch_index(settings.base_url)
 
 
 def list(  # noqa: A001 - deliberate public name, mirrors nirs4all-datasets
@@ -120,6 +119,7 @@ def get_pipeline_list(
         root=root,
     )
 
+
 def card(name: str, *, root: str | Path | None = None) -> dict[str, Any]:
     """Return the full validated descriptor (as a dict) for the pipeline *name*."""
     settings = get_settings()
@@ -137,8 +137,6 @@ def _resolve_descriptor(name: str, root: Path | None, settings: Settings) -> Pip
     # Remote: fetch the descriptor declared in the index, verify, and parse.
     import yaml
 
-    from .fetch import fetch_verified
-
     index = _load_index_any(root, settings)
     entry = index.get("pipelines", {}).get(name)
     if entry is None:
@@ -146,7 +144,7 @@ def _resolve_descriptor(name: str, root: Path | None, settings: Settings) -> Pip
 
         raise PipelineNotFound(f"pipeline {name!r} not found in the catalogue")
     block = entry["descriptor"]
-    data = yaml.safe_load(fetch_verified(block["url"], block.get("sha256")))
+    data = yaml.safe_load(_fetch_module.fetch_verified(block["url"], block.get("sha256")))
     return PipelineDescriptor.model_validate(data)
 
 
@@ -180,16 +178,14 @@ def get(
             pipeline.verify()
         return pipeline
 
-    from .fetch import fetch_index, materialize_remote
-
     cache = Path(cache_dir) if cache_dir else settings.cache_dir
-    index = fetch_index(settings.base_url)
+    index = _fetch_module.fetch_index(settings.base_url)
     entry = index.get("pipelines", {}).get(name)
     if entry is None:
         from .store import PipelineNotFound
 
         raise PipelineNotFound(f"pipeline {name!r} not found in the remote catalogue")
-    materialized = materialize_remote(entry, cache, with_artifacts=with_artifacts, verify=verify)
+    materialized = _fetch_module.materialize_remote(entry, cache, with_artifacts=with_artifacts, verify=verify)
     descriptor = _descriptor_from_dir(materialized, name)
     pipeline = Pipeline(descriptor, materialized)
     if verify:
@@ -245,10 +241,10 @@ def get_bundle(
     with_artifacts: bool = False,
 ) -> Path:
     """Return a local bundle path through the provider-facing API."""
-    return fetch(
+    return get(
         name,
         root=root,
         cache_dir=cache_dir,
         verify=verify,
         with_artifacts=with_artifacts,
-    )
+    ).path
