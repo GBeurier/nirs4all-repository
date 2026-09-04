@@ -7,6 +7,14 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-09-04
+
+### Changed
+- Repin the Repository public-surface contract to the rollback-corrected Python
+  R2/R3 candidate heads, with R3 retained as the direct child of R2.
+- Supersede the `0.1.11` compatibility receipt without removing that historical
+  release. No public API, provider entry point, or bundled recipe changes.
+
 ## [0.1.11] - 2026-09-03
 
 ### Fixed

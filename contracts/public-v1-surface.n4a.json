@@ -4,7 +4,7 @@
   "release_train": "native-v1-r1-r4",
   "distribution": {
     "name": "nirs4all-repository",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "namespace": "nirs4all_repository"
   },
   "public_exports": [
@@ -58,15 +58,15 @@
         "version": "1.0.0rc1",
         "repository": "GBeurier/nirs4all",
         "ref": "refs/heads/release/r2-1.0.0-rc.1-candidate",
-        "head": "053a05e34184afb32310023f572094946df29bdb",
-        "tree": "be3bd8e9523979536c6fc25c15d385762c9d3159"
+        "head": "aef1d09f049b80040f30daf11e82fd0e1570ec55",
+        "tree": "c7dafaa96e229618a880ad61af6575a851e91191"
       },
       "r3": {
         "version": "1.0.0rc2",
         "repository": "GBeurier/nirs4all",
         "ref": "refs/heads/release/r3-1.0.0-rc.2-candidate",
-        "head": "2096f36633c22ff08a36650b7dd10c6bc0b177c9",
-        "tree": "3d80ae52c9547053a521942c1f861b408ffa4775"
+        "head": "368fa8029ca415aba28073e3951efddda18f149c",
+        "tree": "a9171f8c1e8314fdd979548958ff010b4faf0813"
       }
     }
   },
