@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import importlib
+
 import pytest
 
 import nirs4all_repository as n4r
@@ -65,6 +67,18 @@ def test_provider_facing_entry_points_match_public_api(make_catalog):
     pipe = n4r.get_pipeline("demo_pipe", root=root)
     assert pipe.id == "demo_pipe"
     assert n4r.get_bundle("demo_pipe", root=root) == pipe.path
+
+
+def test_fetch_function_survives_internal_submodule_import(make_catalog):
+    """The public function must not be shadowed by the same-named module."""
+    root = make_catalog("demo_pipe")
+    build_catalog(root)
+
+    importlib.import_module("nirs4all_repository.fetch")
+
+    assert callable(n4r.fetch)
+    assert n4r.fetch("demo_pipe", root=root) == root / "pipelines" / "demo_pipe"
+    assert n4r.get_bundle("demo_pipe", root=root) == root / "pipelines" / "demo_pipe"
 
 
 def test_get_verifies_and_detects_tamper(make_catalog):

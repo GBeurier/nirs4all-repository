@@ -1,0 +1,79 @@
+{
+  "schema_version": "n4a.repository-public-v1-surface/v1",
+  "surface_id": "nirs4all.repository.catalog",
+  "release_train": "native-v1-r1-r4",
+  "distribution": {
+    "name": "nirs4all-repository",
+    "version": "0.1.11",
+    "namespace": "nirs4all_repository"
+  },
+  "public_exports": [
+    "Pipeline",
+    "PipelineDescriptor",
+    "Settings",
+    "get_settings",
+    "list",
+    "get_pipeline_list",
+    "card",
+    "get",
+    "get_pipeline",
+    "fetch",
+    "get_bundle",
+    "__version__"
+  ],
+  "callable_signatures": {
+    "get_settings": "() -> 'Settings'",
+    "list": "(*, framework: 'str | None' = None, task: 'str | None' = None, tag: 'str | None' = None, kind: 'str | None' = None, trust: 'str | None' = None, root: 'str | Path | None' = None) -> 'builtins.list[dict[str, Any]]'",
+    "get_pipeline_list": "(*, framework: 'str | None' = None, task: 'str | None' = None, tag: 'str | None' = None, kind: 'str | None' = None, trust: 'str | None' = None, root: 'str | Path | None' = None) -> 'builtins.list[dict[str, Any]]'",
+    "card": "(name: 'str', *, root: 'str | Path | None' = None) -> 'dict[str, Any]'",
+    "get": "(name: 'str', *, root: 'str | Path | None' = None, cache_dir: 'str | Path | None' = None, verify: 'bool' = True, with_artifacts: 'bool' = False) -> 'Pipeline'",
+    "get_pipeline": "(name: 'str', *, root: 'str | Path | None' = None, cache_dir: 'str | Path | None' = None, verify: 'bool' = True, with_artifacts: 'bool' = False) -> 'Pipeline'",
+    "fetch": "(name: 'str', *, root: 'str | Path | None' = None, cache_dir: 'str | Path | None' = None, verify: 'bool' = True, with_artifacts: 'bool' = False) -> 'Path'",
+    "get_bundle": "(name: 'str', *, root: 'str | Path | None' = None, cache_dir: 'str | Path | None' = None, verify: 'bool' = True, with_artifacts: 'bool' = False) -> 'Path'"
+  },
+  "provider_entry_points": [
+    "get_pipeline_list",
+    "get_pipeline",
+    "get_bundle"
+  ],
+  "nirs4all_integration": {
+    "extra_requirement": "nirs4all>=0.10,<2.0.0.dev0",
+    "validation_export": "nirs4all.PipelineConfigs",
+    "recipe_ids": [
+      "core_portable_snv_savgol_pls",
+      "detrend_ridge",
+      "msc_pls",
+      "savgol_rf",
+      "snv_savgol_pls"
+    ],
+    "milestones": {
+      "r1": {
+        "version": "0.13.0",
+        "repository": "GBeurier/nirs4all",
+        "ref": "refs/tags/0.13.0^{}",
+        "head": "61a66d1bd0157dd9422facc4b32fca33989d4035",
+        "tree": "e0583f7287c13ace028b38708268305626a47372"
+      },
+      "r2": {
+        "version": "1.0.0rc1",
+        "repository": "GBeurier/nirs4all",
+        "ref": "refs/heads/release/r2-1.0.0-rc.1-candidate",
+        "head": "1de9dcb50fcdcc6273113f54a7c7235528c31ed8",
+        "tree": "97d348bf728144ec4324dcca6430d68eb3b9a1d5"
+      },
+      "r3": {
+        "version": "1.0.0rc2",
+        "repository": "GBeurier/nirs4all",
+        "ref": "refs/heads/release/r3-1.0.0-rc.2-candidate",
+        "head": "53a0acb964bff86dc67002763d8e9b850336731f",
+        "tree": "2404b76783e9fc6e10723e671d274975e14756aa"
+      }
+    }
+  },
+  "guarantees": [
+    "exact_public_exports",
+    "exact_callable_signatures",
+    "provider_entry_points_resolve_bundled_recipes",
+    "all_nirs4all_recipes_load_through_public_pipelineconfigs_on_r1_r2_r3"
+  ]
+}
