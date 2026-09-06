@@ -1,0 +1,7 @@
+# Pipeline bundle manifests hash these files byte-for-byte. Keep their checkout
+# representation identical on every platform so verification remains portable.
+pipelines/**/*.json text eol=lf
+pipelines/**/*.md text eol=lf
+pipelines/**/*.yaml text eol=lf
+catalog/**/*.json text eol=lf
+contracts/**/*.json text eol=lf
