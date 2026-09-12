@@ -63,3 +63,12 @@ semantics and signatures** as the catalogue-native `list()`, `get()`, and
 .. autofunction:: nirs4all_repository.builder.build_catalog
 .. autofunction:: nirs4all_repository.site.build_site
 ```
+
+## V1 release-train surface contract
+
+`contracts/public-v1-surface.n4a.json` freezes the Repository exports, provider
+entry points, bundled nirs4all recipe set, and the exact R1/R2/R3 Python source
+identities. `scripts/check_public_v1_surface.py` validates those three source
+checkouts in isolated interpreter processes and emits one JSON receipt suitable
+for the product release lock. `--surface-only` is available for a local package
+check, but does not prove release-train compatibility.

@@ -38,9 +38,12 @@ dependencies = [
 [project.optional-dependencies]
 # Strict, framework-level recipe validation + functional evaluation against a
 # reference dataset. Lazy-imported; the package works without these installed.
-nirs4all = ["nirs4all>=0.10,<0.13"]
+# The development-release upper bound deliberately opts in to PEP 440 prereleases: a plain
+# ``<2`` would reject the 1.0.0rc* R2/R3 train even when it is installed.
+nirs4all = ["nirs4all>=0.10,<2.0.0.dev0"]
 datasets = ["nirs4all-datasets>=0.3.5"]
 dev = [
+    "packaging>=24",
     "pytest>=7.4",
     "pytest-cov>=4.1",
     "ruff>=0.6",
@@ -81,6 +84,8 @@ packages = ["src/nirs4all_repository"]
 [tool.hatch.build.targets.sdist]
 include = [
     "src/nirs4all_repository",
+    "contracts",
+    "scripts/check_public_v1_surface.py",
     "pipelines",
     "catalog",
     "docs",

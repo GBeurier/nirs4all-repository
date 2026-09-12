@@ -7,6 +7,30 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-09-04
+
+### Changed
+- Repin the Repository public-surface contract to the rollback-corrected Python
+  R2/R3 candidate heads, with R3 retained as the direct child of R2.
+- Supersede the `0.1.11` compatibility receipt without removing that historical
+  release. No public API, provider entry point, or bundled recipe changes.
+
+## [0.1.11] - 2026-09-03
+
+### Fixed
+- Extend the optional nirs4all integration window through R1 (`0.13.0`) and the
+  R2/R3 `1.0.0rc*` train while retaining compatibility with 0.10–0.12.
+- Use the public `nirs4all.PipelineConfigs` export for strict recipe validation instead
+  of depending on nirs4all's internal module layout.
+- Keep the public `fetch()` function callable after the same-named internal module has
+  been imported, including through provider `get_bundle()` calls.
+- Require exact agreement between the release tag, `VERSION`, wheel, and sdist before
+  upload, and keep manual publication dispatches build-only.
+
+### Tests
+- Freeze the Repository public/provider surface and prove all five bundled nirs4all
+  recipes load through public `PipelineConfigs` on the exact R1/R2/R3 source heads.
+
 ## [0.1.10] - 2026-07-08
 
 ### Fixed
