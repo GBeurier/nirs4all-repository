@@ -1,0 +1,19 @@
+{
+  "name": "nirs4all-repository-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:cards": "node scripts/render-preset-cards.mjs",
+    "check:cards": "node scripts/render-preset-cards.mjs --check",
+    "test:site": "node tests/site-smoke.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "0.487.0",
+    "nirs4all-ui": "file:./vendor/npm/nirs4all-ui-0.1.17.tgz",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "playwright-core": "1.49.1"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "base_url": "https://repository.nirs4all.org",
-  "count": 6,
-  "generated_at": "2026-09-06",
+  "count": 26,
+  "generated_at": "2026-10-30",
   "pipelines": {
     "core_portable_snv_savgol_pls": {
       "authors": [
@@ -390,6 +390,1006 @@
       ],
       "task": "regression",
       "trust": "official",
+      "version": "1.0.0"
+    },
+    "studio_complex_pls_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_complex_pls_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "5b15a9b5e0bd976f449665a9d06972929331aef1b9a504c18a7a88af30b6b530",
+        "size_bytes": 683,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "be03588a415aa22f1ff1555db7b23c0fc2a6130c7652e572f0d8e2263dc7fe41",
+          "size_bytes": 244,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_complex_pls_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex PLS (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "3b825300c2c29f59b703994b6406d6a530e7f1f07131ca138407a47b813c7bc5",
+        "size_bytes": 4800,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Benchmark-style cartesian preprocessing with fixed PLS, tuned PLS, tuned Ridge, and AOM-PLS.",
+      "tags": [
+        "studio_preset",
+        "complex_pls",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_complex_pls_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_complex_pls_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "bd7bea9ce77a3f11c40c0a998ab2b14089d775644ff25a684c2bc40da32a6894",
+        "size_bytes": 667,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "f7338dfafdc14b7d8f1518199bac10b18a8467e90f7d27006a33c4e0c57ee3e6",
+          "size_bytes": 240,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_complex_pls_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex PLS (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "c3ef075dd5085d321677df02e2f29413116b327855084e12989ed578490bf1aa",
+        "size_bytes": 5097,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Benchmark-style cartesian preprocessing with fixed PLS, tuned PLS, tuned Ridge, and AOM-PLS.",
+      "tags": [
+        "studio_preset",
+        "complex_pls",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_complex_trees_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_complex_trees_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "f7041566890b2a360140b9a58d300b96cc98f362d5c66db8711b7a335c46f812",
+        "size_bytes": 684,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "d5f51974e0d95cee6ffee9800bf34868e3fd1a2fd98844533ed7f27cc2786ca1",
+          "size_bytes": 239,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_complex_trees_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex Trees (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "5857fdedf63cfcb06da2acf2d9bb71f00f233e479f34f4cc9559182e4cd66791",
+        "size_bytes": 5398,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Cartesian preprocessing with LightGBM, RandomForest, and XGBoost tree/boosting grids.",
+      "tags": [
+        "studio_preset",
+        "complex_trees",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_complex_trees_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_complex_trees_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "8e5abf31c845522cb3fb9b660e0a555ac4125750ded8bce078a927939d7ce20d",
+        "size_bytes": 668,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "2bc3c431cf211fd3e4c59dc2464635842f2ac0ef6b714b7af60bac309438dce3",
+          "size_bytes": 235,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_complex_trees_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex Trees (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "c141a9a9ac6d04a80b9245c6e92a4b127e1bbdd5d4dee88d41d73f3379e8c210",
+        "size_bytes": 5385,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Cartesian preprocessing with LightGBM, RandomForest, and XGBoost tree/boosting grids.",
+      "tags": [
+        "studio_preset",
+        "complex_trees",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_deep_nonlinear_exploration_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_deep_nonlinear_exploration_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "fa903c7d267279a0484a6422517e531b9e81cf46a0cd0b9a747d949198102db2",
+        "size_bytes": 741,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "5edab6b9906b6743cc78268ea6501a9ab8242f6eefa3db50f416343bbe9b5dc3",
+          "size_bytes": 257,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_deep_nonlinear_exploration_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Deep Non-Linear Exploration (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "814428a52685152ab8531f6d5cf18d4979b553de3f88de82ef890206ffe9c2ac",
+        "size_bytes": 7683,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Large cartesian preprocessing with tuned gradient-boosted trees, tuned NICON, and TabPFN.",
+      "tags": [
+        "studio_preset",
+        "deep_nonlinear_exploration",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_deep_nonlinear_exploration_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_deep_nonlinear_exploration_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "8190e478f7e5bba0001801660c2f409b820b5d885b337ebddbe373ada9d1ef4a",
+        "size_bytes": 725,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "5327f5eceb5692247aa70c80e7ce594a95a69ce53d956dad93d6f001740becde",
+          "size_bytes": 253,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_deep_nonlinear_exploration_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Deep Non-Linear Exploration (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "3fa2ad922740cada0c3d2de73cab4f267e5e6fdf6043b43e2723bcaa5aef6c56",
+        "size_bytes": 7641,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Large cartesian preprocessing with tuned gradient-boosted trees, tuned NICON, and TabPFN.",
+      "tags": [
+        "studio_preset",
+        "deep_nonlinear_exploration",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_fast_result_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_fast_result_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "09aba36abfec98088839d0809908027dae5225702f34efe89d34967c5c258936",
+        "size_bytes": 688,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "65dbd5093f2918071e777f5a887721859d67a8da49dd14a73b6ce7b077a96e4e",
+          "size_bytes": 249,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_fast_result_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Fast Result (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "af769685a80b25c5f41dd88d2fdd1dd9209a5d6927a33e56cf52ed81292d54b6",
+        "size_bytes": 989,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Quick SPXY-oriented preset with simple preprocessing, AOM-PLS, and TabPFN for fast first results.",
+      "tags": [
+        "studio_preset",
+        "fast_result",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_fast_result_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_fast_result_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "a1c1ae0f6d9d3b44bff8988a281b9841f6e8ec4afc7c3fd0ad8e34f5385a8283",
+        "size_bytes": 672,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "97b3037cc7b188a26233abb1f3b4e59aaca3a7567eb112086145c1cc31323538",
+          "size_bytes": 245,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_fast_result_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Fast Result (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "8162dff9688a2f5011279c0c14d3b6733667e8c6808f4ad95e68bbe0efb17156",
+        "size_bytes": 1004,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Quick SPXY-oriented preset with simple preprocessing, AOM-PLS, and TabPFN for fast first results.",
+      "tags": [
+        "studio_preset",
+        "fast_result",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_nonlinear_exploration_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_nonlinear_exploration_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "459eac7922d3525591e36db364ac9b5f0e789982d621dd61eff8fee7ea170e8e",
+        "size_bytes": 729,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "5175119e2330684af9c17df54260a73757f43af91d0c0f01883424208dcdcb85",
+          "size_bytes": 260,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_nonlinear_exploration_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Non-Linear Exploration (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "3cce6eafbad24e9e73cbf9233948c6277f5f8455636cee69ee5134af93639f9c",
+        "size_bytes": 5409,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Cartesian preprocessing with LightGBM, XGBoost, NICON, and TabPFN for broad non-linear screening.",
+      "tags": [
+        "studio_preset",
+        "nonlinear_exploration",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_nonlinear_exploration_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_nonlinear_exploration_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "5b814813251d2b073052a75b5d2954332e5a0a92b6a49cd7037bb8c027ada3d9",
+        "size_bytes": 713,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "ff15ae7ae137589512a5afe65d0abc4bf56f1e586b8f9dcf8bd257d9f6d0387c",
+          "size_bytes": 256,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_nonlinear_exploration_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Non-Linear Exploration (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "3fac0da1d125af3c9277dc5a9f80c1fdb4cde80ee57734de80ff916f5c80114f",
+        "size_bytes": 5367,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Cartesian preprocessing with LightGBM, XGBoost, NICON, and TabPFN for broad non-linear screening.",
+      "tags": [
+        "studio_preset",
+        "nonlinear_exploration",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_simple_pls_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_simple_pls_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "b7815e0c7ed8b796d3750d444e4bd0d67706e831b851b45f024962f10e431094",
+        "size_bytes": 671,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "f79ec271f641848bb3ed49666a0a3bdd2a7d6c45468ef943440e46e475996119",
+          "size_bytes": 235,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_simple_pls_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple PLS (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "2a841f9640ce01e0b28469254223cd0a14f8f208b3cc2fcfb74a335c27094aca",
+        "size_bytes": 771,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Three classic preprocessing choices, KFold, and a single n_components sweep for PLS.",
+      "tags": [
+        "studio_preset",
+        "simple_pls",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_simple_pls_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_simple_pls_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "8ac3deee9a974be9963c179d85591252ddbf811ad399a619e3503fd9c45464bb",
+        "size_bytes": 655,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "46197b8a755185a357b12b02b5bacb51cb57c72d3594f6f245857b323200b22e",
+          "size_bytes": 231,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_simple_pls_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple PLS (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "69d63d0baccabce3f8f8d5f64dba2ecffd1dc1b0aa9a95a2c760afe95e94a3df",
+        "size_bytes": 760,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Three classic preprocessing choices, KFold, and a single n_components sweep for PLS.",
+      "tags": [
+        "studio_preset",
+        "simple_pls",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_simple_trees_boosting_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_simple_trees_boosting_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "0ca6b0c46958d817ac1db16ab302dd8082326e886e6c7221b5ab7d5d5acd080b",
+        "size_bytes": 725,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "8df7771f2ba19b615c794592d193cfa404c157b212fd1049a6c66ed6fce94358",
+          "size_bytes": 256,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_simple_trees_boosting_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple Trees / Boosting (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "5d5829b1a12b05658fdd94bfa1a87521fb2d210fd5048f5f58ebf0b6e5a6b759",
+        "size_bytes": 1754,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Same lightweight preprocessing pattern as Simple PLS, with LightGBM and RandomForest sweeps.",
+      "tags": [
+        "studio_preset",
+        "simple_trees_boosting",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_simple_trees_boosting_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_simple_trees_boosting_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "969582e1e9389d73be9f56614bf4f71314b1d44a237e54fe0c9d15a819fb7024",
+        "size_bytes": 709,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "cc29306177cedd6d0f7439afa17a2525607565e7106ccf722779fcaadfd3b59e",
+          "size_bytes": 252,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_simple_trees_boosting_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple Trees / Boosting (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "1cb9efc9a86c8b647518de78e48b93818d054ccda24a213cd37d117cccd15628",
+        "size_bytes": 1742,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Same lightweight preprocessing pattern as Simple PLS, with LightGBM and RandomForest sweeps.",
+      "tags": [
+        "studio_preset",
+        "simple_trees_boosting",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_pls_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_pls_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "86e58c31ee32213f8b01e6f2cdf5012ac80f8d855b17a5105235eb72ec84ef0e",
+        "size_bytes": 682,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "0af8d45318aa04786cbabf1e141e81128b0678f637149986fad501dd793fb132",
+          "size_bytes": 249,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_pls_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra PLS (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "257f6ba29e5cde91ddabcc8b5c102a09ef8b4c12d892bc30c36fb25a3e83b413",
+        "size_bytes": 5502,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Large cartesian chemometric exploration with PLS, OPLS, IKPLS-style linear models, and tuned Ridge.",
+      "tags": [
+        "studio_preset",
+        "ultra_pls",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_pls_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_pls_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "3edc24c37c8424748f6869d26e82fee966a04abc9e29f831a8f1aa4f645004d6",
+        "size_bytes": 666,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "ff915fa00152e3db36ee4d5afc0d1d664d8867dec3696024e739fadf96784e9c",
+          "size_bytes": 245,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_pls_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra PLS (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "fc3f670ad2ddc872d1164aca420926bf3ad2f92fc4267b40eeb7a183f6ece6a8",
+        "size_bytes": 5705,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Large cartesian chemometric exploration with PLS, OPLS, IKPLS-style linear models, and tuned Ridge.",
+      "tags": [
+        "studio_preset",
+        "ultra_pls",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_slow_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_slow_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "38c53639b39a6a51de610e79e6957c1f2e53f19b97257042804790157d08afff",
+        "size_bytes": 683,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "8564df8fa4dd12fe9bbe532f8ee1091ea5f2783b2749bf73aa9103fdcc08b38d",
+          "size_bytes": 248,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_slow_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Slow (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "c79800766dc7a6e7179abc712b8cf1517659e92863e1823dadb370d4e402af4d",
+        "size_bytes": 5710,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Heavy Cartesian preset mixing tuned PLS, tuned Ridge, tuned AOM-PLS, tuned LightGBM, and TabPFN.",
+      "tags": [
+        "studio_preset",
+        "ultra_slow",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_slow_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_slow_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "058002b19e74977dc6dd73685e31546cc9e784507ca2b8c2fa7b14def3ea0874",
+        "size_bytes": 667,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "9fce3b3348bba50217e8b7cbde4b821d41e257d9f1812e7505207a538e3ac603",
+          "size_bytes": 244,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_slow_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Slow (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "6a179b7a326e4cdb6ff907a9eeace68cd4f4d2bd84e96f30c6f50c7bf4f3e933",
+        "size_bytes": 6199,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Heavy Cartesian preset mixing tuned PLS, tuned Ridge, tuned AOM-PLS, tuned LightGBM, and TabPFN.",
+      "tags": [
+        "studio_preset",
+        "ultra_slow",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_trees_classification": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_trees_classification.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "912aef5561e7ea75941a1fd06a9185b55c65be1325ba1d85eb7223c97384ed44",
+        "size_bytes": 696,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_classification/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "9112c9609a7c5ff41138f38a1bece285719da5bdc77e02700b1a1a9f543539d7",
+          "size_bytes": 257,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_classification/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_trees_classification",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Trees (Classification)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "82007a65a18bc45ec05abf2c0ec724269578c52d189b0d987c69660235f352da",
+        "size_bytes": 7851,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_classification/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Bigger preprocessing search with tuned LightGBM, RandomForest, XGBoost, ExtraTrees, and GradientBoosting.",
+      "tags": [
+        "studio_preset",
+        "ultra_trees",
+        "classification"
+      ],
+      "task": "classification",
+      "trust": "community",
+      "version": "1.0.0"
+    },
+    "studio_ultra_trees_regression": {
+      "authors": [
+        {
+          "affiliation": "CIRAD",
+          "name": "Gregory Beurier"
+        }
+      ],
+      "card_url": "pipeline/studio_ultra_trees_regression.html",
+      "descriptor": {
+        "relpath": "descriptor.yaml",
+        "sha256": "d38d65b49c4baf9bcaa52a44fa62ca4aebfeefb1487df621ac1e0fb7cc8e7bed",
+        "size_bytes": 680,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_regression/descriptor.yaml"
+      },
+      "evaluation": null,
+      "files": [
+        {
+          "backend": null,
+          "download_url": null,
+          "relpath": "card.md",
+          "sha256": "781603ab860c97a214e93a911dcbffb42aaf995bdaf62be07ccd4979e7f21c48",
+          "size_bytes": 253,
+          "storage": "inline",
+          "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_regression/card.md"
+        }
+      ],
+      "fingerprints": {},
+      "framework": "nirs4all",
+      "id": "studio_ultra_trees_regression",
+      "kind": "recipe",
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Trees (Regression)",
+      "recipe": {
+        "format": "nirs4all/pipeline-config",
+        "relpath": "pipeline.json",
+        "sha256": "12790c4a357b52b1448a48c78beb79063b91145c079ca2ef38a5ad07513fa98b",
+        "size_bytes": 7822,
+        "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_regression/pipeline.json"
+      },
+      "reference": null,
+      "summary": "Bigger preprocessing search with tuned LightGBM, RandomForest, XGBoost, ExtraTrees, and GradientBoosting.",
+      "tags": [
+        "studio_preset",
+        "ultra_trees",
+        "regression"
+      ],
+      "task": "regression",
+      "trust": "community",
       "version": "1.0.0"
     }
   },

@@ -62,7 +62,10 @@ def validate_repository_surface(contract: dict[str, Any]) -> dict[str, Any]:
     _require(requirement == [contract["nirs4all_integration"]["extra_requirement"]], "nirs4all extra differs from contract")
 
     recipe_ids = [entry["id"] for entry in package.list(root=ROOT, framework="nirs4all")]
-    _require(recipe_ids == contract["nirs4all_integration"]["recipe_ids"], "nirs4all recipe set differs from contract")
+    # The frozen train contract pins its original compatibility probes. New catalogue
+    # entries are additive and must not rewrite that historical evidence.
+    baseline_ids = contract["nirs4all_integration"]["recipe_ids"]
+    _require(set(baseline_ids).issubset(recipe_ids), "nirs4all recipe set is missing contract recipes")
     for pipeline_id in recipe_ids:
         pipeline = package.get_pipeline(pipeline_id, root=ROOT)
         _require(package.get_bundle(pipeline_id, root=ROOT) == pipeline.path, f"bundle mismatch: {pipeline_id}")
@@ -72,7 +75,8 @@ def validate_repository_surface(contract: dict[str, Any]) -> dict[str, Any]:
         "distribution": distribution,
         "public_exports": contract["public_exports"],
         "provider_entry_points": contract["provider_entry_points"],
-        "recipe_ids": recipe_ids,
+        "recipe_ids": baseline_ids,
+        "additional_recipe_ids": [pid for pid in recipe_ids if pid not in baseline_ids],
     }
 
 

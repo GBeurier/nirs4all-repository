@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Heavy Cartesian preset mixing tuned PLS, tuned Ridge, tuned AOM-PLS, tuned LightGBM, and TabPFN.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Slow (Regression)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 244,
+      "dagml:sha256": "9fce3b3348bba50217e8b7cbde4b821d41e257d9f1812e7505207a538e3ac603",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "9fce3b3348bba50217e8b7cbde4b821d41e257d9f1812e7505207a538e3ac603"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 667,
+      "dagml:sha256": "058002b19e74977dc6dd73685e31546cc9e784507ca2b8c2fa7b14def3ea0874",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "058002b19e74977dc6dd73685e31546cc9e784507ca2b8c2fa7b14def3ea0874"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 6199,
+      "dagml:sha256": "6a179b7a326e4cdb6ff907a9eeace68cd4f4d2bd84e96f30c6f50c7bf4f3e933",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "6a179b7a326e4cdb6ff907a9eeace68cd4f4d2bd84e96f30c6f50c7bf4f3e933"
+    }
+  ]
+}

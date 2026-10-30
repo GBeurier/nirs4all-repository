@@ -9,6 +9,9 @@ on:
       - "catalog/**"
       - "assets/**"
       - "src/nirs4all_repository/site/**"
+      - "scripts/render-preset-cards.mjs"
+      - "vendor/npm/**"
+      - "package*.json"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
@@ -31,6 +34,12 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -e .
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check:cards
       - name: Render the static catalogue site
         run: n4a-repository site --out site
       - name: Pages chrome

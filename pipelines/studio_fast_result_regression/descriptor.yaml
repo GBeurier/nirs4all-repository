@@ -1,0 +1,28 @@
+schema_version: 1
+id: studio_fast_result_regression
+name: Fast Result (Regression)
+summary: Quick SPXY-oriented preset with simple preprocessing, AOM-PLS, and TabPFN
+  for fast first results.
+framework: nirs4all
+kind: recipe
+task: regression
+tags:
+- studio_preset
+- fast_result
+- regression
+version: 1.0.0
+license: CeCILL-2.1 OR AGPL-3.0-or-later
+created_at: '2026-10-30'
+authors:
+- name: Gregory Beurier
+  affiliation: CIRAD
+recipe:
+  format: nirs4all/pipeline-config
+  path: pipeline.json
+provenance:
+  generated_by: nirs4all-studio preset import
+  source: nirs4all-studio/api/presets/fast_result.yaml
+governance:
+  status: draft
+  visibility: public
+  trust: community

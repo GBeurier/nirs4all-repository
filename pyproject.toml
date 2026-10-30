@@ -79,6 +79,8 @@ packages = ["src/nirs4all_repository"]
 # wheel so `get(name)` resolves recipe pipelines fully offline.
 [tool.hatch.build.targets.wheel.force-include]
 "catalog/index.json" = "nirs4all_repository/_catalog/catalog/index.json"
+"catalog/studio-presets.json" = "nirs4all_repository/_catalog/catalog/studio-presets.json"
+"catalog/studio-presets.cards.json" = "nirs4all_repository/_catalog/catalog/studio-presets.cards.json"
 "pipelines" = "nirs4all_repository/_catalog/pipelines"
 
 [tool.hatch.build.targets.sdist]

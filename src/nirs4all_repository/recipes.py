@@ -33,6 +33,7 @@ NIRS4ALL_STEP_KEYWORDS = frozenset(
         "finetune_params",
         "action",
         "_or_",
+        "_cartesian_",
         "_range_",
         "pick",
         "count",

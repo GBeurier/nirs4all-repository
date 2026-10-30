@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Large cartesian preprocessing with tuned gradient-boosted trees, tuned NICON, and TabPFN.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Deep Non-Linear Exploration (Regression)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 253,
+      "dagml:sha256": "5327f5eceb5692247aa70c80e7ce594a95a69ce53d956dad93d6f001740becde",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "5327f5eceb5692247aa70c80e7ce594a95a69ce53d956dad93d6f001740becde"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 725,
+      "dagml:sha256": "8190e478f7e5bba0001801660c2f409b820b5d885b337ebddbe373ada9d1ef4a",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "8190e478f7e5bba0001801660c2f409b820b5d885b337ebddbe373ada9d1ef4a"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 7641,
+      "dagml:sha256": "3fa2ad922740cada0c3d2de73cab4f267e5e6fdf6043b43e2723bcaa5aef6c56",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "3fa2ad922740cada0c3d2de73cab4f267e5e6fdf6043b43e2723bcaa5aef6c56"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "pipeline": [
+    {
+      "_or_": [
+        "nirs4all.operators.transforms.scalers.StandardNormalVariate",
+        "nirs4all.operators.transforms.nirs.MultiplicativeScatterCorrection",
+        {
+          "class": "nirs4all.operators.transforms.nirs.SavitzkyGolay",
+          "params": {
+            "window_length": 15,
+            "polyorder": 2,
+            "deriv": 1
+          }
+        }
+      ]
+    },
+    {
+      "class": "sklearn.model_selection._split.StratifiedKFold",
+      "params": {
+        "shuffle": true,
+        "random_state": 42
+      }
+    },
+    {
+      "model": "nirs4all.operators.models.sklearn.plsda.PLSDA",
+      "name": "PLSDA-Sweep",
+      "_range_": [
+        2,
+        30,
+        4
+      ],
+      "param": "n_components"
+    }
+  ]
+}

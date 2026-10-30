@@ -1,0 +1,30 @@
+{
+  "artifacts": [],
+  "created_at": "2026-10-30",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "2bc3c431cf211fd3e4c59dc2464635842f2ac0ef6b714b7af60bac309438dce3",
+      "size_bytes": 235
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "8e5abf31c845522cb3fb9b660e0a555ac4125750ded8bce078a927939d7ce20d",
+      "size_bytes": 668
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "c141a9a9ac6d04a80b9245c6e92a4b127e1bbdd5d4dee88d41d73f3379e8c210",
+      "size_bytes": 5385
+    }
+  ],
+  "fingerprints": {
+    "config_sha256": "214d230a7f175047"
+  },
+  "framework": "nirs4all",
+  "generated_by": "nirs4all-studio preset import",
+  "id": "studio_complex_trees_regression",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

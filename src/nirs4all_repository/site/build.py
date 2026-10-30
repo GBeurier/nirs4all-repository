@@ -24,6 +24,7 @@ from ..markdown_safe import render_markdown
 from ..settings import DEFAULT_BASE_URL
 from ..store import CARD_FILENAME, load_index, pipeline_dir
 from .assets import SCRIPT, STYLE
+from .presets import load_studio_presets
 
 _GOATCOUNTER = (
     '<script data-goatcounter="https://nirs4all.goatcounter.com/count" '
@@ -185,12 +186,36 @@ def _chipset(index: dict[str, Any]) -> str:
     return "".join(groups)
 
 
-def render_index(index: dict[str, Any], base_url: str) -> str:
+def render_index(index: dict[str, Any], base_url: str, studio: dict[str, Any] | None = None) -> str:
     pipelines = sorted(index.get("pipelines", {}).values(), key=lambda entry: entry["id"])
     n = len(pipelines)
     frameworks = len({p.get("framework") for p in pipelines})
     validated = sum(1 for p in pipelines if (p.get("evaluation") or {}).get("status") == "validated")
     cards = "".join(_card(entry) for entry in pipelines) or '<div class="empty">No pipelines yet.</div>'
+    filters = _chipset(index)
+    additional = ""
+    catalogue_title = "Catalogue"
+    catalogue_description = "Filter by framework, task, kind, or trust — or search."
+    if studio:
+        catalogue_title = "Studio presets"
+        catalogue_description = "The same default pipelines as Studio, with regression and classification variants."
+        n = len(studio["presets"])
+        cards = ""
+        for preset in studio["presets"]:
+            tasks = " ".join(preset["available_variants"])
+            search = " ".join([preset["id"], preset["name"], preset["description"], tasks]).lower()
+            cards += (
+                f'<div class="preset-item" data-id="{_esc(preset["id"])}" data-task="{_esc(tasks)}" data-search="{_esc(search)}">'
+                f'{studio["cards"][preset["id"]]}</div>'
+            )
+        filters = '<div class="chipset" aria-label="Task">' + "".join(
+            f'<button class="chip" data-dim="task" data-val="{task}" aria-pressed="false">{task.title()}</button>'
+            for task in ("regression", "classification")
+        ) + "</div>"
+        legacy = [entry for entry in pipelines if "studio_preset" not in entry.get("tags", [])]
+        if legacy:
+            links = "".join(f'<li><a href="pipeline/{_esc(entry["id"])}.html">{_esc(entry["name"])}</a></li>' for entry in legacy)
+            additional = f'<details class="additional-recipes"><summary>Additional repository recipes ({len(legacy)})</summary><ul>{links}</ul></details>'
 
     head = _head(
         "nirs4all-repository — pre-configured, tested NIRS pipelines",
@@ -206,6 +231,8 @@ def render_index(index: dict[str, Any], base_url: str) -> str:
             "isPartOf": {"@type": "WebSite", "name": "nirs4all", "url": "https://nirs4all.org/"},
         },
     )
+    if studio:
+        head = head.replace("</head>", f'<style>{studio["css"]}</style></head>')
     body = (
         f"<body>{_header('')}"
         '<section class="hero"><div class="container">'
@@ -219,18 +246,19 @@ def render_index(index: dict[str, Any], base_url: str) -> str:
         '<a class="btn btn-primary" href="#catalogue">Browse the catalogue</a>'
         '<a class="btn btn-ghost" href="https://github.com/GBeurier/nirs4all-repository">View on GitHub</a></div>'
         '<div class="stats">'
-        f'<div class="stat"><div class="num">{n}</div><div class="lbl">pipelines</div></div>'
-        f'<div class="stat"><div class="num">{frameworks}</div><div class="lbl">frameworks</div></div>'
+        f'<div class="stat"><div class="num">{n}</div><div class="lbl">{"presets" if studio else "pipelines"}</div></div>'
+        f'<div class="stat"><div class="num">{sum(len(p["available_variants"]) for p in studio["presets"]) if studio else frameworks}</div><div class="lbl">{"task variants" if studio else "frameworks"}</div></div>'
         f'<div class="stat"><div class="num">{validated}</div><div class="lbl">validated</div></div>'
         "</div></div></section>"
         '<section class="section-paper" id="catalogue"><div class="container">'
-        '<div class="section-head"><h2>Catalogue</h2><p>Filter by framework, task, kind, or trust — or search.</p></div>'
-        f'<div class="filters"><input type="search" id="q" placeholder="Search pipelines…" aria-label="Search">{_chipset(index)}</div>'
-        f'<div class="grid">{cards}</div>'
+        f'<div class="section-head"><h2>{catalogue_title}</h2><p>{catalogue_description}</p></div>'
+        f'<div class="filters"><input type="search" id="q" placeholder="Search pipelines…" aria-label="Search">{filters}</div>'
+        f'<div class="grid {"preset-grid" if studio else ""}">{cards}</div>'
         '<div class="empty" id="empty" style="display:none">No pipelines match these filters.</div>'
+        f'{additional}'
         "</div></section>"
-        f"{_footer()}"
         f"<script>{SCRIPT}</script>"
+        f"{_footer()}"
     )
     return head + body
 
@@ -337,7 +365,7 @@ def build_site(root: Path, out_dir: Path, *, base_url: str = DEFAULT_BASE_URL) -
     index = load_index(root)
 
     # index.html
-    (out_dir / "index.html").write_text(render_index(index, base_url), encoding="utf-8")
+    (out_dir / "index.html").write_text(render_index(index, base_url, load_studio_presets(root, index)), encoding="utf-8")
 
     # data/ — the cross-language contract, served verbatim
     (out_dir / "data" / "index.json").write_text(json.dumps(index, sort_keys=True, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
