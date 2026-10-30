@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Bigger preprocessing search with tuned LightGBM, RandomForest, XGBoost, ExtraTrees, and GradientBoosting.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra Trees (Classification)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 257,
+      "dagml:sha256": "9112c9609a7c5ff41138f38a1bece285719da5bdc77e02700b1a1a9f543539d7",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "9112c9609a7c5ff41138f38a1bece285719da5bdc77e02700b1a1a9f543539d7"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 696,
+      "dagml:sha256": "912aef5561e7ea75941a1fd06a9185b55c65be1325ba1d85eb7223c97384ed44",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "912aef5561e7ea75941a1fd06a9185b55c65be1325ba1d85eb7223c97384ed44"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 7851,
+      "dagml:sha256": "82007a65a18bc45ec05abf2c0ec724269578c52d189b0d987c69660235f352da",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "82007a65a18bc45ec05abf2c0ec724269578c52d189b0d987c69660235f352da"
+    }
+  ]
+}

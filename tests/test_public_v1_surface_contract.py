@@ -5,8 +5,11 @@ from __future__ import annotations
 
 import importlib.util
 import json
+from functools import wraps
 from pathlib import Path
 from types import ModuleType
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "contracts" / "public-v1-surface.n4a.json"
@@ -38,6 +41,21 @@ def test_public_v1_surface_contract_matches_repository() -> None:
         "get_bundle",
     ]
     assert len(report["recipe_ids"]) == 5
+    assert len(report["additional_recipe_ids"]) == 20
+
+
+def test_frozen_train_recipes_remain_required(monkeypatch) -> None:
+    checker = _load_checker()
+    package = checker._load_repository_package()
+    original_list = package.list
+
+    @wraps(original_list)
+    def without_required_recipe(**kwargs):
+        return [entry for entry in original_list(**kwargs) if entry["id"] != "msc_pls"]
+
+    monkeypatch.setattr(package, "list", without_required_recipe)
+    with pytest.raises(checker.SurfaceContractError, match="missing contract recipes"):
+        checker.validate_repository_surface(checker._load_contract())
 
 
 def test_public_v1_surface_contract_pins_exact_python_train() -> None:

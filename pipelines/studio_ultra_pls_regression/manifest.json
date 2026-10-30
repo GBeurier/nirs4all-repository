@@ -1,0 +1,30 @@
+{
+  "artifacts": [],
+  "created_at": "2026-10-30",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "ff915fa00152e3db36ee4d5afc0d1d664d8867dec3696024e739fadf96784e9c",
+      "size_bytes": 245
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "3edc24c37c8424748f6869d26e82fee966a04abc9e29f831a8f1aa4f645004d6",
+      "size_bytes": 666
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "fc3f670ad2ddc872d1164aca420926bf3ad2f92fc4267b40eeb7a183f6ece6a8",
+      "size_bytes": 5705
+    }
+  ],
+  "fingerprints": {
+    "config_sha256": "05fd1b8041e4c306"
+  },
+  "framework": "nirs4all",
+  "generated_by": "nirs4all-studio preset import",
+  "id": "studio_ultra_pls_regression",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Cartesian preprocessing with LightGBM, RandomForest, and XGBoost tree/boosting grids.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex Trees (Classification)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 239,
+      "dagml:sha256": "d5f51974e0d95cee6ffee9800bf34868e3fd1a2fd98844533ed7f27cc2786ca1",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "d5f51974e0d95cee6ffee9800bf34868e3fd1a2fd98844533ed7f27cc2786ca1"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 684,
+      "dagml:sha256": "f7041566890b2a360140b9a58d300b96cc98f362d5c66db8711b7a335c46f812",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "f7041566890b2a360140b9a58d300b96cc98f362d5c66db8711b7a335c46f812"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 5398,
+      "dagml:sha256": "5857fdedf63cfcb06da2acf2d9bb71f00f233e479f34f4cc9559182e4cd66791",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "5857fdedf63cfcb06da2acf2d9bb71f00f233e479f34f4cc9559182e4cd66791"
+    }
+  ]
+}

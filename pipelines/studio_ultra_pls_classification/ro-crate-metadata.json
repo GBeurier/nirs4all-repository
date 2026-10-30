@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Large cartesian chemometric exploration with PLS, OPLS, IKPLS-style linear models, and tuned Ridge.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Ultra PLS (Classification)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 249,
+      "dagml:sha256": "0af8d45318aa04786cbabf1e141e81128b0678f637149986fad501dd793fb132",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "0af8d45318aa04786cbabf1e141e81128b0678f637149986fad501dd793fb132"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 682,
+      "dagml:sha256": "86e58c31ee32213f8b01e6f2cdf5012ac80f8d855b17a5105235eb72ec84ef0e",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "86e58c31ee32213f8b01e6f2cdf5012ac80f8d855b17a5105235eb72ec84ef0e"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 5502,
+      "dagml:sha256": "257f6ba29e5cde91ddabcc8b5c102a09ef8b4c12d892bc30c36fb25a3e83b413",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "257f6ba29e5cde91ddabcc8b5c102a09ef8b4c12d892bc30c36fb25a3e83b413"
+    }
+  ]
+}

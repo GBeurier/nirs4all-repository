@@ -21,6 +21,7 @@ htmlcov/
 
 # Generated static site (built in CI, not committed)
 /site/
+node_modules/
 
 # Sphinx build output
 docs/_build/

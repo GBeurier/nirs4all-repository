@@ -40,6 +40,7 @@ CURATED_MODULE_ROOTS = frozenset(
         "xgboost",
         "lightgbm",
         "catboost",
+        "tabpfn",
     }
 )
 

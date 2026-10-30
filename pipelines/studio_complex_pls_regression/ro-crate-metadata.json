@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Benchmark-style cartesian preprocessing with fixed PLS, tuned PLS, tuned Ridge, and AOM-PLS.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Complex PLS (Regression)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 240,
+      "dagml:sha256": "f7338dfafdc14b7d8f1518199bac10b18a8467e90f7d27006a33c4e0c57ee3e6",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "f7338dfafdc14b7d8f1518199bac10b18a8467e90f7d27006a33c4e0c57ee3e6"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 667,
+      "dagml:sha256": "bd7bea9ce77a3f11c40c0a998ab2b14089d775644ff25a684c2bc40da32a6894",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "bd7bea9ce77a3f11c40c0a998ab2b14089d775644ff25a684c2bc40da32a6894"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 5097,
+      "dagml:sha256": "c3ef075dd5085d321677df02e2f29413116b327855084e12989ed578490bf1aa",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "c3ef075dd5085d321677df02e2f29413116b327855084e12989ed578490bf1aa"
+    }
+  ]
+}

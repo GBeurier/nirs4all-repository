@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Cartesian preprocessing with LightGBM, XGBoost, NICON, and TabPFN for broad non-linear screening.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Non-Linear Exploration (Classification)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 260,
+      "dagml:sha256": "5175119e2330684af9c17df54260a73757f43af91d0c0f01883424208dcdcb85",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "5175119e2330684af9c17df54260a73757f43af91d0c0f01883424208dcdcb85"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 729,
+      "dagml:sha256": "459eac7922d3525591e36db364ac9b5f0e789982d621dd61eff8fee7ea170e8e",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "459eac7922d3525591e36db364ac9b5f0e789982d621dd61eff8fee7ea170e8e"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 5409,
+      "dagml:sha256": "3cce6eafbad24e9e73cbf9233948c6277f5f8455636cee69ee5134af93639f9c",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "3cce6eafbad24e9e73cbf9233948c6277f5f8455636cee69ee5134af93639f9c"
+    }
+  ]
+}

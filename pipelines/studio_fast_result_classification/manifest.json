@@ -1,0 +1,30 @@
+{
+  "artifacts": [],
+  "created_at": "2026-10-30",
+  "files": [
+    {
+      "relpath": "card.md",
+      "sha256": "65dbd5093f2918071e777f5a887721859d67a8da49dd14a73b6ce7b077a96e4e",
+      "size_bytes": 249
+    },
+    {
+      "relpath": "descriptor.yaml",
+      "sha256": "09aba36abfec98088839d0809908027dae5225702f34efe89d34967c5c258936",
+      "size_bytes": 688
+    },
+    {
+      "relpath": "pipeline.json",
+      "sha256": "af769685a80b25c5f41dd88d2fdd1dd9209a5d6927a33e56cf52ed81292d54b6",
+      "size_bytes": 989
+    }
+  ],
+  "fingerprints": {
+    "config_sha256": "46b1644def7b0a80"
+  },
+  "framework": "nirs4all",
+  "generated_by": "nirs4all-studio preset import",
+  "id": "studio_fast_result_classification",
+  "kind": "recipe",
+  "pipeline_version": "1.0.0",
+  "schema_version": 1
+}

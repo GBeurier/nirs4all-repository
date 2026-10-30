@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Three classic preprocessing choices, KFold, and a single n_components sweep for PLS.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple PLS (Regression)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 231,
+      "dagml:sha256": "46197b8a755185a357b12b02b5bacb51cb57c72d3594f6f245857b323200b22e",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "46197b8a755185a357b12b02b5bacb51cb57c72d3594f6f245857b323200b22e"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 655,
+      "dagml:sha256": "8ac3deee9a974be9963c179d85591252ddbf811ad399a619e3503fd9c45464bb",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "8ac3deee9a974be9963c179d85591252ddbf811ad399a619e3503fd9c45464bb"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 760,
+      "dagml:sha256": "69d63d0baccabce3f8f8d5f64dba2ecffd1dc1b0aa9a95a2c760afe95e94a3df",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "69d63d0baccabce3f8f8d5f64dba2ecffd1dc1b0aa9a95a2c760afe95e94a3df"
+    }
+  ]
+}

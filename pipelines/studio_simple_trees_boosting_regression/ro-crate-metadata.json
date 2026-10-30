@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "https://w3id.org/ro/crate/1.1/context",
+    {
+      "dagml": "https://github.com/GBeurier/dag-ml/schemas#"
+    }
+  ],
+  "@graph": [
+    {
+      "@id": "ro-crate-metadata.json",
+      "@type": "CreativeWork",
+      "about": {
+        "@id": "./"
+      },
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": [
+        "Dataset",
+        "ComputationalWorkflow"
+      ],
+      "dateCreated": "2026-10-30",
+      "description": "Same lightweight preprocessing pattern as Simple PLS, with LightGBM and RandomForest sweeps.",
+      "hasPart": [
+        {
+          "@id": "card.md"
+        },
+        {
+          "@id": "descriptor.yaml"
+        },
+        {
+          "@id": "pipeline.json"
+        }
+      ],
+      "license": "CeCILL-2.1 OR AGPL-3.0-or-later",
+      "name": "Simple Trees / Boosting (Regression)",
+      "version": "1.0.0"
+    },
+    {
+      "@id": "card.md",
+      "@type": "File",
+      "contentSize": 252,
+      "dagml:sha256": "cc29306177cedd6d0f7439afa17a2525607565e7106ccf722779fcaadfd3b59e",
+      "encodingFormat": "text/markdown",
+      "name": "card.md",
+      "sha256": "cc29306177cedd6d0f7439afa17a2525607565e7106ccf722779fcaadfd3b59e"
+    },
+    {
+      "@id": "descriptor.yaml",
+      "@type": "File",
+      "contentSize": 709,
+      "dagml:sha256": "969582e1e9389d73be9f56614bf4f71314b1d44a237e54fe0c9d15a819fb7024",
+      "encodingFormat": "application/yaml",
+      "name": "descriptor.yaml",
+      "sha256": "969582e1e9389d73be9f56614bf4f71314b1d44a237e54fe0c9d15a819fb7024"
+    },
+    {
+      "@id": "pipeline.json",
+      "@type": "File",
+      "contentSize": 1742,
+      "dagml:sha256": "1cb9efc9a86c8b647518de78e48b93818d054ccda24a213cd37d117cccd15628",
+      "encodingFormat": "application/json",
+      "name": "pipeline.json",
+      "sha256": "1cb9efc9a86c8b647518de78e48b93818d054ccda24a213cd37d117cccd15628"
+    }
+  ]
+}

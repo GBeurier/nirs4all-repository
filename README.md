@@ -132,3 +132,42 @@ optional **commercial license** is available for proprietary/closed-source use t
 cannot meet the copyleft obligations (contact <nirs4all-admin@cirad.fr>). Bundled
 **content** (cards, metadata, the website) is **CC-BY-4.0**. See
 [`LICENSING.md`](LICENSING.md) and [`LICENSES/`](LICENSES/).
+
+### Studio preset catalogue
+
+The main gallery uses the ten default Studio presets, ordered by complexity, with
+separate regression and classification recipe bundles. Existing repository recipes
+remain available under **Additional repository recipes** and through the API.
+
+Studio owns the preset definitions. First regenerate the shared snapshot with
+`nirs4all-ui/scripts/sync-studio-presets.py --studio ../nirs4all-studio` and update
+the pinned UI artifact in each consumer. Studio's `check:ui-package` checks the
+original YAML hashes; Repository's `build:cards` refuses a snapshot that differs
+from the shared catalogue consumed by Web.
+
+Then update the Repository bundles from the same Studio checkout:
+
+```bash
+python scripts/sync_studio_presets.py --studio ../nirs4all-studio
+npm ci --ignore-scripts
+npm run build:cards
+n4a-repository validate --all
+n4a-repository site --out site
+```
+
+The snapshot records the source commit and each original YAML file's SHA-256.
+Recipes are copied without translating their operators or search spaces. The
+cards and their statistics are rendered by `PipelinePresetCard` and the canonical
+preview helpers from the pinned `nirs4all-ui` package. `npm run check:cards` checks
+rendering freshness in CI. Python site builds read these checked static artifacts,
+so the installed Python package and published site need no JavaScript runtime.
+Browser verification uses a locally installed Chrome/Chromium:
+
+```bash
+python -m http.server 4347 --bind 127.0.0.1 --directory site
+# In another terminal; set CHROME to your Chromium executable if needed:
+npm run test:site
+```
+
+Imported recipes are marked as unevaluated; importing a preset does not establish
+benchmark results or install its optional model dependencies.

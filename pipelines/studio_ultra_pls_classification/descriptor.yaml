@@ -1,0 +1,28 @@
+schema_version: 1
+id: studio_ultra_pls_classification
+name: Ultra PLS (Classification)
+summary: Large cartesian chemometric exploration with PLS, OPLS, IKPLS-style linear
+  models, and tuned Ridge.
+framework: nirs4all
+kind: recipe
+task: classification
+tags:
+- studio_preset
+- ultra_pls
+- classification
+version: 1.0.0
+license: CeCILL-2.1 OR AGPL-3.0-or-later
+created_at: '2026-10-30'
+authors:
+- name: Gregory Beurier
+  affiliation: CIRAD
+recipe:
+  format: nirs4all/pipeline-config
+  path: pipeline.json
+provenance:
+  generated_by: nirs4all-studio preset import
+  source: nirs4all-studio/api/presets/ultra_pls.yaml
+governance:
+  status: draft
+  visibility: public
+  trust: community
