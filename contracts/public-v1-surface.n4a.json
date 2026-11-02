@@ -4,7 +4,7 @@
   "release_train": "native-v1-r1-r4",
   "distribution": {
     "name": "nirs4all-repository",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "namespace": "nirs4all_repository"
   },
   "public_exports": [
