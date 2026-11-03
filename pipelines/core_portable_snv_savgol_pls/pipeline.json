@@ -17,9 +17,7 @@
       "params": {
         "window_length": 11,
         "polyorder": 3,
-        "deriv": 0,
-        "mode": "interp",
-        "cval": 0.0
+        "deriv": 0
       }
     },
     {

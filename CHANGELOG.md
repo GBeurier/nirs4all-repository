@@ -41,16 +41,11 @@ shape but may still change before `1.0`.
   `n_components`/`center`/`scale` (and `n_orth`/`operator_index`) were dropped by nirs4all 1.4, so
   the 12-component model ran with `max_components=3` and the search tuned nothing. Synced from
   Studio through `nirs4all-ui` 0.2.1.
-
-### Known issues
-The recipes declare valid constructor keywords, but on nirs4all 1.4.14 some steps fail at run time
-because of nirs4all/DAG-ML defects, to be fixed there:
-- `AOMPLSClassifier` (fast result, complex PLS, ultra PLS and ultra slow classification): nirs4all
-  injects its pipeline folds into the classifier's integer `cv`.
-- `PLSDA` / `OPLSDA` (simple, complex and ultra PLS, ultra slow classification): DAG-ML rejects
-  their class scores as probabilities.
-- XGBoost steps (complex trees, nonlinear, deep nonlinear and ultra trees recipes): DAG-ML fails to
-  parse the generated pipeline JSON.
+- `core_portable_snv_savgol_pls` no longer passes `mode`/`cval` to `SavitzkyGolay`, which does not
+  accept them (nirs4all 1.4.15 rejects unknown keywords); the values were the defaults.
+- Every nirs4all recipe was checked on nirs4all 1.4.15: each step instantiates with all of its
+  keywords, and each model step fits behind SNV and the recipe splitter with tuning trials capped
+  (TabPFN and deep-learning steps not exercised).
 
 ### CI
 - Update the CodeQL actions to 4.38.3 and `pypa/gh-action-pypi-publish` to 1.14.3.
