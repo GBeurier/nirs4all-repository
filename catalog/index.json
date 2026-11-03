@@ -477,8 +477,8 @@
       "recipe": {
         "format": "nirs4all/pipeline-config",
         "relpath": "pipeline.json",
-        "sha256": "c3ef075dd5085d321677df02e2f29413116b327855084e12989ed578490bf1aa",
-        "size_bytes": 5097,
+        "sha256": "84b9965989def96593c81bd586a0b89385bdc83d6c39cf6211e010129b493b9a",
+        "size_bytes": 5103,
         "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_regression/pipeline.json"
       },
       "reference": null,
@@ -777,8 +777,8 @@
       "recipe": {
         "format": "nirs4all/pipeline-config",
         "relpath": "pipeline.json",
-        "sha256": "8162dff9688a2f5011279c0c14d3b6733667e8c6808f4ad95e68bbe0efb17156",
-        "size_bytes": 1004,
+        "sha256": "b04600b338f1dcb750be3258703065e8433b54ed252bbcdff4613f9d127ccd39",
+        "size_bytes": 1010,
         "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_regression/pipeline.json"
       },
       "reference": null,
@@ -1277,8 +1277,8 @@
       "recipe": {
         "format": "nirs4all/pipeline-config",
         "relpath": "pipeline.json",
-        "sha256": "6a179b7a326e4cdb6ff907a9eeace68cd4f4d2bd84e96f30c6f50c7bf4f3e933",
-        "size_bytes": 6199,
+        "sha256": "2d055ae561c83e7c25f3f9b01214f423fae5aed8c9c8e8a3fab786a6669f9772",
+        "size_bytes": 6029,
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_regression/pipeline.json"
       },
       "reference": null,
