@@ -1,16 +1,16 @@
 {
   "source": "nirs4all-studio/api/presets",
-  "commit": "2926c6a44b50715ee79a213ebbf523dba5d92f3d",
+  "commit": "7a4bddb3e3a7c2cae985e011fe38feae8e507363",
   "files_sha256": {
-    "complex_pls.yaml": "d29397856ee3f32c27704b564fcd079ed8f78c03d91ec33b274fa454fff264f2",
+    "complex_pls.yaml": "d4c8ed7989cc813d0ef9886d682def3960957d756eb74c7e6f6f55b5314fadd9",
     "complex_trees.yaml": "ab5f88ec1c1f0adeff67e8e32d9a690389ec3b7fffeffc67bc38edbba231dccf",
     "deep_nonlinear_exploration.yaml": "815f5ff1e960cb73cdec080f29ba1897983a0e37320f771cfd01f1f11f6c34e2",
-    "fast_result.yaml": "9b1a17e4cb3ab5bef0e9e06f0cfd29cfe4d07757417f98a3816656818a5ea074",
+    "fast_result.yaml": "a14839845ccd84a82371ffc4521f359aa2fb4624804f26319832a1e6a405deab",
     "nonlinear_exploration.yaml": "fb5bc52da3d05f9dd5de256213f398bca8d1375802cfe05d8928ab55d28a2844",
     "simple_pls.yaml": "b78ccde2d0145809bfb49067aef71ff9a30abb5ddfe6e3f4e552cee05aefc8f4",
     "simple_trees_boosting.yaml": "76f1c9948f66ecd07f7c2253fb460dc5e8f6d4acdf324a60662f463846a9958f",
     "ultra_pls.yaml": "51c9c9ce88f47d813b4ff06b38b647e4e2b48be8796ae963f785022e9feedc65",
-    "ultra_slow.yaml": "e18f81d578c9e89c3e276c6c5f325b40fe1212aac20089a64a5ea0685cffa6f2",
+    "ultra_slow.yaml": "7142f406c1a5d50dc7c1db2569e7296e73339343f8202290c6ebe31c57900e31",
     "ultra_trees.yaml": "c0346f612ea050ad97f1097e1c1e6b336dcd426e84bb79f9271e1745e061227d"
   },
   "presets": [
@@ -139,9 +139,9 @@
               "model": {
                 "class": "nirs4all.operators.models.sklearn.aom_pls.AOMPLSRegressor",
                 "params": {
-                  "n_components": 12,
-                  "center": true,
-                  "scale": false
+                  "max_components": 12,
+                  "center_x": true,
+                  "scale_x": false
                 }
               },
               "name": "AOM-PLS"
@@ -602,9 +602,9 @@
               "model": {
                 "class": "nirs4all.operators.models.sklearn.aom_pls.AOMPLSRegressor",
                 "params": {
-                  "n_components": 12,
-                  "center": true,
-                  "scale": false
+                  "max_components": 12,
+                  "center_x": true,
+                  "scale_x": false
                 }
               },
               "name": "AOM-PLS"
@@ -3748,8 +3748,8 @@
               "model": {
                 "class": "nirs4all.operators.models.sklearn.aom_pls.AOMPLSRegressor",
                 "params": {
-                  "center": true,
-                  "scale": false
+                  "center_x": true,
+                  "scale_x": false
                 }
               },
               "name": "AOM-PLS-Finetuned",
@@ -3757,20 +3757,10 @@
                 "n_trials": 80,
                 "sampler": "tpe",
                 "model_params": {
-                  "n_components": [
+                  "max_components": [
                     "int",
                     1,
                     27
-                  ],
-                  "n_orth": [
-                    "int",
-                    0,
-                    5
-                  ],
-                  "operator_index": [
-                    "int",
-                    0,
-                    120
                   ]
                 }
               }

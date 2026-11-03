@@ -60,11 +60,11 @@
     {
       "@id": "pipeline.json",
       "@type": "File",
-      "contentSize": 1004,
-      "dagml:sha256": "8162dff9688a2f5011279c0c14d3b6733667e8c6808f4ad95e68bbe0efb17156",
+      "contentSize": 1010,
+      "dagml:sha256": "b04600b338f1dcb750be3258703065e8433b54ed252bbcdff4613f9d127ccd39",
       "encodingFormat": "application/json",
       "name": "pipeline.json",
-      "sha256": "8162dff9688a2f5011279c0c14d3b6733667e8c6808f4ad95e68bbe0efb17156"
+      "sha256": "b04600b338f1dcb750be3258703065e8433b54ed252bbcdff4613f9d127ccd39"
     }
   ]
 }
