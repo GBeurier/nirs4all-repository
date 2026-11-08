@@ -10,12 +10,13 @@ entry.
 from __future__ import annotations
 
 import json
+import math
 from importlib import resources
 from pathlib import Path
 
 import yaml
 
-from .schema import PipelineDescriptor
+from .schema import PipelineDescriptor, validate_index_contract
 
 PIPELINES_DIRNAME = "pipelines"
 CATALOG_DIRNAME = "catalog"
@@ -35,6 +36,103 @@ class CatalogError(Exception):
 
 class PipelineNotFound(CatalogError):
     """Raised when a pipeline id is not present in a catalogue."""
+
+
+MAX_DESCRIPTOR_BYTES = 1 << 20
+MAX_DESCRIPTOR_DEPTH = 32
+MAX_DESCRIPTOR_EVENTS = 20_000
+
+
+class DescriptorSyntaxError(CatalogError):
+    """A bounded descriptor-parser refusal; messages contain only a fixed code."""
+
+    def __init__(self, code: str):
+        self.code = code
+        super().__init__(code)
+
+
+def parse_descriptor_bytes(raw: bytes) -> object:
+    """Parse bounded UTF-8 YAML, before construction can expand or coerce input.
+
+    Explicit tags, merges, aliases, anchors and sexagesimal numbers are refused.
+    Ordinary implicit YAML 1.1 scalar resolution remains for compatibility.
+    """
+    if len(raw) > MAX_DESCRIPTOR_BYTES:
+        raise DescriptorSyntaxError("descriptor_too_large")
+    try:
+        text = raw.decode("utf-8", errors="strict")
+    except UnicodeDecodeError:
+        raise DescriptorSyntaxError("descriptor_not_utf8") from None
+    try:
+        depth = 0
+        for count, event in enumerate(yaml.parse(text, Loader=yaml.SafeLoader), 1):
+            if count > MAX_DESCRIPTOR_EVENTS:
+                raise DescriptorSyntaxError("descriptor_too_many_events")
+            if isinstance(event, yaml.AliasEvent) or getattr(event, "anchor", None) is not None:
+                raise DescriptorSyntaxError("descriptor_alias_refused")
+            if isinstance(event, (yaml.ScalarEvent, yaml.SequenceStartEvent, yaml.MappingStartEvent)) and event.tag is not None:
+                raise DescriptorSyntaxError("descriptor_explicit_tag_refused")
+            if isinstance(event, (yaml.MappingStartEvent, yaml.SequenceStartEvent)):
+                depth += 1
+                if depth > MAX_DESCRIPTOR_DEPTH:
+                    raise DescriptorSyntaxError("descriptor_too_deep")
+            elif isinstance(event, (yaml.MappingEndEvent, yaml.SequenceEndEvent)):
+                depth -= 1
+        loader = yaml.SafeLoader(text)
+        try:
+            node = loader.get_single_node()
+            stack = [node] if node is not None else []
+            while stack:
+                current = stack.pop()
+                if isinstance(current, yaml.MappingNode):
+                    seen = set()
+                    for key, value in current.value:
+                        if key.tag == "tag:yaml.org,2002:merge":
+                            raise DescriptorSyntaxError("descriptor_merge_refused")
+                        # Non-scalar keys are rejected by SafeLoader construction.
+                        if isinstance(key, yaml.ScalarNode):
+                            if key.tag in ("tag:yaml.org,2002:int", "tag:yaml.org,2002:float") and ":" in key.value:
+                                raise DescriptorSyntaxError("descriptor_sexagesimal_refused")
+                            identity = loader.construct_object(key)
+                            if identity in seen:
+                                raise DescriptorSyntaxError("descriptor_duplicate_key")
+                            seen.add(identity)
+                        stack.extend((key, value))
+                elif isinstance(current, yaml.SequenceNode):
+                    stack.extend(current.value)
+                elif isinstance(current, yaml.ScalarNode) and current.tag in ("tag:yaml.org,2002:int", "tag:yaml.org,2002:float") and ":" in current.value:
+                    raise DescriptorSyntaxError("descriptor_sexagesimal_refused")
+            data = loader.construct_document(node) if node is not None else None
+        finally:
+            loader.dispose()
+    except DescriptorSyntaxError:
+        raise
+    except (yaml.YAMLError, ValueError, OverflowError, RecursionError):
+        raise DescriptorSyntaxError("descriptor_yaml_invalid") from None
+    values = [data]
+    while values:
+        item = values.pop()
+        if isinstance(item, dict):
+            values.extend(item.keys())
+            values.extend(item.values())
+        elif isinstance(item, (list, tuple)):
+            values.extend(item)
+        elif isinstance(item, float) and not math.isfinite(item):
+            raise DescriptorSyntaxError("descriptor_nonfinite")
+        elif isinstance(item, str):
+            try:
+                item.encode("utf-8", errors="strict")
+            except UnicodeEncodeError:
+                raise DescriptorSyntaxError("descriptor_invalid_unicode") from None
+    return data
+
+
+def load_descriptor_bytes(raw: bytes) -> PipelineDescriptor:
+    """Load a descriptor through the shared bounded bytes parser and owner model."""
+    data = parse_descriptor_bytes(raw)
+    if not isinstance(data, dict):
+        raise CatalogError("descriptor is not a mapping")
+    return PipelineDescriptor.model_validate(data)
 
 
 def detect_root(explicit: Path | None = None) -> Path | None:
@@ -87,10 +185,7 @@ def list_pipeline_ids(root: Path) -> list[str]:
 
 def load_descriptor_file(path: Path) -> PipelineDescriptor:
     """Load and validate a ``descriptor.yaml`` at *path*."""
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise CatalogError(f"descriptor {path} is not a mapping")
-    return PipelineDescriptor.model_validate(data)
+    return load_descriptor_bytes(path.read_bytes())
 
 
 def load_descriptor(root: Path, pipeline_id: str) -> PipelineDescriptor:
@@ -112,6 +207,7 @@ def load_index(root: Path) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise CatalogError(f"index.json at {path} is not a JSON object")
+    validate_index_contract(data)
     return data
 
 

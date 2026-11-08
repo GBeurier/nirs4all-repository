@@ -65,3 +65,15 @@ def test_publish_blocks_security_findings(make_catalog):
     )
     result = runner.invoke(app, ["publish", "evil", "--root", str(root)])
     assert result.exit_code == 1
+
+
+def test_publish_refuses_ambiguous_recipe_before_reporting_ready(make_catalog):
+    steps = [{"class": "sklearn.linear_model.Ridge"}]
+    root = make_catalog(
+        recipe={"pipeline": steps, "steps": steps},
+        descriptor_overrides={"governance": {"status": "draft", "visibility": "public", "trust": "experimental"}},
+    )
+    result = runner.invoke(app, ["publish", "demo_pipe", "--root", str(root)])
+    assert result.exit_code == 1
+    assert "exactly one" in result.output
+    assert "ready to publish" not in result.output

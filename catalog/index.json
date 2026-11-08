@@ -1,7 +1,7 @@
 {
   "base_url": "https://repository.nirs4all.org",
   "count": 26,
-  "generated_at": "2026-10-30",
+  "generated_at": "2026-11-04",
   "pipelines": {
     "core_portable_snv_savgol_pls": {
       "authors": [
@@ -19,6 +19,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/core_portable_snv_savgol_pls/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -75,6 +91,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/dagml_snv_pls/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "dag-ml",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "dag-ml/pipeline-dsl",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -145,6 +177,22 @@
         "status": "unvalidated",
         "validated_at": null
       },
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -213,6 +261,22 @@
         "metric": "rmse",
         "status": "unvalidated",
         "validated_at": null
+      },
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
       },
       "files": [
         {
@@ -283,6 +347,22 @@
         "status": "unvalidated",
         "validated_at": null
       },
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -352,6 +432,22 @@
         "status": "unvalidated",
         "validated_at": null
       },
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -407,6 +503,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -457,6 +569,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_pls_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -507,6 +635,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -557,6 +703,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_complex_trees_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -607,6 +771,25 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -657,6 +840,25 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_deep_nonlinear_exploration_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -707,6 +909,23 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn",
+          "tabpfn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -757,6 +976,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_fast_result_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "tabpfn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -807,6 +1042,25 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -857,6 +1111,25 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_nonlinear_exploration_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -907,6 +1180,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -957,6 +1246,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_pls_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1007,6 +1312,23 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1057,6 +1379,23 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_simple_trees_boosting_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1107,6 +1446,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1157,6 +1512,22 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_pls_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "nirs4all",
+          "sklearn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1207,6 +1578,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1257,6 +1646,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_slow_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "tabpfn"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1307,6 +1714,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_classification/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,
@@ -1357,6 +1782,24 @@
         "url": "https://repository.nirs4all.org/data/pipelines/studio_ultra_trees_regression/descriptor.yaml"
       },
       "evaluation": null,
+      "execution_requirements": {
+        "framework": "nirs4all",
+        "python_module_roots": [
+          "lightgbm",
+          "nirs4all",
+          "sklearn",
+          "xgboost"
+        ],
+        "recipe_format": "nirs4all/pipeline-config",
+        "schema": "nirs4all-repository.execution-requirements.v1",
+        "unknown": [
+          "package_versions",
+          "execution_profiles",
+          "operations",
+          "artifact_versions",
+          "python_dependencies"
+        ]
+      },
       "files": [
         {
           "backend": null,

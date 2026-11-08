@@ -13,7 +13,7 @@ from pathlib import Path
 from .canonical import write_canonical_json
 from .index import build_index
 from .manifest import write_manifests
-from .recipes import load_recipe_file
+from .recipes import load_recipe_file, validate_recipe_structure
 from .security import scan_pipeline_bundle
 from .settings import DEFAULT_BASE_URL
 from .store import (
@@ -34,6 +34,7 @@ def build_catalog(root: Path, *, base_url: str = DEFAULT_BASE_URL, repository_ve
         descriptor = load_descriptor(root, pipeline_id)
         path = pipeline_dir(root, pipeline_id)
         recipe = load_recipe_file(path / descriptor.recipe.path)
+        validate_recipe_structure(recipe, descriptor.recipe.format)
         scan_pipeline_bundle(path, descriptor, recipe).raise_for_findings()
         write_manifests(path, descriptor)
     index = build_index(root, base_url=base_url, repository_version=repository_version)

@@ -48,8 +48,10 @@ layer.
   are competitively scored*.
 - **Hosting reference datasets** → `nirs4all-datasets` (DOI-pinned). This repo
   *references* datasets by name/DOI; it never re-hosts dataset bytes.
-- **A running API server / database.** The "API" is a static, versioned artefact
-  contract (see §5). There is no backend service to operate.
+- **A public API server / database.** The public API remains a static, versioned
+  artefact contract (see §5). An optional POSIX localhost project-token backend
+  provides immutable recipe-only add/query records in a separate private store;
+  see [Local project service](PROJECT_SERVICE.md). Remote hosting is deferred.
 
 This mirrors the ecosystem's load-bearing rule: **boundaries are sacred, and the lower
 layer is always the single source of truth for its domain.**
@@ -84,7 +86,7 @@ handed to `nirs4all.predict()` / `explain()`. `retrain()`, `session()`, and
 ## 2. Design principles
 
 1. **Recipe-first, artifact-optional.** A pipeline's primary content is its *recipe* —
-   small, inspectable text (JSON/YAML). Fitted artifacts (joblib/onnx blobs) are an
+   small, inspectable strict JSON text. Fitted artifacts (joblib/onnx blobs) are an
    optional, opt-in addition. The default, safe object is a recipe.
 2. **One envelope for both ecosystems.** A `nirs4all` `.n4a` bundle and a `dag-ml`
    `ExecutionBundle` already share a shape: *a JSON descriptor + content-addressed
@@ -167,7 +169,7 @@ descriptor, the recipe, the card, and the generated metadata — generalising
 | File | Authoring | Role |
 |---|---|---|
 | `descriptor.yaml` | hand-authored | the `PipelineDescriptor` (schema-versioned, Pydantic-validated). The unit of catalogue membership. |
-| `pipeline.json` / `pipeline.yaml` | hand-authored | the **recipe** — a `nirs4all` pipeline config or a `dag-ml` pipeline DSL / compiled artifact. |
+| `pipeline.json` | hand-authored | the strict JSON **recipe** — a `nirs4all` pipeline config or a `dag-ml` pipeline DSL / compiled artifact; no semantic rewriting. |
 | `card.md` | hand-authored | a human-readable card (Markdown) rendered into the site. |
 | `manifest.json` | generated | content manifest: `schema_version`, per-file `sha256` + `size_bytes`, fingerprints, framework/tool versions, `created_at`. |
 | `ro-crate-metadata.json` | generated | RO-Crate 1.1 manifest — per-file `sha256` (+ `dagml:sha256` mirror), `contentSize`, `encodingFormat`; the tamper-evidence + provenance layer. |
@@ -204,10 +206,11 @@ functional evaluation, when `nirs4all`'s own `BundleLoader` opens it.
 ### 4.3 Identity & fingerprints
 
 - The pipeline **id** is the directory slug and the primary key.
-- The **recipe fingerprint** reuses each framework's native identity:
-  `nirs4all` config SHA-256 (canonical `json.dumps(steps, sort_keys, separators=(",",":"))`,
-  truncated 16 chars — matching `PipelineConfigs.get_hash`); for `dag-ml`, the
-  `graph_fingerprint` / `campaign_fingerprint` / `controller_fingerprint` triple.
+- The recipe file's full **SHA-256** is its byte identity. The legacy nirs4all
+  `config_sha256` hashes only the selected steps with compact sorted JSON and truncates
+  to 16 characters; it omits root fields and need not match `PipelineConfigs.get_hash`
+  after framework processing. Existing authored fingerprints remain provenance records.
+  For dag-ml, authored graph/campaign/controller fingerprints are retained when present.
 - Artifact blobs are addressed by full SHA-256 (`content_fingerprint`).
 - `index.json` indexes on `id` and exposes all fingerprints so a client can verify the
   recipe it received matches the one it asked for.
@@ -266,15 +269,17 @@ artefact contract — the same model `nirs4all-datasets` uses to reach R/MATLAB/
 2. **Bundles by name** — for a given id, the index gives the recipe URL/relpath and any
    artifact `download_url`s, each with a `sha256`. A client downloads, verifies the
    sha256, and caches.
-3. **Recipe → framework** — the recipe is already in each framework's native config
-   form, so handing it to `nirs4all.run()/predict()` or `dag-ml` compile needs no
-   translation.
+3. **Recipe → framework** — return the exact admitted recipe or explicitly refuse a
+   lossy handoff. Semantic conversion and execution qualification belong to the
+   compiler/runtime owners, not this content package.
 
-**Served recipes are always canonical JSON.** A recipe may be *authored* as YAML for
-human convenience, but `build` emits a canonical-JSON form of every recipe into the
-served/bundled `data/` tree and the index URLs point at the JSON. So a non-Python
-client needs only HTTP + SHA-256 + a JSON parser — never a YAML parser. (YAML is an
-authoring convenience, never part of the wire contract.)
+**Served recipes are strict JSON.** Admission refuses non-`.json` recipe files and
+non-JSON values, including non-text object keys and non-finite numbers. Scaffold
+formats JSON without sorting while retaining bare lists, aliases, all fields and
+recursive mapping insertion order (including named branches);
+site export copies the admitted recipe bytes. Catalogue generation does not convert
+YAML. The preset importer accepts YAML source transport only when the parsed values
+are losslessly JSON-representable. See SPECIFICATION §6 for requirements and refusals.
 
 The **Python reference client** implements all of this (`get`/`list`/`card`/`fetch` +
 `to_nirs4all()`/`to_dagml()` bridges). Other languages need only: HTTP GET + SHA-256 +
@@ -296,7 +301,7 @@ push/PR:
 - Each `descriptor.yaml` is a schema-valid `PipelineDescriptor`; `id` equals the
   directory name and is unique; `schema_version` is within the supported
   min-readable/min-writable window (§6.4).
-- The recipe parses (JSON/YAML) and is *structurally* a valid `nirs4all` config (a
+- The recipe parses as strict JSON and is *structurally* a valid `nirs4all` config (a
   `pipeline`/`steps` list of well-formed steps) or a `dag-ml` DSL/compiled artifact.
 - The per-pipeline `manifest.json` data-file checksums verify against the bytes on disk
   (tamper-evidence); any `inline` artifact blob is present and its sha256 matches.

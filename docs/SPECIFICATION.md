@@ -4,7 +4,7 @@
 > The concrete, versioned contracts behind [`DESIGN.md`](DESIGN.md): the pipeline
 > descriptor schema, the per-pipeline manifest, the cross-language `index.json`
 > registry, the bundle layout, the Python public API, and the `n4a-repository` CLI.
-> All schemas carry an integer `schema_version`. The current version is **1**, and the
+> Descriptors, manifests and indexes carry an integer `schema_version`. The current version is **1**, and the
 > loader enforces a dag-ml-style compatibility window from 0.1.0: `SCHEMA_VERSION = 1`,
 > `MIN_READABLE = 1`, `MIN_WRITABLE = 1`. A reader **refuses** a `schema_version` above
 > `SCHEMA_VERSION` (an unknown future format) or below `MIN_READABLE`; a writer only ever
@@ -15,10 +15,15 @@
 
 - **Pipeline id / slug**: `^[a-z0-9]+(?:_[a-z0-9]+)*$`. Equal to the directory name
   `pipelines/<id>/`. Unique across the catalogue.
-- **Canonical JSON** (every generated `*.json`): UTF-8, `json.dumps(..., sort_keys=True,
-  indent=2, ensure_ascii=False)` + a single trailing `\n`. This makes generated files
+- **Canonical JSON** (derived manifests, RO-Crate metadata and index): UTF-8, `json.dumps(..., sort_keys=True,
+  indent=2, ensure_ascii=False, allow_nan=False)` + a single trailing `\n`. Values must
+  have text object keys and JSON scalars only; non-finite numbers are refused. This makes generated files
   byte-stable so a `git diff --exit-code` freshness check is meaningful and so any
   language reproduces identical bytes.
+- **Recipe and preset snapshot JSON**: the same strict scalar/key rules, UTF-8 and
+  two-space indentation, but **without sorting keys**. Preserve insertion order
+  recursively: named branch mappings can carry meaningful order. Metadata
+  canonicalization must not rewrite authored recipes or imported snapshots.
 - **Safe relative path**: a bundle file path must be relative, must not be absolute,
   must not contain `..` segments, and must not escape the bundle root. Enforced on
   read and write (the `validate_portable` admission rule).
@@ -26,6 +31,12 @@
 ## 2. `PipelineDescriptor` — `pipelines/<id>/descriptor.yaml` (hand-authored)
 
 Pydantic v2 model, `schema_version: 1`. YAML on disk.
+
+Framework and recipe format must belong to the same owner: `nirs4all` accepts
+only `nirs4all/pipeline-config`; `dag-ml` accepts only `dag-ml/pipeline-dsl` or
+`dag-ml/compiled-artifact`. Descriptor admission rejects every other pairing before
+scanning, publication, catalogue generation or strict framework parsing. A claimed
+DAG format cannot enable DAG label exemptions for a nirs4all framework handoff.
 
 ```yaml
 schema_version: 1                       # int, required
@@ -51,7 +62,7 @@ authors:                                 # list[Author], required, >= 1
 recipe:                                  # Recipe, required
   format: nirs4all/pipeline-config       # enum (see §6): nirs4all/pipeline-config
                                          #   | dag-ml/pipeline-dsl | dag-ml/compiled-artifact
-  path: pipeline.json                    # safe relative path inside the bundle (json or yaml)
+  path: pipeline.json                    # safe relative path inside the bundle (.json only)
 
 artifacts:                               # list[Artifact], optional — required & non-empty iff kind == fitted
   - name: "model_bundle.n4a"
@@ -211,9 +222,11 @@ value when nothing else changed, so the file only changes when content does.
 ```
 
 Every referenced file (the `descriptor`, the `recipe`, and each entry in `files`)
-carries `relpath` + `sha256` + an absolute `url`. The served recipe `url` always points
-at the **canonical-JSON** form (even for YAML-authored recipes), so a client never needs
-the repo layout or a YAML parser — only `index.json` + the URLs in it. The
+carries `relpath` + `sha256` + an absolute `url`. The served recipe `url` points
+at the admitted **strict JSON file**, copied byte for byte. Readers, scaffold, and
+catalogue generation refuse non-`.json` recipe files; `build` does not convert YAML.
+Scaffold serializes the parsed JSON tree without sorting, preserving its shape,
+every key and recursive mapping order. Clients need only `index.json` + its URLs and a JSON parser. The
 wheel-bundled copy resolves the same `relpath`s offline under
 `nirs4all_repository/_catalog/`.
 
@@ -221,13 +234,103 @@ wheel-bundled copy resolves the same `relpath`s offline under
 
 | value | meaning | parsed/validated as |
 |---|---|---|
-| `nirs4all/pipeline-config` | a `nirs4all` pipeline config — exactly one of: a **bare step list** `[step, …]`, or an object `{ "name"?, "pipeline": [step, …] }`, or `{ "name"?, "steps": [step, …] }` (`steps` is `nirs4all`'s accepted alias and is **normalised to `pipeline`** on read) | structural check: a `pipeline`/`steps` list of well-formed steps (`class`/`params`, `model`, `meta_model`, `y_processing`, `feature_augmentation`, `branch`/`merge`, `name`, generators `_or_`/`_range_`/`pick`/`count`). Identity = the canonical steps SHA-256 (16-char) computed exactly as `nirs4all.PipelineConfigs.get_hash`. Optional strict check via `nirs4all.PipelineConfigs` |
-| `dag-ml/pipeline-dsl` | a `dag-ml` pipeline DSL (nirs4all-compat list/dict or canonical `PipelineDslSpec`) | structural check against the `pipeline_dsl` shape; optional strict check via dag-ml compile |
-| `dag-ml/compiled-artifact` | a `CompiledPipelineArtifact` = `{ "graph": GraphSpec, "campaign_template": CampaignSpec }` | required keys present; optional strict check via dag-ml |
+| `nirs4all/pipeline-config` | a bare step list, or an object containing exactly one of `pipeline` and `steps`; both aliases together are refused even when equal | structural step checks only; list/alias shape, root fields and nested values are preserved. The legacy 16-character `config_sha256` covers steps only and is not a complete recipe identity or guaranteed framework hash. Optional strict check via `nirs4all.PipelineConfigs` |
+| `dag-ml/pipeline-dsl` | a declared dag-ml DSL list or object | non-empty list/object check only; Repository does not compile it |
+| `dag-ml/compiled-artifact` | a declared compiled artifact containing `graph` and `campaign_template` | required root keys present only; Repository does not validate graph semantics or replay |
 
-The recipe file is JSON or YAML (detected by extension/content). Strict, framework-level
-validation is opt-in (needs the framework installed); the hermetic gate uses the
-structural check so CI stays dependency-light.
+Recipe files must be strict JSON, including parsed values: duplicate object keys,
+non-text keys, non-JSON scalars and non-finite numbers (including `Infinity`, `NaN`
+and overflow such as `1e999`) are refused. YAML source transport in the preset import
+script is separate: variants must be representable as JSON without coercion, and
+only the variant's root `format` transport marker is removed. No semantic conversion
+or lowering occurs. Site parity compares the whole variant minus that marker,
+including scalar types and mapping insertion order. Every source variant must have
+a repository mapping; an unmapped variant is refused even if rendered-card checksums
+have been refreshed. Duplicate YAML source keys are refused before any import writes
+or source-git query.
+
+Strict framework checks are opt-in and report warnings; structural acceptance is
+not proof that a runtime will execute the recipe. Security scanning is deliberately
+separate from contextual dependency observations. It examines import-shaped strings
+and native `n4m:`/`n4m.` references throughout **all step subtrees**, including nested
+lists, params.func, model.params.estimator, finetune_params, train_params, merge,
+meta_model and sample_augmentation.transformers. A parameter key named `metadata`,
+`description`, `provenance`, `name` or `id` grants no exemption: owners may deserialize
+its values. Unknown paths with executable-looking strings are conservatively refused
+unless their module root is allowlisted.
+
+Only root provenance/name/description data, DAG-ML step names, and known structural
+DAG root/graph/node identifiers, seed labels and edge node references are excluded
+from bare-string detection. Explicit `class`, `function`, `instance` and `enum`
+descriptors remain inspected even inside excluded metadata containers. Non-identifying
+numeric/version strings such as `1.2` are not import references. A bare `spectra.csv`
+inside params **can be refused** as an uncertain import-shaped value; the same value
+in root provenance is metadata. No metadata-looking arbitrary parameter subtree is
+declared safe. This is a heuristic allow-list check, not a sandbox or execution
+authorization, and it does not resolve dynamic code or indirect imports.
+For nirs4all, an import-shaped `name` on a class step, an external model step or a
+nested model is scanned just like other step strings: owner serialization can import
+it before execution. Plain display names such as `My step` remain ordinary strings.
+The root name/description exemptions remain unchanged. Strict framework validation
+is invoked only after all static errors and security findings are absent; rejected
+recipes must never reach `PipelineConfigs` through `validate --strict`. A clean
+static scan still permits imports from allowlisted roots during an opt-in strict
+check and is not a sandbox. DAG-ML display exemptions do not qualify cross-routing
+a DAG-ML recipe through the nirs4all parser.
+Both `n4m:` role references and `n4m.` aliases are explicitly refused by the static
+publication scan as unqualified owner namespaces; Repository does not expand them
+or reinterpret them as Python packages.
+
+### Derived execution requirements
+
+`manifest.json`, each index entry, and `Pipeline.execution_requirements()` expose
+the same derived block, specified by
+[`execution-requirements.v1.schema.json`](../contracts/execution-requirements.v1.schema.json):
+
+```json
+{
+  "schema": "nirs4all-repository.execution-requirements.v1",
+  "framework": "nirs4all",
+  "recipe_format": "nirs4all/pipeline-config",
+  "python_module_roots": ["nirs4all", "sklearn"],
+  "unknown": ["package_versions", "execution_profiles", "operations", "artifact_versions", "python_dependencies"]
+}
+```
+
+Framework and recipe format come from the validated descriptor; roots are sorted,
+unique import-shaped references in explicit component/recipe-node contexts:
+class/function/instance/enum descriptors, bare steps and DSL/compiled operator
+descriptors (including ref/type/callable). Ordinary dotted parameter and metadata
+strings do not add roots. This contextual observation traversal does **not** limit
+the conservative security scan described above. Roots are not resolved
+distribution names or an exhaustive dependency list. `python_dependencies` is
+**always unknown**, including when roots are empty: no direct reference detected
+does not mean no dependency. Indirect imports (such as a model factory importing
+torch), symbolic/host operators, aliases and dynamically supplied callables are not
+dependency-resolved. No framework label is translated into an inferred package.
+The API
+recomputes the block from descriptor and recipe, so it also works for materialized
+remote bundles without a manifest. Descriptors remain v1 with `extra=forbid`;
+`card()` returns the original validated descriptor without injecting requirements.
+These observations are additive manifest/index metadata, not a new descriptor field.
+Local and remote index readers validate every present requirements block, rejecting
+unknown schemas, extra fields (including claimed execution statuses), invalid roots,
+missing unknown dimensions and framework/format mismatches. Downloaded observations
+are checked against the actual descriptor/recipe. Existing manifests similarly check
+schema version and present observations against their content. Older metadata with
+no requirements block remains unqualified; missing data is not converted into a
+support claim. This v1 addition was corrected before publication to include
+dependency-coverage uncertainty.
+
+Unknown means **unqualified**, not unsupported. No owner/package version, runtime
+profile, operation, language/platform support, or artifact version has been established
+for these recipes. Installing the optional integration extra or parsing a recipe
+does not establish any of them. Core's owner vocabulary includes `native-workflow@1`,
+`native-conformal@1` and `compile`, `fit`, `predict`, `import`, `export`; those profiles
+describe native content such as `nirs4all.native-pipeline.v1`, not this catalogue's
+`nirs4all/pipeline-config` recipes. Do not assign them based on matching class names.
+Future qualification must cite the actual owner, owner version, versioned profile,
+operation, artifact/content version and evidence; it needs a separate contract change.
 
 ## 7. Python public API (`nirs4all_repository`)
 
@@ -265,9 +368,10 @@ def get_bundle(name: str, *, root=None, cache_dir=None, verify=True,
 class Pipeline:
     descriptor: PipelineDescriptor
     path: pathlib.Path
-    def recipe(self) -> dict: ...                 # the parsed recipe
-    def to_nirs4all(self) -> dict: ...            # config ready for nirs4all.run()/predict()
-    def to_dagml(self) -> dict: ...               # DSL / compiled artifact for dag-ml
+    def recipe(self) -> dict | list: ...          # exact parsed, structurally valid tree
+    def execution_requirements(self) -> dict: ... # derived observations and explicit unknowns
+    def to_nirs4all(self) -> dict | list: ...     # exact tree or explicit refusal
+    def to_dagml(self) -> dict | list: ...        # exact tree; owner validates compilation
     def verify(self) -> None: ...                 # recompute + check all sha256
 
 class Settings: ...                                # root, cache_dir, base_url, allowlist
@@ -289,8 +393,12 @@ __version__: str
 4. `verify=True` (default) recomputes every data-file sha256 before returning; any
    mismatch raises. `schema_version` above the supported window also raises.
 
-The bridges (`to_nirs4all`/`to_dagml`) import the framework lazily and degrade with a
-clear error if it is absent.
+The bridges do not import or execute frameworks. `to_nirs4all()` refuses root keys
+outside `pipeline`/`steps`, `random_state`, `name`, `description` with `BridgeError`,
+because downstream config readers can discard other fields. The display fields
+are explicitly allowed even where runtimes ignore them. Use `recipe()` to retrieve
+the complete admitted tree. This whitelist is not a claim that all nested constructs
+or parameters can execute; compiler/runtime adapters must qualify them or refuse.
 
 **Provider-facing entry points (get-pipeline-list / get-pipeline).** The repository is a
 preset/pipeline catalogue first, so custom apps built on `nirs4all-core` + `nirs4all-ui`
@@ -311,7 +419,7 @@ in Section 9 directly.
 | `show <id>` / `card <id>` | print descriptor + evaluation | no |
 | `get <id> [--with-artifacts]` | fetch to cache, print path | network |
 | `add <id> --recipe FILE --framework F [...]` | scaffold `pipelines/<id>/` from a recipe | no |
-| `validate [<id> | --all] [--run]` | schema + structure + checksums + security scan (`--run` also evaluates) | `--run` only |
+| `validate [<id> | --all] [--strict]` | schema + structure + checksums + security scan; `--strict` adds opt-in nirs4all parsing warnings | `--strict` only |
 | `scan <id>` | security scan only (class allow-list + pickle opcodes) | no |
 | `build` | regenerate `manifest.json` + `ro-crate-metadata.json` + `catalog/index.json` | no |
 | `site [--out site]` | render the static catalogue site | no |
@@ -331,11 +439,16 @@ A client in any language consumes the repository with three primitives:
 3. **Verify** the downloaded bytes against the published `sha256` before use; cache by
    sha256.
 
-The recipe JSON is already in the target framework's native config form. No server, no
-auth, no language-specific encoding — just HTTPS + SHA-256 + JSON. `schema_version`
-gates compatibility (a client refuses a `schema_version` newer than it supports). This
-contract is frozen at 0.1.0; the Python client is its reference implementation, and the
-catalogue site's JS is a working second consumer.
+The JSON is stored recipe content, not a compiled execution plan. Consumers must
+preserve its whole tree or explicitly refuse; they must not infer execution support
+from task/framework labels, static acceptance, or missing requirements. Older indexes
+without `execution_requirements` provide no qualification information. Unknown
+requirements do not mean unsupported. The Python local and remote index readers refuse
+missing, non-integer, older and future `schema_version` values outside the supported
+window. Foreign-language clients must enforce the same window, check the requirements
+schema, and obtain profile/operation/artifact and owner-version evidence before making
+execution claims. The existing v1 export names and signatures remain frozen; this
+additive metadata does not establish cross-language numerical parity.
 
 ## 10. Settings & environment
 
@@ -351,3 +464,31 @@ catalogue site's JS is a working second consumer.
 ---
 
 © 2026 CIRAD — nirs4all ecosystem. Documentation is licensed CC-BY-4.0.
+
+## Bounded Python descriptor reader and local project service
+
+The owning descriptor reader now shares `store.parse_descriptor_bytes` and
+`store.load_descriptor_bytes` between local files and the remote `card()` path.
+Before any unsafe YAML construction it enforces 1 MiB of strict UTF-8, depth 32 and
+20000 events. UTF-8 BOM is accepted. It refuses anchors, aliases, merge keys, every
+explicit tag (including `!!str`, `!!binary`, `!!set` and non-specific `!`), sexagesimal
+numeric scalars, duplicate keys, nonfinite floats (including overflow) and unencodable
+strings. Parser/construction failures do not echo input or chain YAML diagnostics.
+`DescriptorSyntaxError(CatalogError).code` is one of:
+
+- `descriptor_too_large`, `descriptor_not_utf8`, `descriptor_yaml_invalid`
+- `descriptor_alias_refused`, `descriptor_merge_refused`, `descriptor_explicit_tag_refused`
+- `descriptor_duplicate_key`, `descriptor_too_deep`, `descriptor_too_many_events`
+- `descriptor_sexagesimal_refused`, `descriptor_nonfinite`, `descriptor_invalid_unicode`
+
+A non-mapping root remains `CatalogError`; model failures remain `ValidationError`.
+These helper names do not extend the frozen package `__all__`. This deliberately
+narrows third-party Python descriptor admission. Quoted descriptive strings are
+preserved. Other implicit YAML 1.1 resolution (for example `1_000`) and Pydantic lax
+schema coercion remain; the guard is not a new strict descriptor schema.
+
+The opt-in [localhost project service](PROJECT_SERVICE.md) has its own versioned
+submission contract, private immutable records and dedicated client, independent of
+the public catalogue/index V1 APIs. All owner descriptor refusals map to constant
+HTTP 422 `{"error":"invalid_descriptor"}`. Recipe intake admits strict
+`pipeline.json` bytes only; YAML and `.n4a` replay integration stays open.

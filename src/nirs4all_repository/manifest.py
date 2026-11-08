@@ -14,8 +14,8 @@ from pathlib import Path
 from typing import Any
 
 from .canonical import sha256_file, write_canonical_json
-from .recipes import load_recipe_file, recipe_fingerprints
-from .schema import SCHEMA_VERSION, PipelineDescriptor
+from .recipes import execution_requirements, load_recipe_file, recipe_fingerprints
+from .schema import SCHEMA_VERSION, PipelineDescriptor, check_schema_version, validate_execution_requirements
 from .store import (
     MANIFEST_FILENAME,
     ROCRATE_FILENAME,
@@ -81,6 +81,9 @@ def build_manifest(pipeline_path: Path, descriptor: PipelineDescriptor) -> dict[
         "generated_by": descriptor.provenance.generated_by if descriptor.provenance else None,
         "created_at": descriptor.created_at,
         "fingerprints": _resolved_fingerprints(pipeline_path, descriptor),
+        "execution_requirements": execution_requirements(
+            load_recipe_file(pipeline_path / descriptor.recipe.path), descriptor.framework, descriptor.recipe.format
+        ),
         "files": _file_records(pipeline_path, descriptor),
         "artifacts": artifacts,
     }
@@ -162,7 +165,20 @@ def verify_bundle(pipeline_path: Path, descriptor: PipelineDescriptor) -> list[s
     if manifest_file.is_file():
         import json
 
-        committed = json.loads(manifest_file.read_text(encoding="utf-8"))
+        try:
+            committed = json.loads(manifest_file.read_text(encoding="utf-8"))
+            if not isinstance(committed, dict):
+                raise ValueError("manifest must be an object")
+            check_schema_version(committed.get("schema_version"), what="manifest")
+            if "execution_requirements" in committed:
+                block = committed["execution_requirements"]
+                validate_execution_requirements(block, framework=descriptor.framework, recipe_format=descriptor.recipe.format)
+                actual = execution_requirements(load_recipe_file(pipeline_path / descriptor.recipe.path), descriptor.framework, descriptor.recipe.format)
+                if block != actual:
+                    raise ValueError("manifest execution requirements differ from descriptor/recipe observations")
+        except (ValueError, TypeError) as exc:
+            problems.append(f"manifest invalid: {exc}")
+            return problems
         for record in committed.get("files", []):
             relpath = record["relpath"]
             current = fresh.get(relpath)

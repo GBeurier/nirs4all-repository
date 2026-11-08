@@ -1,6 +1,22 @@
 {
   "artifacts": [],
   "created_at": "2026-10-30",
+  "execution_requirements": {
+    "framework": "nirs4all",
+    "python_module_roots": [
+      "nirs4all",
+      "tabpfn"
+    ],
+    "recipe_format": "nirs4all/pipeline-config",
+    "schema": "nirs4all-repository.execution-requirements.v1",
+    "unknown": [
+      "package_versions",
+      "execution_profiles",
+      "operations",
+      "artifact_versions",
+      "python_dependencies"
+    ]
+  },
   "files": [
     {
       "relpath": "card.md",

@@ -3,8 +3,7 @@
 
 A :class:`Pipeline` wraps a materialised bundle directory plus its validated
 descriptor. The ``to_nirs4all`` / ``to_dagml`` bridges hand the recipe to the target
-framework in its native config form; they import the framework lazily and fail with a
-clear message if it is absent.
+framework as parsed data. These bridges do not compile, lower or qualify execution.
 """
 
 from __future__ import annotations
@@ -14,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from .manifest import verify_bundle
-from .recipes import load_recipe_file, to_canonical_json_recipe
+from .recipes import execution_requirements, load_recipe_file, validate_recipe_structure
 from .schema import Framework, Kind, PipelineDescriptor
 
 
@@ -40,12 +39,21 @@ class Pipeline:
         return self.descriptor.id
 
     def recipe(self) -> Any:
-        """Return the parsed recipe in its canonical-JSON form."""
+        """Return the exact parsed recipe tree, rejecting ambiguous/invalid inputs."""
         raw = load_recipe_file(self.path / self.descriptor.recipe.path)
-        return to_canonical_json_recipe(raw, self.descriptor.recipe.format)
+        validate_recipe_structure(raw, self.descriptor.recipe.format)
+        return raw
+
+    def execution_requirements(self) -> dict[str, Any]:
+        """Return derived observations with unproven execution dimensions unknown.
+
+        Recompute from the descriptor and recipe, including remote bundles which do
+        not carry a manifest. This does not assert runtime support.
+        """
+        return execution_requirements(self.recipe(), self.descriptor.framework, self.descriptor.recipe.format)
 
     def to_nirs4all(self) -> Any:
-        """Return a nirs4all pipeline config ready for ``nirs4all.run()/predict()``.
+        """Return a nirs4all config or refuse root fields known to be discarded.
 
         For a recipe pipeline this is the recipe config; for a fitted pipeline the
         caller should instead pass the resolved ``.n4a`` artifact path to
@@ -53,10 +61,15 @@ class Pipeline:
         """
         if self.descriptor.framework is not Framework.nirs4all:
             raise BridgeError(f"pipeline {self.id!r} targets {self.descriptor.framework.value}, not nirs4all")
-        return self.recipe()
+        recipe = self.recipe()
+        if isinstance(recipe, dict):
+            unknown = set(recipe) - {"pipeline", "steps", "random_state", "name", "description"}
+            if unknown:
+                raise BridgeError(f"refusing nirs4all export: root fields would be lost: {sorted(unknown)}; use recipe() for exact content")
+        return recipe
 
     def to_dagml(self) -> Any:
-        """Return a dag-ml DSL / compiled artifact ready for dag-ml compilation."""
+        """Return the exact dag-ml tree; compilation remains the owner's decision."""
         if self.descriptor.framework is not Framework.dag_ml:
             raise BridgeError(f"pipeline {self.id!r} targets {self.descriptor.framework.value}, not dag-ml")
         return self.recipe()

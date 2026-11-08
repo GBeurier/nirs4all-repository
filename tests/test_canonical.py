@@ -34,12 +34,15 @@ def test_slug_rules():
     assert not is_slug("_leading")
     assert not is_slug("double__underscore")
     assert not is_slug("trailing_")
+    assert not is_slug("id\n")
+    assert not is_slug("tag\n")
 
 
 def test_sha256_validation():
     assert is_sha256("a" * 64)
     assert not is_sha256("A" * 64)
     assert not is_sha256("abc")
+    assert not is_sha256("a" * 64 + "\n")
 
 
 def test_safe_relpath():
