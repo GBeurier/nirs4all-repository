@@ -5,11 +5,12 @@
   "scripts": {
     "build:cards": "node scripts/render-preset-cards.mjs",
     "check:cards": "node scripts/render-preset-cards.mjs --check",
+    "test:cards": "node --test tests/render-preset-cards.test.mjs",
     "test:site": "node tests/site-smoke.mjs"
   },
   "dependencies": {
     "lucide-react": "0.487.0",
-    "nirs4all-ui": "file:./vendor/npm/nirs4all-ui-0.1.17.tgz",
+    "nirs4all-ui": "file:./vendor/npm/nirs4all-ui-0.2.2-local.20261107.2.tgz",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
