@@ -55,6 +55,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Shared Studio preset rendering is current
         run: npm run check:cards
+      - name: Preset card renderer consumes the Repository-owned presets
+        run: npm run test:cards
 
   tests:
     needs: [lint, type-check]
