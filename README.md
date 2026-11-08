@@ -139,7 +139,11 @@ The main gallery uses the ten default Studio presets, ordered by complexity, wit
 separate regression and classification recipe bundles. Existing repository recipes
 remain available under **Additional repository recipes** and through the API.
 
-Studio owns the preset definitions. First regenerate the shared snapshot with
+The committed definitions still originate in Studio. Repository serves their content;
+the ownership inversion to Repository as the authoring source remains deferred to the
+joint Studio/UI batch. The following is the existing maintenance sequence for that
+joint batch, not an instruction to regenerate snapshots during backend-only work.
+First regenerate the shared snapshot with
 `nirs4all-ui/scripts/sync-studio-presets.py --studio ../nirs4all-studio` and update
 the pinned UI artifact in each consumer. Studio's `check:ui-package` checks the
 original YAML hashes; Repository's `build:cards` refuses a snapshot that differs
@@ -157,6 +161,9 @@ n4a-repository site --out site
 
 The snapshot records the source commit and each original YAML file's SHA-256.
 Recipes are copied without translating their operators or search spaces. The
+importer preserves every parsed variant key except the root `format` transport marker;
+site parity compares the complete resulting tree. Synthetic fixture tests cover this
+path without running sync against Studio. The
 cards and their statistics are rendered by `PipelinePresetCard` and the canonical
 preview helpers from the pinned `nirs4all-ui` package. `npm run check:cards` checks
 rendering freshness in CI. Python site builds read these checked static artifacts,
@@ -171,3 +178,15 @@ npm run test:site
 
 Imported recipes are marked as unevaluated; importing a preset does not establish
 benchmark results or install its optional model dependencies.
+
+`Pipeline.recipe()` preserves the admitted JSON tree, including bare lists and the
+`steps` alias and recursive mapping insertion order. Ambiguous aliases and non-JSON inputs are refused. `to_nirs4all()`
+also refuses root fields that downstream config readers may discard. Manifest and
+index entries, plus `Pipeline.execution_requirements()`, provide derived framework,
+format and class-reference roots with unproven versions, profiles, operations and
+artifact versions explicitly unknown. Dependency coverage is also explicitly unknown:
+observations use recipe-node reference contexts, exclude ordinary dotted metadata
+and parameter strings, and do not resolve indirect imports or native aliases.
+Storage is not runtime qualification; see
+[`SPECIFICATION.md`](docs/SPECIFICATION.md#derived-execution-requirements) and the
+[batch notes](docs/maintenance/repository_preset_batch.md).

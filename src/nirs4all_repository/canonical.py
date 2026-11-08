@@ -27,12 +27,12 @@ _CHUNK = 1 << 20
 
 def is_slug(value: str) -> bool:
     """Return ``True`` if *value* is a valid pipeline id / slug."""
-    return bool(SLUG_RE.match(value))
+    return bool(SLUG_RE.fullmatch(value))
 
 
 def is_sha256(value: str) -> bool:
     """Return ``True`` if *value* is a lowercase 64-hex SHA-256 digest."""
-    return bool(SHA256_RE.match(value))
+    return bool(SHA256_RE.fullmatch(value))
 
 
 def is_safe_relpath(value: str) -> bool:
@@ -59,7 +59,45 @@ def is_safe_relpath(value: str) -> bool:
 
 def canonical_json(obj: Any) -> str:
     """Serialise *obj* to canonical JSON text (UTF-8, sorted keys, trailing newline)."""
-    return json.dumps(obj, sort_keys=True, indent=2, ensure_ascii=False) + "\n"
+    validate_json_value(obj)
+    return json.dumps(obj, sort_keys=True, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
+
+
+def ordered_json(obj: Any) -> str:
+    """Serialize strict JSON while retaining every object's insertion order.
+
+    Recipe mappings can encode named-branch order. Reserve sorted canonical JSON
+    for derived metadata, never use it to rewrite authored recipe trees.
+    """
+    validate_json_value(obj)
+    return json.dumps(obj, indent=2, ensure_ascii=False, allow_nan=False) + "\n"
+
+
+def write_ordered_json(path: Path, obj: Any) -> None:
+    """Write order-preserving JSON, validating UTF-8 before creating any files."""
+    payload = ordered_json(obj).encode("utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(payload)
+
+
+def validate_json_value(obj: Any) -> None:
+    """Reject values JSON would coerce or cannot represent without loss."""
+    # Also detects cycles and non-finite floats before recursive inspection.
+    json.dumps(obj, allow_nan=False)
+
+    def walk(value: Any) -> None:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if not isinstance(key, str):
+                    raise ValueError("JSON object keys must be strings")
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+        elif value is not None and not isinstance(value, (str, int, float, bool)):
+            raise ValueError(f"not a JSON value: {type(value).__name__}")
+
+    walk(obj)
 
 
 def write_canonical_json(path: Path, obj: Any) -> None:
@@ -83,12 +121,11 @@ def sha256_file(path: Path) -> str:
 
 
 def nirs4all_config_hash(steps: Any) -> str:
-    """Return the 16-char nirs4all config fingerprint of a step list.
+    """Return Repository's legacy 16-char fingerprint of a step list.
 
-    Reproduces ``nirs4all.pipeline.config.pipeline_config.PipelineConfigs.get_hash``:
-    the SHA-256 of ``json.dumps(steps, sort_keys=True, separators=(",", ":"))``,
-    truncated to 16 hex characters. Kept independent of ``nirs4all`` so it works
-    without the library installed.
+    SHA-256 of compact sorted JSON, truncated to 16 hex characters. This is not
+    guaranteed to match a framework's processed configuration hash and omits root
+    metadata. Use the recipe file SHA-256 for complete byte identity.
     """
     payload = json.dumps(steps, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]

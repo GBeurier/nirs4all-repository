@@ -160,7 +160,7 @@ def site(
 @app.command()
 def add(
     name: str,
-    recipe: Path = typer.Option(..., "--recipe", help="Path to the recipe JSON/YAML file."),
+    recipe: Path = typer.Option(..., "--recipe", help="Path to the strict JSON (.json) recipe file."),
     framework: str = typer.Option("nirs4all", help="nirs4all | dag-ml."),
     summary: str = typer.Option("", help="One-line summary."),
     root: Path = typer.Option(None, help="Catalogue root (default: auto-detect)."),
@@ -200,16 +200,11 @@ def publish(
     root: Path = typer.Option(None, help="Catalogue root (default: auto-detect)."),
 ) -> None:
     """Report whether a pipeline is ready to be published (publication gate)."""
-    from .recipes import load_recipe_file
-    from .security import scan_pipeline_bundle
-    from .store import load_descriptor, pipeline_dir
+    from .validate import validate_pipeline
 
     base = _resolved_root(root)
-    descriptor = load_descriptor(base, name)
-    path = pipeline_dir(base, name)
-    recipe = load_recipe_file(path / descriptor.recipe.path)
-    security_scan = scan_pipeline_bundle(path, descriptor, recipe)
-    blockers = [*descriptor.publication_blockers(), *security_scan.findings]
+    report = validate_pipeline(base, name)
+    blockers = [*report.errors, *report.security_findings, *report.publication_blockers]
     if not blockers:
         typer.secho(f"{name}: ready to publish", fg="green")
         return

@@ -69,7 +69,7 @@ def validate_repository_surface(contract: dict[str, Any]) -> dict[str, Any]:
     for pipeline_id in recipe_ids:
         pipeline = package.get_pipeline(pipeline_id, root=ROOT)
         _require(package.get_bundle(pipeline_id, root=ROOT) == pipeline.path, f"bundle mismatch: {pipeline_id}")
-        _require(isinstance(pipeline.to_nirs4all(), dict), f"recipe is not a mapping: {pipeline_id}")
+        _require(isinstance(pipeline.to_nirs4all(), (dict, list)), f"recipe is not a mapping or list: {pipeline_id}")
 
     return {
         "distribution": distribution,

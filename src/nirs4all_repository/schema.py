@@ -14,7 +14,7 @@ from __future__ import annotations
 import datetime as _dt
 import re
 from enum import StrEnum
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -50,8 +50,10 @@ class SchemaVersionError(ValueError):
     """Raised when an artifact's ``schema_version`` is outside the supported window."""
 
 
-def check_schema_version(version: int, *, what: str = "artifact") -> None:
+def check_schema_version(version: object, *, what: str = "artifact") -> None:
     """Raise :class:`SchemaVersionError` if *version* cannot be read by this package."""
+    if type(version) is not int:
+        raise SchemaVersionError(f"{what} schema_version must be an integer, got {version!r}")
     if version < MIN_READABLE:
         raise SchemaVersionError(
             f"{what} schema_version {version} is below the minimum readable version {MIN_READABLE}"
@@ -93,6 +95,64 @@ class RecipeFormat(StrEnum):
     nirs4all_pipeline_config = "nirs4all/pipeline-config"
     dagml_pipeline_dsl = "dag-ml/pipeline-dsl"
     dagml_compiled_artifact = "dag-ml/compiled-artifact"
+
+
+EXECUTION_REQUIREMENTS_UNKNOWN = (
+    "package_versions", "execution_profiles", "operations", "artifact_versions", "python_dependencies",
+)
+
+
+class ExecutionRequirements(BaseModel):
+    """Unqualified static observations; dependency detection is always incomplete."""
+
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    schema_id: Literal["nirs4all-repository.execution-requirements.v1"] = Field(alias="schema")
+    framework: Literal["nirs4all", "dag-ml"]
+    recipe_format: Literal["nirs4all/pipeline-config", "dag-ml/pipeline-dsl", "dag-ml/compiled-artifact"]
+    python_module_roots: list[str]
+    unknown: list[str]
+
+    @field_validator("python_module_roots")
+    @classmethod
+    def _observed_roots(cls, value: list[str]) -> list[str]:
+        if value != sorted(set(value)) or any(not root.isidentifier() for root in value):
+            raise ValueError("python_module_roots must contain sorted unique Python identifiers")
+        return value
+
+    @field_validator("unknown")
+    @classmethod
+    def _explicit_unknowns(cls, value: list[str]) -> list[str]:
+        if value != list(EXECUTION_REQUIREMENTS_UNKNOWN):
+            raise ValueError("execution requirements must mark all unproven dimensions, including python_dependencies, unknown")
+        return value
+
+
+def validate_execution_requirements(block: Any, *, framework: str | None = None, recipe_format: str | None = None) -> None:
+    """Refuse malformed or mismatched observations, never infer runtime support."""
+    observed = ExecutionRequirements.model_validate(block)
+    if framework is not None and observed.framework != framework:
+        raise ValueError("execution requirements framework differs from its owner descriptor/index entry")
+    if recipe_format is not None and observed.recipe_format != recipe_format:
+        raise ValueError("execution requirements recipe_format differs from its descriptor/index entry")
+
+
+def validate_index_contract(index: dict[str, Any]) -> None:
+    """Check the index version and any present requirements; absence is unqualified."""
+    check_schema_version(index.get("schema_version"), what="index")
+    pipelines = index.get("pipelines", {})
+    if not isinstance(pipelines, dict):
+        raise ValueError("index pipelines must be an object")
+    for entry in pipelines.values():
+        if not isinstance(entry, dict):
+            raise ValueError("index pipeline entry must be an object")
+        if "execution_requirements" in entry:
+            recipe = entry.get("recipe", {})
+            if not isinstance(recipe, dict):
+                raise ValueError("index recipe entry must be an object")
+            validate_execution_requirements(
+                entry["execution_requirements"], framework=entry.get("framework"), recipe_format=recipe.get("format")
+            )
 
 
 class ArtifactBackend(StrEnum):
@@ -154,7 +214,7 @@ class EvaluationStatus(StrEnum):
 def _validate_date(value: str | None) -> str | None:
     if value is None:
         return None
-    if not _DATE_RE.match(value):
+    if not _DATE_RE.fullmatch(value):
         raise ValueError(f"expected an ISO date (YYYY-MM-DD), got {value!r}")
     return value
 
@@ -341,6 +401,13 @@ class PipelineDescriptor(BaseModel):
             if not is_slug(tag):
                 raise ValueError(f"tag must be a slug, got {tag!r}")
         return value
+
+    @model_validator(mode="after")
+    def _framework_matches_recipe_format(self) -> PipelineDescriptor:
+        expected = self.framework is Framework.nirs4all
+        if expected != (self.recipe.format is RecipeFormat.nirs4all_pipeline_config):
+            raise ValueError("descriptor framework and recipe format must belong to the same owner")
+        return self
 
     @model_validator(mode="after")
     def _kind_artifacts_consistency(self) -> PipelineDescriptor:

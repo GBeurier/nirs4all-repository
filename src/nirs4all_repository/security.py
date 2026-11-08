@@ -22,7 +22,6 @@ from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from .recipes import normalize_nirs4all_steps
 from .schema import ArtifactBackend, ArtifactStorage, PipelineDescriptor, RecipeFormat
 
 #: Curated top-level modules whose classes a recipe may reference.
@@ -128,25 +127,50 @@ def _module_root(dotted: str) -> str:
     return dotted.split(".", 1)[0]
 
 
-def _iter_class_refs(recipe_obj: object) -> list[str]:
-    """Recursively collect every ``class`` dotted reference in a recipe object."""
+def _security_refs(recipe: object, fmt: RecipeFormat) -> list[str]:
+    """Conservatively scan step subtrees independently of dependency inference."""
     found: list[str] = []
+    step_fields = {"pipeline", "steps", "model", "meta_model", "branch", "branches", "stages", "tail", "_or_", "_cartesian_"}
+    dag = fmt is not RecipeFormat.nirs4all_pipeline_config
 
-    def walk(node: object) -> None:
+    def walk(node: object, position: str = "data", scan_strings: bool = True) -> None:
         if isinstance(node, dict):
             for key, value in node.items():
-                if key == "class" and isinstance(value, str):
+                if key in {"class", "function", "instance", "enum"} and isinstance(value, str):
                     found.append(value)
+                elif position == "root" and key in {"provenance", "name", "description"}:
+                    walk(value, scan_strings=False)
+                elif isinstance(value, str) and (
+                    (dag and position == "step" and key == "name")
+                    or (dag and position in {"root", "graph", "step"} and key in {"id", "seed_label"})
+                    or (dag and position == "node_ref" and key in {"node", "node_id"})
+                ):
+                    continue
+                elif position == "step" and key == "branch":
+                    walk(value, "named_branches" if isinstance(value, dict) else "step", scan_strings)
+                elif (position == "named_branches" and isinstance(value, (list, dict))) or (position in {"root", "step"} and key in step_fields):
+                    walk(value, "step", scan_strings)
+                elif dag and position == "root" and key == "graph":
+                    walk(value, "graph", scan_strings)
+                elif dag and position == "graph" and key == "nodes":
+                    walk(value, "step", scan_strings)
+                elif dag and position == "graph" and key == "edges":
+                    walk(value, "edge", scan_strings)
+                elif dag and position == "edge" and key in {"source", "target"}:
+                    walk(value, "node_ref", scan_strings)
                 else:
-                    walk(value)
+                    # No exemptions for metadata-looking keys beneath params or
+                    # other arbitrary step payloads: owners may deserialize them.
+                    walk(value, scan_strings=scan_strings)
         elif isinstance(node, list):
             for item in node:
-                walk(item)
-        elif isinstance(node, str) and "." in node and node.replace(".", "").replace("_", "").isalnum():
-            # bare dotted class path as a step
+                walk(item, position, scan_strings)
+        elif isinstance(node, str) and scan_strings and (
+            node.startswith(("n4m:", "n4m.")) or ("." in node and all(part.isidentifier() for part in node.split(".")))
+        ):
             found.append(node)
 
-    walk(recipe_obj)
+    walk(recipe, "step" if isinstance(recipe, list) else "root")
     return found
 
 
@@ -156,11 +180,11 @@ def scan_config(
     *,
     extra_allowlist: tuple[str, ...] = (),
 ) -> ScanResult:
-    """Scan a recipe's class references against the curated module allow-list.
+    """Scan conservative executable-looking references against the allow-list.
 
     Args:
         recipe: the parsed recipe object.
-        fmt: the recipe format (only the class-reference shape matters).
+        fmt: the recipe format, selecting DSL and compiled graph node contexts.
         extra_allowlist: additional allowed module roots (local convenience only).
 
     Returns:
@@ -168,18 +192,14 @@ def scan_config(
         outside the allow-list.
     """
     allowed = CURATED_MODULE_ROOTS | set(extra_allowlist)
-    if fmt is RecipeFormat.nirs4all_pipeline_config:
-        try:
-            scan_target: object = normalize_nirs4all_steps(recipe)
-        except Exception:
-            scan_target = recipe
-    else:
-        scan_target = recipe
     findings: list[str] = []
-    for ref in _iter_class_refs(scan_target):
+    for ref in _security_refs(recipe, fmt):
+        if ref.startswith(("n4m:", "n4m.")):
+            findings.append(f"reference {ref!r} uses an unqualified owner namespace; static scan cannot resolve n4m roles")
+            continue
         root = _module_root(ref)
         if root not in allowed:
-            findings.append(f"class {ref!r} uses non-allowlisted module root {root!r}")
+            findings.append(f"reference {ref!r} uses non-allowlisted module root {root!r}")
     return ScanResult(ok=not findings, findings=findings)
 
 

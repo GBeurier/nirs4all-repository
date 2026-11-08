@@ -86,7 +86,7 @@ def validate_pipeline(
 
     report.errors.extend(verify_bundle(path, descriptor))
 
-    if strict:
+    if strict and report.ok:
         report.warnings.extend(_strict_check(recipe, descriptor))
 
     report.publication_blockers = descriptor.publication_blockers()

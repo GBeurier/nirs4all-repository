@@ -36,6 +36,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+project-service = ["nirs4all-access>=0.1,<0.2", "uvicorn>=0.30,<1"]
 # Strict, framework-level recipe validation + functional evaluation against a
 # reference dataset. Lazy-imported; the package works without these installed.
 # The development-release upper bound deliberately opts in to PEP 440 prereleases: a plain
@@ -60,6 +61,7 @@ docs = [
 ]
 
 [project.scripts]
+n4a-repository-project = "nirs4all_repository.project_service:main"
 n4a-repository = "nirs4all_repository.cli:app"
 
 [project.urls]

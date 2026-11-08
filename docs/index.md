@@ -24,7 +24,7 @@ import nirs4all_repository as n4r
 
 n4r.list(framework="nirs4all")        # browse the catalogue
 pipe = n4r.get("snv_savgol_pls")      # resolve by name (local → bundled → remote)
-config = pipe.to_nirs4all()           # ready for nirs4all.run() / predict()
+config = pipe.to_nirs4all()           # exact config or refusal; runtime support is separate
 ```
 
 ```{toctree}
@@ -35,6 +35,8 @@ getting_started
 DESIGN
 SPECIFICATION
 ROADMAP
+maintenance/repository_preset_batch
+PROJECT_SERVICE
 ```
 
 ```{toctree}

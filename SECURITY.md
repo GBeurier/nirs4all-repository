@@ -69,3 +69,30 @@ public and accepts contributions. The defences, in order of strength:
   should be reported to those projects.
 - The catalogue website is a static, generated site; authored content is sanitised at
   render time (HTML-escaped; `card.md` rendered with a safe Markdown subset).
+
+## Descriptor parsing and local project records
+
+The shared Python descriptor bytes reader guards local files and remote cards
+before YAML construction: strict UTF-8, at most 1 MiB, depth 32 and 20000 events.
+It rejects duplicate keys, anchors/aliases, merge keys, all explicit tags,
+sexagesimal numbers, nonfinite/overflow floats and strings unencodable as UTF-8.
+Syntax/construction errors use fixed codes without input echoes or chained YAML
+messages. UTF-8 BOM and quoted descriptive strings remain valid. This intentionally
+narrows the Python reader; other implicit YAML 1.1 scalar and Pydantic schema
+coercions remain. Scaffold and synthetic preset-sync writer outputs are checked
+through the same loader. This guard is bounded parsing, not an execution sandbox.
+
+The optional [local project service](docs/PROJECT_SERVICE.md) uses the independent
+access leaf unchanged. It authenticates before protected body reads, partitions only
+by the verifier principal, has no public fallback or mutable index, preserves exact
+admitted source bytes, refuses elevated claims and never executes recipes or expands
+artifacts. Files and directories are private and reads use no-follow opens. The
+operator and local filesystem are trusted. Credential snapshots require restart to
+apply revocation. Public HTTP hosting, proxies, TLS and WebSockets are unsupported.
+
+Logging and transport settings are fixed in the server: warning level, no access
+logging, h11, asyncio, no WebSocket implementation, proxy headers or server header.
+Unhandled owner errors return constant `internal_error` without logging exception or
+request data. Actual raw-loopback secrecy evidence covers Uvicorn 0.49.0 only. The
+required negative-control logging tests deliberately leak genuine throwaway tokens;
+retain those logs privately and never use production credentials for qualification.

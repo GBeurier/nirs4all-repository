@@ -41,7 +41,15 @@ def test_static_gallery_uses_shared_cards_and_keeps_variant_links(tmp_path):
             assert f'href="pipeline/{pid}.html"' in page
             assert (output / "pipeline" / f"{pid}.html").is_file()
             recipe = output / "data" / "pipelines" / pid / "pipeline.json"
-            assert json.loads(recipe.read_text())["pipeline"] == preset["variants"][task]["pipeline"]
+            assert json.loads(recipe.read_text()) == {key: value for key, value in preset["variants"][task].items() if key != "format"}
+    # All 26 bundles, including the six additional recipes, export exact file bytes
+    # and derived requirements through the production static data path.
+    index = load_index(ROOT)
+    exported = json.loads((output / "data/index.json").read_text())
+    for pid, entry in index["pipelines"].items():
+        relpath = entry["recipe"]["relpath"]
+        assert (output / "data/pipelines" / pid / relpath).read_bytes() == (ROOT / "pipelines" / pid / relpath).read_bytes()
+        assert exported["pipelines"][pid]["execution_requirements"] == entry["execution_requirements"]
 
 
 def test_stale_card_snapshot_is_refused(tmp_path):

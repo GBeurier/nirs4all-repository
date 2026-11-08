@@ -7,6 +7,34 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+### Added
+
+- Add the optional POSIX localhost project-token recipe service, independent access
+  leaf, immutable project records, byte-preserving submission contract and dedicated
+  Python client. Public delivery, YAML/fitted admission and consumer integration
+  remain deferred; see `docs/PROJECT_SERVICE.md`.
+
+### Fixed
+
+- Guard descriptor bytes at both file and remote-card owner boundaries. The Python
+  reader now refuses anchors/aliases, merge keys, all explicit tags, sexagesimal
+  numbers, duplicate keys, nonfinite values, invalid UTF-8 and unencodable strings,
+  and enforces 1 MiB, depth 32 and 20000 event bounds before construction. Errors
+  carry fixed local codes. UTF-8 BOM and quoted descriptive strings remain accepted;
+  ordinary implicit YAML 1.1 and schema coercion remain.
+
+- Preserve complete parsed recipe trees, list/alias shapes and nested mapping order
+  through scaffold, APIs, exports and synthetic preset imports; refuse ambiguous
+  aliases, strict-JSON coercions and lossy nirs4all root handoffs.
+- Detect explicit component and recipe-node references without treating dotted
+  metadata, versions, node identifiers or ordinary parameter strings as dependencies.
+  Keep dependency coverage and execution qualification explicitly unknown.
+- Validate derived requirements and schema versions at local/remote index and
+  manifest boundaries; reject undeclared statuses and inconsistent observations.
+- Refuse duplicate YAML import keys and type/order or variant-mapping differences
+  in backend preset parity. Existing recipes, descriptors and Studio assets remain
+  unchanged; Studio authoring ownership migration is still deferred.
+
 ## [0.1.12] - 2026-09-04
 
 ### Changed

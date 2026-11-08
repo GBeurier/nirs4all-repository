@@ -135,7 +135,7 @@ def _resolve_descriptor(name: str, root: Path | None, settings: Settings) -> Pip
     if bundled is not None and (pipeline_dir(bundled, name) / "descriptor.yaml").is_file():
         return load_descriptor(bundled, name)
     # Remote: fetch the descriptor declared in the index, verify, and parse.
-    import yaml
+    from .store import load_descriptor_bytes
 
     index = _load_index_any(root, settings)
     entry = index.get("pipelines", {}).get(name)
@@ -144,8 +144,7 @@ def _resolve_descriptor(name: str, root: Path | None, settings: Settings) -> Pip
 
         raise PipelineNotFound(f"pipeline {name!r} not found in the catalogue")
     block = entry["descriptor"]
-    data = yaml.safe_load(_fetch_module.fetch_verified(block["url"], block.get("sha256")))
-    return PipelineDescriptor.model_validate(data)
+    return load_descriptor_bytes(_fetch_module.fetch_verified(block["url"], block.get("sha256")))
 
 
 def get(

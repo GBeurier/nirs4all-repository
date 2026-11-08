@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nirs4all-repository:execution-requirements:v1",
+  "title": "Repository derived execution requirements v1",
+  "description": "Static observations from the descriptor and complete recipe. No execution qualification, dependency resolution, owner versions or supported/unsupported status is asserted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "framework",
+    "recipe_format",
+    "python_module_roots",
+    "unknown"
+  ],
+  "properties": {
+    "schema": {
+      "const": "nirs4all-repository.execution-requirements.v1"
+    },
+    "framework": {
+      "enum": [
+        "nirs4all",
+        "dag-ml"
+      ]
+    },
+    "recipe_format": {
+      "enum": [
+        "nirs4all/pipeline-config",
+        "dag-ml/pipeline-dsl",
+        "dag-ml/compiled-artifact"
+      ]
+    },
+    "python_module_roots": {
+      "type": "array",
+      "description": "Sorted unique roots of import-shaped references in explicit component and recipe-node contexts. Detection is incomplete: indirect imports, aliases, host operators and dynamic references are not resolved; python_dependencies is always unknown.",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^[^\\W\\d]\\w*$"
+      }
+    },
+    "unknown": {
+      "const": [
+        "package_versions",
+        "execution_profiles",
+        "operations",
+        "artifact_versions",
+        "python_dependencies"
+      ]
+    }
+  }
+}

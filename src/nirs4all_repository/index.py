@@ -14,6 +14,7 @@ from typing import Any
 
 from ._version import __version__
 from .canonical import sha256_file
+from .recipes import execution_requirements, load_recipe_file
 from .schema import SCHEMA_VERSION, PipelineDescriptor, utc_date
 from .settings import DEFAULT_BASE_URL
 from .store import (
@@ -93,6 +94,9 @@ def _entry(root: Path, pipeline_id: str, base_url: str) -> dict[str, Any]:
         "reference": descriptor.reference.model_dump(exclude_none=True) if descriptor.reference else None,
         "evaluation": evaluation,
         "fingerprints": fingerprints,
+        "execution_requirements": execution_requirements(
+            load_recipe_file(path / descriptor.recipe.path), descriptor.framework, descriptor.recipe.format
+        ),
         "trust": descriptor.governance.trust.value,
         "card_url": f"pipeline/{pipeline_id}.html",
     }

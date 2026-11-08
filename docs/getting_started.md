@@ -8,7 +8,8 @@ pip install nirs4all-repository
 ```
 
 The package is pure-Python and lightweight; `numpy` / `nirs4all` / `dag-ml` are imported
-only on the paths that need them (functional evaluation, bridging).
+only on the paths that need them (functional evaluation and opt-in framework checks).
+The data bridges do not import frameworks or qualify runtime support.
 
 For strict recipe validation and functional evaluation, install the integration extra:
 
@@ -16,9 +17,11 @@ For strict recipe validation and functional evaluation, install the integration 
 pip install "nirs4all-repository[nirs4all]"
 ```
 
-Its compatibility window includes nirs4all 0.10–0.12, R1 (`0.13.0`), and the R2/R3
+Its dependency window includes nirs4all 0.10–0.12, R1 (`0.13.0`), and the R2/R3
 `1.0.0rc*` candidates. The pre-release-aware upper bound is intentional; a plain
 `<2` specifier would make Python package resolvers reject the release candidates.
+This package constraint is not per-recipe execution evidence. Frozen train probes
+record parsing compatibility for their original recipe set only.
 
 ## Browse and resolve pipelines
 
@@ -34,6 +37,7 @@ n4r.card("snv_savgol_pls")
 
 # Resolve by name: local checkout → wheel-bundled catalogue → remote (sha256-verified)
 pipe = n4r.get("snv_savgol_pls")
+print(pipe.execution_requirements())  # unproven versions/profiles/operations are unknown
 ```
 
 ## Run a recipe with nirs4all
@@ -43,6 +47,13 @@ import nirs4all
 pipe = n4r.get("snv_savgol_pls")
 result = nirs4all.run(pipe.to_nirs4all(), "my_dataset/")
 ```
+
+Confirm the installed runtime accepts the complete recipe before executing it.
+`recipe()` returns the exact admitted JSON tree. `to_nirs4all()` raises `BridgeError`
+for root keys outside `pipeline`/`steps`, `random_state`, `name`, `description`;
+these could otherwise be silently dropped downstream. Nested support remains the
+runtime's responsibility. Recipe admission requires `.json` files and strict JSON
+values; it does not convert YAML or normalize list/alias shapes.
 
 ## The command line
 

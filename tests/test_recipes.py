@@ -9,7 +9,6 @@ from nirs4all_repository.recipes import (
     RecipeError,
     normalize_nirs4all_steps,
     recipe_fingerprints,
-    to_canonical_json_recipe,
     validate_recipe_structure,
 )
 from nirs4all_repository.schema import RecipeFormat
@@ -65,15 +64,18 @@ def test_validate_dagml_compiled_requires_keys():
     validate_recipe_structure({"graph": {}, "campaign_template": {}}, RecipeFormat.dagml_compiled_artifact)
 
 
-def test_canonical_json_recipe_wraps_bare_list():
-    out = to_canonical_json_recipe([{"class": "A.B"}], RecipeFormat.nirs4all_pipeline_config)
-    assert out == {"pipeline": [{"class": "A.B"}]}
+def test_conflicting_aliases_are_rejected_even_when_equal():
+    recipe = {"pipeline": [{"class": "A.B"}], "steps": [{"class": "A.B"}]}
+    with pytest.raises(RecipeError, match="exactly one"):
+        normalize_nirs4all_steps(recipe)
+    with pytest.raises(RecipeError, match="exactly one"):
+        recipe_fingerprints(recipe, RecipeFormat.nirs4all_pipeline_config)
 
 
-def test_canonical_json_recipe_drops_steps_alias():
-    out = to_canonical_json_recipe({"name": "x", "steps": [{"class": "A.B"}]}, RecipeFormat.nirs4all_pipeline_config)
-    assert "steps" not in out
-    assert out["pipeline"] == [{"class": "A.B"}]
+def test_selecting_steps_does_not_rewrite_recipe():
+    recipe = {"name": "x", "steps": [{"class": "A.B"}]}
+    assert normalize_nirs4all_steps(recipe) is recipe["steps"]
+    assert set(recipe) == {"name", "steps"}
 
 
 def test_fingerprints_nirs4all():

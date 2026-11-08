@@ -5,32 +5,67 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import subprocess
 from pathlib import Path
 
 import yaml
 
 from nirs4all_repository.builder import build_catalog
+from nirs4all_repository.canonical import validate_json_value, write_ordered_json
+from nirs4all_repository.recipes import RecipeError, normalize_nirs4all_steps, validate_recipe_structure
+from nirs4all_repository.schema import RecipeFormat
+from nirs4all_repository.security import scan_config
+
+
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """Refuse duplicate source keys before YAML can silently overwrite values."""
+
+
+def _unique_mapping(loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False) -> dict:
+    loader.flatten_mapping(node)
+    result = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in result:
+            raise RecipeError(f"duplicate YAML object key: {key!r}")
+        result[key] = loader.construct_object(value_node, deep=deep)
+    return result
+
+
+_UniqueKeyLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _unique_mapping)
 
 
 def sync(studio: Path, root: Path) -> None:
     """Write a provenance snapshot and one repository bundle per task variant."""
     presets = []
     source_files = {}
+    sources = []
     for source in sorted((studio / "api" / "presets").glob("*.yaml")):
-        data = yaml.safe_load(source.read_text(encoding="utf-8"))
+        data = yaml.load(source.read_text(encoding="utf-8"), Loader=_UniqueKeyLoader)
+        # YAML is source transport only. Refuse values JSON would coerce, and check
+        # every variant before writing any bundle or changing the snapshot.
+        validate_json_value(data)
+        for variant in data["variants"].values():
+            recipe = {key: value for key, value in variant.items() if key != "format"}
+            validate_recipe_structure(recipe, RecipeFormat.nirs4all_pipeline_config)
+            scan_config(recipe, RecipeFormat.nirs4all_pipeline_config).raise_for_findings()
+        sources.append((source, data))
+    if not sources:
+        raise ValueError(f"No Studio presets found in {studio}")
+    commit = subprocess.check_output(["git", "-C", str(studio), "rev-parse", "HEAD"], text=True).strip()
+    for source, data in sources:
         source_files[source.name] = hashlib.sha256(source.read_bytes()).hexdigest()
         default = data["default_variant"]
-        data.update(available_variants=list(data["variants"]), steps_count=len(data["variants"][default]["pipeline"]))
+        default_recipe = {key: value for key, value in data["variants"][default].items() if key != "format"}
+        data.update(available_variants=list(data["variants"]), steps_count=len(normalize_nirs4all_steps(default_recipe)))
         data["repository_variants"] = {}
         for task, variant in data["variants"].items():
             pid = f"studio_{data['id']}_{task}"
             data["repository_variants"][task] = pid
             target = root / "pipelines" / pid
             target.mkdir(parents=True, exist_ok=True)
-            recipe = {"pipeline": variant["pipeline"]}
-            (target / "pipeline.json").write_text(json.dumps(recipe, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            recipe = {key: value for key, value in variant.items() if key != "format"}
+            write_ordered_json(target / "pipeline.json", recipe)
             descriptor = {
                 "schema_version": 1, "id": pid,
                 "name": f"{data['name']} ({task.title()})", "summary": data["description"],
@@ -49,15 +84,13 @@ def sync(studio: Path, root: Path) -> None:
                 "This recipe has not been evaluated by the repository.\n", encoding="utf-8",
             )
         presets.append(data)
-    if not presets:
-        raise ValueError(f"No Studio presets found in {studio}")
     snapshot = {
         "source": "nirs4all-studio/api/presets",
-        "commit": subprocess.check_output(["git", "-C", str(studio), "rev-parse", "HEAD"], text=True).strip(),
+        "commit": commit,
         "files_sha256": source_files,
         "presets": sorted(presets, key=lambda preset: preset["complexity"]),
     }
-    (root / "catalog" / "studio-presets.json").write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_ordered_json(root / "catalog" / "studio-presets.json", snapshot)
     build_catalog(root)
 
 

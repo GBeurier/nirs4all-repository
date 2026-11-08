@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from .canonical import sha256_bytes
+from .schema import validate_execution_requirements, validate_index_contract
 
 _TIMEOUT = 30
 
@@ -55,6 +56,7 @@ def fetch_index(base_url: str, *, timeout: int = _TIMEOUT) -> dict[str, Any]:
     parsed = json.loads(data)
     if not isinstance(parsed, dict):
         raise FetchError("remote index.json is not a JSON object")
+    validate_index_contract(parsed)
     return parsed
 
 
@@ -78,6 +80,8 @@ def materialize_remote(
     """
     pipeline_id = str(entry["id"])
     recipe = entry["recipe"]
+    if "execution_requirements" in entry:
+        validate_execution_requirements(entry["execution_requirements"], framework=entry.get("framework"), recipe_format=recipe.get("format"))
     recipe_sha = str(recipe.get("sha256", "nohash"))
     target = cache_dir / pipeline_id / recipe_sha
     target.mkdir(parents=True, exist_ok=True)
@@ -94,4 +98,12 @@ def materialize_remote(
         if is_artifact and not with_artifacts:
             continue
         grab(block)
+    if "execution_requirements" in entry:
+        from .recipes import execution_requirements, load_recipe_file
+        from .store import load_descriptor_file
+
+        descriptor = load_descriptor_file(target / entry["descriptor"]["relpath"])
+        actual = execution_requirements(load_recipe_file(target / descriptor.recipe.path), descriptor.framework, descriptor.recipe.format)
+        if entry["execution_requirements"] != actual:
+            raise FetchError("downloaded recipe/descriptor differs from index execution requirements")
     return target

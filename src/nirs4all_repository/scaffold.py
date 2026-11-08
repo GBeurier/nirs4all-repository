@@ -7,8 +7,8 @@ from pathlib import Path
 
 import yaml
 
-from .canonical import is_slug
-from .recipes import RecipeFormat, load_recipe_file, to_canonical_json_recipe, validate_recipe_structure
+from .canonical import is_slug, write_ordered_json
+from .recipes import RecipeFormat, load_recipe_file, validate_recipe_structure
 from .schema import SCHEMA_VERSION, Framework, utc_date
 from .store import CARD_FILENAME, DESCRIPTOR_FILENAME, pipeline_dir
 
@@ -38,12 +38,7 @@ def scaffold_pipeline(
 
     recipe = load_recipe_file(recipe_path)
     validate_recipe_structure(recipe, fmt)
-    canonical = to_canonical_json_recipe(recipe, fmt)
-
-    target.mkdir(parents=True)
-    import json
-
-    (target / "pipeline.json").write_text(json.dumps(canonical, sort_keys=True, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_ordered_json(target / "pipeline.json", recipe)
 
     descriptor = {
         "schema_version": SCHEMA_VERSION,
