@@ -32,12 +32,12 @@
     },
     {
       "relpath": "pipeline.json",
-      "sha256": "6a179b7a326e4cdb6ff907a9eeace68cd4f4d2bd84e96f30c6f50c7bf4f3e933",
-      "size_bytes": 6199
+      "sha256": "2d055ae561c83e7c25f3f9b01214f423fae5aed8c9c8e8a3fab786a6669f9772",
+      "size_bytes": 6029
     }
   ],
   "fingerprints": {
-    "config_sha256": "4b756b5432593394"
+    "config_sha256": "35500f274250ad68"
   },
   "framework": "nirs4all",
   "generated_by": "nirs4all-studio preset import",

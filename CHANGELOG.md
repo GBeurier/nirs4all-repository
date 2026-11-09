@@ -35,6 +35,49 @@ shape but may still change before `1.0`.
   in backend preset parity. Existing recipes, descriptors and Studio assets remain
   unchanged; Studio authoring ownership migration is still deferred.
 
+## [0.1.13] - 2026-11-03
+
+### Added
+- Studio preset catalogue: the ten default Studio presets (simple, fast result, simple trees,
+  complex PLS, complex trees, nonlinear exploration, ultra PLS, ultra trees, deep nonlinear
+  exploration, ultra slow) as 20 `studio_*` recipes with regression and classification variants.
+  Recipes are copied unchanged from Studio's authored YAML, marked `draft` and unevaluated.
+  `catalog/studio-presets.json` records the Studio source commit and the SHA-256 of every
+  authored file; it and the pre-rendered preset cards ship in the wheel.
+- `scripts/sync_studio_presets.py` imports the presets from a Studio checkout, and
+  `npm run build:cards` / `npm run check:cards` render and verify the preset cards with the
+  shared `PipelinePresetCard` of the pinned `nirs4all-ui` 0.2.1 artifact, refusing a snapshot that
+  differs from the catalogue consumed by Web. CI and the Pages deployment run `check:cards`.
+  `npm run test:site` is a browser smoke test of the built site.
+- Accept `tabpfn` among the allow-listed recipe module roots and `_cartesian_` as a nirs4all step
+  keyword, as the Studio presets use both.
+
+### Changed
+- The catalogue site opens on the Studio presets with a task filter, a responsive layout and
+  accessible filter chips; the previous recipes are listed under "Additional repository recipes".
+- The Repository surface contract keeps the five original train recipes required and reports the
+  other catalogue recipes as `additional_recipe_ids`, so new recipes do not rewrite the frozen
+  R1/R2/R3 compatibility evidence. All 25 nirs4all recipes load through the public
+  `nirs4all.PipelineConfigs` on nirs4all 0.13.0 and 1.4.14.
+- Pin catalogue line endings to LF in `.gitattributes` so bundle checksums verify on every platform.
+- Remove maintenance plans already archived in the consolidated ecosystem backlog.
+
+### Fixed
+- The `studio_fast_result_regression`, `studio_complex_pls_regression` and
+  `studio_ultra_slow_regression` recipes pass the native AOM-PLS keywords (`max_components`,
+  `center_x`, `scale_x`), and the ultra slow search tunes `max_components` 1..27. The previous
+  `n_components`/`center`/`scale` (and `n_orth`/`operator_index`) were dropped by nirs4all 1.4, so
+  the 12-component model ran with `max_components=3` and the search tuned nothing. Synced from
+  Studio through `nirs4all-ui` 0.2.1.
+- `core_portable_snv_savgol_pls` no longer passes `mode`/`cval` to `SavitzkyGolay`, which does not
+  accept them (nirs4all 1.4.15 rejects unknown keywords); the values were the defaults.
+- Every nirs4all recipe was checked on nirs4all 1.4.15: each step instantiates with all of its
+  keywords, and each model step fits behind SNV and the recipe splitter with tuning trials capped
+  (TabPFN and deep-learning steps not exercised).
+
+### CI
+- Update the CodeQL actions to 4.38.3 and `pypa/gh-action-pypi-publish` to 1.14.3.
+
 ## [0.1.12] - 2026-09-04
 
 ### Changed
