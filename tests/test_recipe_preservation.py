@@ -270,17 +270,24 @@ def test_synthetic_sync_refuses_before_writing(tmp_path, monkeypatch, invalid):
     assert not target.exists()
 
 
-def test_actual_catalog_complete_trees_and_requirements(repo_root):
+def test_actual_catalog_complete_trees_and_requirements(repo_root, monkeypatch):
+    # Reproduce a legacy Windows locale while honoring explicit UTF-8 reads.
+    read_text = Path.read_text
+
+    def windows_read_text(path, encoding=None, errors=None):
+        return read_text(path, encoding=encoding or "cp1252", errors=errors)
+
+    monkeypatch.setattr(Path, "read_text", windows_read_text)
     entries = n4r.get_pipeline_list(root=repo_root)
     assert len(entries) == 26
-    snapshot = json.loads((repo_root / "catalog/studio-presets.json").read_text())
+    snapshot = json.loads((repo_root / "catalog/studio-presets.json").read_text(encoding="utf-8"))
     imported = {pid: {key: value for key, value in preset["variants"][task].items() if key != "format"}
                 for preset in snapshot["presets"] for task, pid in preset["repository_variants"].items()}
     assert len(imported) == 20
-    contract = json.loads((repo_root / "contracts/execution-requirements.v1.schema.json").read_text())
+    contract = json.loads((repo_root / "contracts/execution-requirements.v1.schema.json").read_text(encoding="utf-8"))
     for entry in entries:
         pipe = n4r.get_pipeline(entry["id"], root=repo_root)
-        raw = json.loads((pipe.path / pipe.descriptor.recipe.path).read_text())
+        raw = json.loads((pipe.path / pipe.descriptor.recipe.path).read_text(encoding="utf-8"))
         assert pipe.recipe() == raw
         assert scan_config(raw, pipe.descriptor.recipe.format).ok
         assert validate_pipeline(repo_root, pipe.id).ok
@@ -295,7 +302,7 @@ def test_actual_catalog_complete_trees_and_requirements(repo_root):
                 assert requirements[key] in field["enum"]
         assert requirements["python_module_roots"] == sorted(set(requirements["python_module_roots"]))
         assert requirements == entry["execution_requirements"]
-        assert requirements == json.loads((pipe.path / "manifest.json").read_text())["execution_requirements"]
+        assert requirements == json.loads((pipe.path / "manifest.json").read_text(encoding="utf-8"))["execution_requirements"]
         assert requirements["framework"] == pipe.descriptor.framework.value
         assert requirements["recipe_format"] == n4r.card(pipe.id, root=repo_root)["recipe"]["format"]
         assert requirements["unknown"] == ["package_versions", "execution_profiles", "operations", "artifact_versions", "python_dependencies"]

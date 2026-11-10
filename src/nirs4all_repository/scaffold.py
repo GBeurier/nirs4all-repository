@@ -57,6 +57,6 @@ def scaffold_pipeline(
         "provenance": {"generated_by": f"{fw.value} (hand-authored)"},
         "governance": {"status": "draft", "visibility": "public", "trust": "experimental"},
     }
-    (target / DESCRIPTOR_FILENAME).write_text(yaml.safe_dump(descriptor, sort_keys=False, allow_unicode=True), encoding="utf-8")
-    (target / CARD_FILENAME).write_text(f"# {descriptor['name']}\n\n{descriptor['summary']}\n", encoding="utf-8")
+    (target / DESCRIPTOR_FILENAME).write_text(yaml.safe_dump(descriptor, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
+    (target / CARD_FILENAME).write_text(f"# {descriptor['name']}\n\n{descriptor['summary']}\n", encoding="utf-8", newline="\n")
     return target

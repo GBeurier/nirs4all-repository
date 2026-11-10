@@ -77,11 +77,11 @@ def sync(studio: Path, root: Path) -> None:
                 "provenance": {"generated_by": "nirs4all-studio preset import", "source": f"nirs4all-studio/api/presets/{source.name}"},
                 "governance": {"status": "draft", "visibility": "public", "trust": "community"},
             }
-            (target / "descriptor.yaml").write_text(yaml.safe_dump(descriptor, sort_keys=False, allow_unicode=True), encoding="utf-8")
+            (target / "descriptor.yaml").write_text(yaml.safe_dump(descriptor, sort_keys=False, allow_unicode=True), encoding="utf-8", newline="\n")
             (target / "card.md").write_text(
                 f"# {data['name']}\n\n{data['description']}\n\n"
                 f"Imported unchanged from the Studio **{task}** preset. Complexity: {data['complexity']}/10.\n\n"
-                "This recipe has not been evaluated by the repository.\n", encoding="utf-8",
+                "This recipe has not been evaluated by the repository.\n", encoding="utf-8", newline="\n",
             )
         presets.append(data)
     snapshot = {
