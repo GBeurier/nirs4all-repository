@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -76,7 +77,16 @@ def test_guard_counterexamples(raw, code):
         parse_descriptor_bytes(raw)
 
 
-def test_26_descriptor_compatibility_and_byte_identical_rebuild(repo_root, tmp_path):
+def test_26_descriptor_compatibility_and_byte_identical_rebuild(repo_root, tmp_path, monkeypatch):
+    # Exercise Windows text-write translation on every test host.
+    write_text = Path.write_text
+
+    def windows_write_text(path, data, **kwargs):
+        if kwargs.get("newline") is None:
+            kwargs["newline"] = "\r\n"
+        return write_text(path, data, **kwargs)
+
+    monkeypatch.setattr(Path, "write_text", windows_write_text)
     paths = sorted((repo_root / "pipelines").glob("*/descriptor.yaml"))
     assert len(paths) == 26
     for path in paths:

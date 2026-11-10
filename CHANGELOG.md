@@ -7,6 +7,22 @@ shape but may still change before `1.0`.
 
 ## [Unreleased]
 
+## [0.1.15] - 2026-11-10
+
+### Fixed
+
+- Write generated catalogue JSON, descriptor/card files and the exported registry
+  with explicit LF line endings, consistent with the existing checkout contract.
+- Test scaffold LF/CRLF inputs against its defined ordered LF output and read
+  UTF-8 catalogue references independently of the test host's locale.
+
+### Changed
+
+- Synchronize package, citation, public-surface and catalogue release metadata.
+  Existing recipe content, byte hashes and execution requirements are unchanged.
+
+## [0.1.14]
+
 ### Added
 
 - Add the optional POSIX localhost project-token recipe service, independent access

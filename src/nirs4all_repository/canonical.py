@@ -103,7 +103,7 @@ def validate_json_value(obj: Any) -> None:
 def write_canonical_json(path: Path, obj: Any) -> None:
     """Write *obj* to *path* as canonical JSON, creating parent directories."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(canonical_json(obj), encoding="utf-8")
+    path.write_text(canonical_json(obj), encoding="utf-8", newline="\n")
 
 
 def sha256_bytes(data: bytes) -> str:

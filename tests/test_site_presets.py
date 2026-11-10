@@ -46,6 +46,7 @@ def test_static_gallery_uses_shared_cards_and_keeps_variant_links(tmp_path):
     # and derived requirements through the production static data path.
     index = load_index(ROOT)
     exported = json.loads((output / "data/index.json").read_text())
+    assert (output / "data/index.json").read_bytes() == (ROOT / "catalog/index.json").read_bytes()
     for pid, entry in index["pipelines"].items():
         relpath = entry["recipe"]["relpath"]
         assert (output / "data/pipelines" / pid / relpath).read_bytes() == (ROOT / "pipelines" / pid / relpath).read_bytes()

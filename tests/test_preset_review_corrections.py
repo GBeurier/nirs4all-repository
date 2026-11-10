@@ -73,20 +73,23 @@ def _cards(root):
 
 
 @pytest.mark.parametrize("shape", ["pipeline", "steps", "list"])
-def test_scaffold_retains_nested_mapping_order_through_api_and_build(tmp_path, named_recipe, shape):
+@pytest.mark.parametrize("newline", ["\n", "\r\n"], ids=["lf", "crlf"])
+def test_scaffold_retains_nested_mapping_order_through_api_and_build(tmp_path, named_recipe, shape, newline):
     if shape == "steps":
         named_recipe["steps"] = named_recipe.pop("pipeline")
     elif shape == "list":
         named_recipe = named_recipe["pipeline"]
     source = tmp_path / "recipe.json"
-    source.write_text(_text(named_recipe))
+    source.write_text(_text(named_recipe), encoding="utf-8", newline=newline)
     root = tmp_path / "destination"
     result = CliRunner().invoke(app, ["add", "ordered", "--recipe", str(source), "--root", str(root)])
     assert result.exit_code == 0, result.output
     build_catalog(root)
     pipe = n4r.get("ordered", root=root)
     assert _text(pipe.recipe()) == _text(named_recipe)
-    assert (pipe.path / "pipeline.json").read_bytes() == source.read_bytes()
+    assert (pipe.path / "pipeline.json").read_bytes() == _text(named_recipe).encode("utf-8")
+    assert b"\r\n" not in (pipe.path / "descriptor.yaml").read_bytes()
+    assert b"\r\n" not in (pipe.path / "card.md").read_bytes()
     assert _text(pipe.to_nirs4all()) == _text(named_recipe)
 
 
@@ -99,6 +102,8 @@ def test_sync_preserves_named_branch_order_recipe_bytes_and_snapshot_order(tmp_p
 
     assert load_descriptor_file(pipe.path / "descriptor.yaml") == pipe.descriptor
     assert (pipe.path / "pipeline.json").read_text() == _text(expected)
+    assert b"\r\n" not in (pipe.path / "descriptor.yaml").read_bytes()
+    assert b"\r\n" not in (pipe.path / "card.md").read_bytes()
     assert list(pipe.recipe()["pipeline"][0]["branch"]) == ["z_first", "a_second"]
     snapshot = root / "catalog/studio-presets.json"
     parsed = json.loads(snapshot.read_text())

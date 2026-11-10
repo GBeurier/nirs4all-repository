@@ -368,7 +368,7 @@ def build_site(root: Path, out_dir: Path, *, base_url: str = DEFAULT_BASE_URL) -
     (out_dir / "index.html").write_text(render_index(index, base_url, load_studio_presets(root, index)), encoding="utf-8")
 
     # data/ — the cross-language contract, served verbatim
-    (out_dir / "data" / "index.json").write_text(json.dumps(index, sort_keys=True, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (out_dir / "data" / "index.json").write_text(json.dumps(index, sort_keys=True, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
     # detail pages + per-pipeline data tree
     for pid, entry in index.get("pipelines", {}).items():
