@@ -42,7 +42,7 @@ project-service = ["nirs4all-access>=0.1,<0.2", "uvicorn>=0.30,<1"]
 # The development-release upper bound deliberately opts in to PEP 440 prereleases: a plain
 # ``<2`` would reject the 1.0.0rc* R2/R3 train even when it is installed.
 nirs4all = ["nirs4all>=0.10,<2.0.0.dev0"]
-datasets = ["nirs4all-datasets>=0.3.5"]
+datasets = ["nirs4all-datasets>=0.3,<0.4"]
 dev = [
     "packaging>=24",
     "pytest>=7.4",
