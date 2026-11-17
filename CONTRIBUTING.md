@@ -47,3 +47,18 @@ pytest -m "not network and not evaluate"
 
 By contributing you agree your contribution is licensed under
 `CeCILL-2.1 OR AGPL-3.0-or-later` (code) / CC-BY-4.0 (content).
+
+## Cross-repository version constraints
+
+Dependencies on packages from other nirs4all repositories are declared at
+**minor** granularity, never more precisely: `nirs4all-datasets>=0.3,<0.4`,
+`nirs4all-access>=0.1,<0.2` and `nirs4all>=0.10,<2.0.0.dev0` (the historical
+supported line, whose `.dev0` bound keeps the 1.0 release candidates admitted
+and 2.0 pre-releases excluded; see `tests/test_train_compatibility.py`). Exact
+versions live in lockfiles and the release order; the `nirs4all-ui` tarball in
+`package.json` is a vendored artifact. In return an owner patch release changes
+no wire format, persisted schema, `.n4a` payload semantics, native ABI or
+shared fixture; such changes need at least a minor release, and a patch release
+of this package keeps its catalog/recipe contracts under `contracts/`
+unchanged. The full policy is `docs/contracts/release/VERSION_CONSTRAINTS.md`
+in `nirs4all-ecosystem`.
