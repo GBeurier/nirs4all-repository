@@ -50,15 +50,26 @@ By contributing you agree your contribution is licensed under
 
 ## Cross-repository version constraints
 
-Dependencies on packages from other nirs4all repositories are declared at
-**minor** granularity, never more precisely: `nirs4all-datasets>=0.3,<0.4`,
-`nirs4all-access>=0.1,<0.2` and `nirs4all>=0.10,<2.0.0.dev0` (the historical
-supported line, whose `.dev0` bound keeps the 1.0 release candidates admitted
-and 2.0 pre-releases excluded; see `tests/test_train_compatibility.py`). Exact
-versions live in lockfiles and the release order; the `nirs4all-ui` tarball in
-`package.json` is a vendored artifact. In return an owner patch release changes
-no wire format, persisted schema, `.n4a` payload semantics, native ABI or
-shared fixture; such changes need at least a minor release, and a patch release
-of this package keeps its catalog/recipe contracts under `contracts/`
-unchanged. The full policy is `docs/contracts/release/VERSION_CONSTRAINTS.md`
+Versions are `X.Y.Z`. A patch (`Z`) carries fixes and purely additive,
+backward-compatible features: existing outputs, wire formats, schemas and ABI
+symbols are unchanged. A minor (`Y`) carries any compatibility break: a changed
+or removed API signature, an ABI break or ABI version change, a wire, byte,
+schema or fixture change, renamed ids or changed numerical results of existing
+operations. The package that bumps classifies its change.
+
+Dependencies on packages from other nirs4all repositories accept every patch of
+one tested series, `>=X.Y[.Z],<X.(Y+1)`. A patch floor is allowed when a fix or
+feature from that patch is required; moving to a new series is an explicit,
+tested decision of the consumer. For 1.x packages the upper bound is the next
+minor, never `<2` (npm `~1.4.1`, Cargo `">=1.4.1, <1.5"`, Python
+`>=1.4.1,<1.5`). A patch release of this package keeps its
+catalog/recipe contracts under `contracts/` unchanged.
+
+Current declarations: `nirs4all-datasets>=0.3,<0.4`, `nirs4all-access>=0.1,<0.2`
+and `nirs4all>=0.10,<2.0.0.dev0` (the historical supported line, whose `.dev0`
+bound keeps the 1.0 release candidates admitted and 2.0 pre-releases excluded;
+see `tests/test_train_compatibility.py`); that SDK range predates this rule and
+is aligned at the next release. Exact versions live in lockfiles and the release
+order; the `nirs4all-ui` tarball in `package.json` is a vendored artifact. The
+full policy is `docs/contracts/release/VERSION_CONSTRAINTS.md`
 in `nirs4all-ecosystem`.
