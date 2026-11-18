@@ -30,6 +30,8 @@ pytest -m "not network and not evaluate"
 
 Keep Google docstrings, public types, configured line length and source SPDX headers. Optional integration, functional evaluation, service-required-mode and release checks retain their separate prerequisites; no docs-only run is called a product green gate.
 
+Versioning: versions are `X.Y.Z`. `Z` (patch) = fixes and purely additive, backward-compatible features (existing outputs, wire formats, schemas and ABI symbols unchanged); `Y` (minor) = any compatibility break (changed/removed API signature, ABI break or ABI version change, wire/byte/schema/fixture change, renamed ids, changed numerical results of existing operations); `X` = product version. The package that bumps classifies its change. Cross-repository dependencies accept one tested series, `>=X.Y[.Z],<X.(Y+1)` (patch floor only when a fix or feature from that patch is required); for 1.x packages never npm `^1.x` or Cargo `"1.x"` (they accept the next minor): use `~1.4.1`, `">=1.4.1, <1.5"`, `>=1.4.1,<1.5`. Exact pins only in lockfiles, wheel locks and product install lists; intra-repo lockstep may stay exact. See the [ecosystem version constraints](https://github.com/GBeurier/nirs4all-ecosystem/blob/main/docs/contracts/release/VERSION_CONSTRAINTS.md).
+
 Follow [SECURITY](SECURITY.md) for private reporting and [LICENSING](LICENSING.md): code/configurations use `CeCILL-2.1 OR AGPL-3.0-or-later` with the published commercial option; content uses CC-BY-4.0, subject to upstream terms.
 
 ## Working rules
